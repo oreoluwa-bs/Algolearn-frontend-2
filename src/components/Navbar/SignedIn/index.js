@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Inlinks from './Links';
 import InDrawer from './Drawer';
 

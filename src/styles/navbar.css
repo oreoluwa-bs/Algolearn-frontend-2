@@ -5,9 +5,9 @@
     margin: 16px 28px 16px 0;
     float: left;
 }
-.navbar--header {
-    /* background-color: white; */
-}
+/* .navbar--header {
+    /* background-color: white; 
+} */
 .navbar--header .nav-links-right { 
     float: right ;
 }
