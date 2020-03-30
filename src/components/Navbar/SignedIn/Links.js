@@ -20,14 +20,11 @@ const Inlinks = (props) => {
                     <span>Catalogue</span>
                     <Link to='/catalogue' />
                 </Menu.Item>
-                {
-                    // props.auth.role !== 'admin' &&
-                    <Menu.Item key='classroom'>
-                        <DashboardOutlined />
-                        <span>Dashboard</span>
-                        <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
-                    </Menu.Item>
-                }
+                <Menu.Item key='classroom'>
+                    <DashboardOutlined />
+                    <span>Dashboard</span>
+                    <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
+                </Menu.Item>
                 <span className='ant-divider' style={{ margin: '0 1em' }} />
                 <SubMenu title={
                     <span className='submenu-title-wrapper'>

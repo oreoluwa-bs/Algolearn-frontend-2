@@ -19,13 +19,11 @@ const InDrawer = (props) => {
                         <span>Catalogue</span>
                         <Link to='/catalogue' />
                     </Menu.Item>
-                    {
-                        <Menu.Item key='classroom'>
-                            <DashboardOutlined />
-                            <span>Dashboard</span>
-                            <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
-                        </Menu.Item>
-                    }
+                    <Menu.Item key='classroom'>
+                        <DashboardOutlined />
+                        <span>Dashboard</span>
+                        <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
+                    </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item key='manageaccount'>
                         <UserOutlined />
@@ -36,8 +34,6 @@ const InDrawer = (props) => {
                         <Button block>Logout</Button>
                     </Menu.Item>
                 </Menu>
-                <div className=''>
-                </div>
             </div>
         </Drawer>
     );
