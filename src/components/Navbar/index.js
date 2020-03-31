@@ -14,7 +14,7 @@ const Navbar = () => {
     const showDrawer = () => setDrawerState(true);
     const onCloseDrawer = () => setDrawerState(false);
 
-    const auth = true;
+    const auth = false;
     return (
         <Header className='navbar--header'>
             <Link to='/'><div className='logo' /></Link>

@@ -1,0 +1,57 @@
+.login-form .ant-row.ant-form-item{
+    margin-bottom: 12px;
+}
+
+.auth-form-wrapper {
+    background-color: white;
+    border-radius: 8px;
+    margin: 50px auto;
+    max-width: 40vw;
+}
+
+.auth-form-wrapper .auth-form-img{
+    width: 100%;
+    min-height: 600px;
+    background-color: #16E0BD;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-image: url('../assets/images/homepage_banner_background.svg');
+    background-position: center;
+}
+.auth-form-container{
+    padding: 50px;
+}
+
+@media screen and (max-width:1200px){
+    .auth-form-wrapper .auth-form-img{
+        min-height: 200px;
+        border-radius: 0;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+}
+
+@media screen and (max-width:992px){
+    .auth-form-wrapper {
+        max-width: 60vw;
+    }
+    .auth-form-wrapper .auth-form-img{
+        min-height: 180px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+}
+
+@media screen and (max-width:768px){
+    .auth-form-wrapper {
+        max-width: 80vw;
+    }
+    .auth-form-wrapper .auth-form-img{
+        min-height: 200px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    .auth-form-container {
+        padding: 30px;
+    }
+}
