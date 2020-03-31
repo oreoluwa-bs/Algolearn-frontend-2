@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
 import { EmailRules, PasswordRules } from '../../components/Auth/AuthRules';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const LoginPage = () => {
     const onFinish = values => {

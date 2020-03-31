@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Layout, ConfigProvider } from 'antd';
 import Navbar from './components/Navbar';
-import HomePage from './views/Main';
+import { HomePage, PageNotFound } from './views/Main';
 import { LoginPage, SignupPage } from './views/Auth';
 
 const { Footer } = Layout;
@@ -24,6 +24,8 @@ const App = () => {
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/signup' component={SignupPage} />
 
+              {/* Page Not Found */}
+              <Route component={PageNotFound} />
 
             </Switch>
 
