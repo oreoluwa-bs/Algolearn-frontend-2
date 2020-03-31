@@ -22,7 +22,7 @@ const Outlinks = () => {
             <Link to='/login'>
                 <Button type='link'>Login</Button>
             </Link>
-            <Link to='/signup/student' style={{ marginLeft: '5px' }}>
+            <Link to='/signup?v="learner"' style={{ marginLeft: '5px' }}>
                 <Button type='primary'>Become a learner</Button>
             </Link>
         </div>

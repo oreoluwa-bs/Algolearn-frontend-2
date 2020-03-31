@@ -23,11 +23,11 @@ const HomePage = () => {
                         Get a better understanding of your Computer Science courses with AlgoLearn.
 
                     </Paragraph>
-                    <Link to='/signup/tutor' className='ant-btn ant-btn-primary ant-btn-lg' style={{ backgroundColor: '#7D8CC4', borderColor: '#7D8CC4' }}>
+                    <Link to='/signup?v="tutor"' className='ant-btn ant-btn-primary ant-btn-lg' style={{ backgroundColor: '#7D8CC4', borderColor: '#7D8CC4' }}>
                         Become a tutor
                     </Link>
                     <Divider type='vertical' />
-                    <Link to='/signup/student' className='ant-btn ant-btn-primary ant-btn-lg'>Become a learner</Link>
+                    <Link to='/signup?v="learner"' className='ant-btn ant-btn-primary ant-btn-lg'>Become a learner</Link>
                 </div>
             </div>
         </div>

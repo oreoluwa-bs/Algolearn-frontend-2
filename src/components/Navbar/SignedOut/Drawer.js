@@ -26,7 +26,7 @@ const OutDrawer = (props) => {
                         <Button type="link" block>Login</Button>
                     </Link>
 
-                    <Link to='/signup/student'>
+                    <Link to='/signup?v="learner"'>
                         <Button type="primary" block>Become a learner</Button>
                     </Link>
                 </div>
