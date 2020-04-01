@@ -4,6 +4,7 @@ import { Layout, ConfigProvider } from 'antd';
 import Navbar from './components/Navbar';
 import { HomePage, PageNotFound } from './views/Main';
 import { LoginPage, SignupPage } from './views/Auth';
+import { CataloguePage, CourseDetails } from './views/Catalogue';
 
 const { Footer } = Layout;
 
@@ -23,6 +24,10 @@ const App = () => {
               {/* Auth Pages */}
               <Route exact path='/login' component={LoginPage} />
               <Route exact path='/signup' component={SignupPage} />
+
+              {/* Catalogue Pages */}
+              <Route exact path='/catalogue' component={CataloguePage} />
+              <Route path='/catalogue/:slug' component={CourseDetails} />
 
               {/* Page Not Found */}
               <Route component={PageNotFound} />

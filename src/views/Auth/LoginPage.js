@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
@@ -51,8 +51,7 @@ const LoginPage = () => {
                                         </Button>
                     </Form.Item>
                     <Form.Item style={{ textAlign: 'center' }}>
-                        <Text type='secondary'>OR</Text>
-                        <br />
+                        <Divider>OR</Divider>
                         <Text>Not a member? <Link to='/signup?v="learner"'>Become a learner</Link> or <Link to='/signup?v="tutor"'>Become a tutor</Link></Text>
                     </Form.Item>
                 </Form>

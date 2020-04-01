@@ -28,4 +28,4 @@ const PageNotFound = (props) => {
     );
 }
 
-export { PageNotFound };
+export default PageNotFound;
