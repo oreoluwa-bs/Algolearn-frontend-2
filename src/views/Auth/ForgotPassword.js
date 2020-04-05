@@ -44,4 +44,4 @@ const ForgotPassword = (props) => {
     );
 }
 
-export { ForgotPassword };
+export default ForgotPassword;

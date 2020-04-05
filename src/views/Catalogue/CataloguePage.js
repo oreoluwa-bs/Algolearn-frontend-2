@@ -1,22 +1,15 @@
-import React, { lazy, Suspense } from 'react';
-import { Input, Row, Col, Card } from 'antd';
-import '../../styles/catalogue.css';
-// import CoursePreview from '../../components/Catalogue/CoursePreview';
+import React, { lazy, Suspense, useContext } from 'react';
+import { Input, Row, Col, BackTop } from 'antd';
 import { Link } from 'react-router-dom';
+import { CourseContext } from '../../store/context/course';
+import '../../styles/catalogue.css';
 
 const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
 
 const { Search } = Input;
 
 const CataloguePage = () => {
-    const course = {
-        slug: 2,
-        title: 'James',
-        description: 'Hanmesds',
-        authorName: 'Jane Doe',
-        ratings: [0, 3, 4],
-        difficulty: 'Beginner'
-    }
+    const { courses } = useContext(CourseContext);
     const handleSearch = (e) => {
 
     };
@@ -35,27 +28,26 @@ const CataloguePage = () => {
                     />
                     <br />
                     <br />
+                    {/* <div className='skeleton-card loading' style={{ height: 300 }}></div> */}
                     <br />
                     <br />
                     <div>
-                        <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }} style={{ marginBottom: 40 }}>
-                            <Suspense key={course._id} fallback={
-                                <Col key={course._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                    <Card style={{ backgroundColor: 'gainsborough', height: 200 }}>Loading...</Card>
-                                </Col>}>
-                                <Col key={course._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                    <Link to={`/catalogue/${course.slug}`}>
-                                        <Thumbnails course={course} />
-                                    </Link>
-                                </Col>
-                                <Col key={course._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                    <Link to={`/catalogue/${course.slug}`}>
-                                        <Thumbnails course={course} />
-                                    </Link>
-                                </Col>
-                            </Suspense>
+                        <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
+                            {courses.map((course) => (
+                                <Suspense key={course.slug} fallback={
+                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                        <div className='skeleton-card loading' style={{ height: 300 }}></div>
+                                    </Col>}>
+                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                        <Link to={`/catalogue/${course.slug}`}>
+                                            <Thumbnails course={course} />
+                                        </Link>
+                                    </Col>
+                                </Suspense>
+                            ))}
                         </Row>
                     </div>
+                    <BackTop />
                 </div>
             </div>
         </div>
@@ -63,10 +55,3 @@ const CataloguePage = () => {
 }
 
 export default CataloguePage;
-
-// 
-        //    {/* <Col key={course._id} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-        //                         <Link to={`/catalogue/${course.slug}`}>
-        //                             <CoursePreview course={course} />
-        //                         </Link>
-        //                     </Col> */}

@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
 import { PasswordRules, EmailRules, NameRules } from '../../components/Auth/AuthRules';
+import { AuthContext } from '../../store/context/auth';
 
 const SignupPage = (props) => {
-    const [signUpRole, setSignUpRole] = useState('learner');
+    const { auth, handleSignUp } = useContext(AuthContext);
+    const [signUpRole, setSignUpRole] = useState('signup');
 
     const onFinish = values => {
         values.role = signUpRole;
-        console.log('Success:', values);
-    };
-
-    const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
+        handleSignUp(values);
     };
 
     useEffect(() => {
@@ -23,6 +21,9 @@ const SignupPage = (props) => {
         setSignUpRole(values.v);
     }, [props.location.search]);
 
+    if (auth) {
+        return <Redirect to='/' />
+    }
     return (
         <AuthFormWrapper bgColor='#89A6FB'>
             <div className='auth-form-container'>
@@ -30,8 +31,7 @@ const SignupPage = (props) => {
                 <Form name='auth-login' initialValues={{ remember: true, }}
                     size='large'
                     layout='vertical'
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}>
+                    onFinish={onFinish}>
 
                     <Row gutter={{ md: 24 }}>
                         <Col xs={24} md={12}>
@@ -76,4 +76,4 @@ const SignupPage = (props) => {
     );
 }
 
-export { SignupPage };
+export default SignupPage;

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Menu, Drawer } from 'antd';
 import { BookOutlined, DashboardOutlined, UserOutlined } from '@ant-design/icons';
+import { AuthContext } from '../../../store/context/auth';
 
 const InDrawer = (props) => {
+    const { handleLogout } = useContext(AuthContext);
     return (
         <Drawer
             title='Navigation'
@@ -31,7 +33,7 @@ const InDrawer = (props) => {
                         <Link to='/account' />
                     </Menu.Item>
                     <Menu.Item key='logout'>
-                        <Button block>Logout</Button>
+                        <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>
                     </Menu.Item>
                 </Menu>
             </div>

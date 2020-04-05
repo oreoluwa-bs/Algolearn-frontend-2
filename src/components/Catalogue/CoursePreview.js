@@ -5,8 +5,7 @@ const { Paragraph, Text } = Typography;
 
 const CoursePreview = (props) => {
     const [tagColor, setTagColor] = useState('#2db7f5');
-    const rating = props.course.ratings.reduce((acc, currentOrder) => acc + currentOrder);
-
+    
     useEffect(() => {
         if (props.course.difficulty.toLowerCase() === 'intermediate') {
             setTagColor('#2db7f5');
@@ -30,11 +29,11 @@ const CoursePreview = (props) => {
                     <Paragraph ellipsis={{ rows: 3 }}>{props.course.description}</Paragraph>
                     <div>
                         <div>
-                            <Avatar size='small' style={{ color: 'white', backgroundColor: '#E0A458', marginRight: 10 }}>{props.course.authorName.split(' ')[0][0]}{props.course.authorName.split(' ')[1][0]}</Avatar>
-                            <Text type='secondary'>{props.course.authorName}</Text>
+                            <Avatar size='small' style={{ color: 'white', backgroundColor: '#E0A458', marginRight: 10 }}>{props.course.author.firstname[0]}{props.course.author.lastname[0]}</Avatar>
+                            <Text type='secondary'>{props.course.author.firstname}{props.course.author.firstname}</Text>
                         </div>
                     </div>
-                    <Rate defaultValue={Math.round(rating / props.course.ratings.length)} disabled />
+                    <Rate defaultValue={props.course.ratingsAverage} disabled />
                 </div>
             </div>
         </Badge>

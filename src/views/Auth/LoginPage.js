@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form, Input, Button, Typography, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
 import { EmailRules, PasswordRules } from '../../components/Auth/AuthRules';
+import { AuthContext } from '../../store/context/auth';
 
 const { Text } = Typography;
 
 const LoginPage = () => {
+    const { auth, handleLogin } = useContext(AuthContext);
     const onFinish = values => {
-        console.log('Success:', values);
+        handleLogin(values);
     };
 
-    const onFinishFailed = errorInfo => {
-        // console.log('Failed:', errorInfo);
-    };
+    if (auth) {
+        return <Redirect to='/' />
+    }
     return (
         <AuthFormWrapper bgColor='#16E0BD'>
 
@@ -23,8 +25,7 @@ const LoginPage = () => {
                 <Form name='auth-login' initialValues={{ remember: true, }} hideRequiredMark
                     size='large'
                     layout='vertical'
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}>
+                    onFinish={onFinish}>
                     <Form.Item label='Email Address:' name='email'
                         rules={[...EmailRules]}>
                         <Input type='email'
@@ -52,7 +53,7 @@ const LoginPage = () => {
                     </Form.Item>
                     <Form.Item style={{ textAlign: 'center' }}>
                         <Divider>OR</Divider>
-                        <Text>Not a member? <Link to='/signup?v="learner"'>Become a learner</Link> or <Link to='/signup?v="tutor"'>Become a tutor</Link></Text>
+                        <Text>Not a member? <Link to='/signup?v="student"'>Become a learner</Link> or <Link to='/signup?v="tutor"'>Become a tutor</Link></Text>
                     </Form.Item>
                 </Form>
             </div>
@@ -60,4 +61,4 @@ const LoginPage = () => {
     );
 }
 
-export { LoginPage };
+export default LoginPage;

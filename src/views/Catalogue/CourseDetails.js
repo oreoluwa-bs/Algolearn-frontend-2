@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space } from 'antd';
+import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avatar } from 'antd';
 import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
+import Axios from 'axios';
+import { AuthContext } from '../../store/context/auth';
 
 const { Paragraph, Text, Title } = Typography;
 const { Content } = Layout;
 
 
 const CourseDetails = (props) => {
-    const course = {
-        slug: 2,
-        title: 'Intro to Artificial Intelligence',
-        description: 'Artificial Intelligence (AI) is a field that has a long history but is still constantly and actively growing and changing. In this course, you’ll learn the basics of modern AI as well as some of the representative applications of AI. Along the way, we also hope to excite you about the numerous applications and huge possibilities in the field of AI, which continues to expand human capability beyond our imagination.',
-        authorName: 'Jane Doe',
-        ratings: [0, 3, 4],
-        difficulty: 'Intermediate'
-    }
+    const { auth } = useContext(AuthContext);
+    const [course, setCourse] = useState({});
+
+    useEffect(() => {
+        Axios.get(`http://localhost:5000/api/v1/courses/${props.match.params.slug}`)
+            .then((data) => {
+                // console.log(data.data.data.data)
+                setCourse(data.data.data.data)
+            })
+            .catch(err => {
+                props.history.push('/page-not-found');
+                return null
+            });
+    }, [props.match.params.slug, props.history]);
+
     const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
-    const rating = course.ratings.reduce((acc, currentOrder) => acc + currentOrder);
 
     const handleCourseEnrollment = async () => {
         await // handleEnrollInCourse(course._id);
             props.history.push(`/dashboard`);
     };
+
+    const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
 
     return (
         <div>
@@ -33,15 +43,17 @@ const CourseDetails = (props) => {
                         <BookOutlined />
                         <Title level={1} style={{ color: 'white' }}>{course.title}</Title>
                         <Divider />
-                        {false &&
-                            <div>
-                                <div className='enroll-btn'>
-                                    <Button type='primary' size='large' disabled={false} onClick={handleCourseEnrollment}>Start Free Course</Button>
-                                </div>
-                            </div>
-                        }
                         <Space>
                             {
+                                auth &&
+                                <div>
+                                    <div className='enroll-btn'>
+                                        <Button type='primary' size='large' disabled={false} onClick={handleCourseEnrollment}>Start Free Course</Button>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                !auth &&
                                 <div>
                                     <div className='enroll-btn'>
                                         <Link to='/login' className='ant-btn ant-btn-lg ant-btn-primary'>Start free course</Link>
@@ -49,6 +61,7 @@ const CourseDetails = (props) => {
                                 </div>
                             }
                             {
+                                auth &&
                                 <div>
                                     <div>
                                         <Link to={`/${course.slug}/manage`} className='ant-btn ant-btn-lg'>Manage course</Link>
@@ -68,7 +81,7 @@ const CourseDetails = (props) => {
                                             <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
                                                 <Space direction='vertical' className='course-card-meta'>
                                                     <Text type='secondary'>Course Details</Text>
-                                                    <Text strong>Free</Text>
+                                                    <Text strong>{course.price > 0 ? course.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : 'Free'}</Text>
                                                 </Space>
                                             </Col>
                                             <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
@@ -80,12 +93,12 @@ const CourseDetails = (props) => {
                                             <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
                                                 <Space direction='vertical' className='course-card-meta'>
                                                     <Text type='secondary'>Course Creator</Text>
-                                                    <Text strong>{course.authorName}</Text>
+                                                    <Text strong>{course.author && course.author.firstname + ' ' + course.author.lastname}</Text>
                                                 </Space>
                                             </Col>
                                             <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
                                                 <Space direction='vertical' className='course-card-meta'>
-                                                    <Rate defaultValue={Math.round(rating / course.ratings.length)} disabled />
+                                                    <Rate value={course.ratingsAverage} defaultValue={course.ratingsAverage} disabled />
                                                 </Space>
                                             </Col>
                                         </Row>
@@ -104,15 +117,15 @@ const CourseDetails = (props) => {
                                         <div className='course-additional-item'>
                                             <Space>
                                                 <FileOutlined />
-                                                <Text level={4}>{course.lessons && course.lessons.length}{!course.lessons && 0} lessons</Text>
+                                                <Text level={4}>{course.lessonsQuantity} lessons</Text>
                                             </Space>
                                         </div>
                                         <div className='course-additional-item'>
                                             <Space>
                                                 <ReadOutlined />
                                                 <Text level={4}>{
-                                                    Math.round(rating / course.ratings.length) - 1 >= 0 ?
-                                                        contentValue[Math.round(rating / course.ratings.length) - 1] : contentValue[0]
+                                                    course.ratingsAverage - 1 >= 0 ?
+                                                        contentValue[course.ratingsAverage - 1] : contentValue[0]
                                                 } Learning Content</Text>
                                             </Space>
                                         </div>
@@ -143,6 +156,34 @@ const CourseDetails = (props) => {
                         </div>
                     </div>
                 </Content>
+                {
+                    course.reviews &&
+                    <div style={{ backgroundColor: '#FAFBFC' }}>
+                        <Content className='course-details-container' style={{ backgroundColor: 'inherit' }}>
+                            <div style={{ paddingTop: 64, paddingBottom: 40 }}>
+                                <Row gutter={16}>
+                                    {
+                                        course.reviews.map((review) => (
+                                            <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
+                                                <div className='review-card' style={{ borderColor: review.rating > 2 ? review.rating > 3 ? reviewColors[1] : reviewColors[0] : reviewColors[2] }}>
+                                                    <div>
+                                                        {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`http://localhost:5000/photos${review.user.photo}`} />}
+                                                        {!review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }}>{review.user.firstname[0]}{review.user.lastname[0]}</Avatar>}
+                                                    </div>
+                                                    <div><Text type='secondary'>{review.user && review.user.firstname} {review.user && review.user.lastname}</Text></div>
+                                                    <div style={{ marginTop: 5 }}>
+                                                        <Paragraph strong>{review.review}</Paragraph>
+                                                    </div>
+                                                    <Rate value={review.rating} defaultValue={review.rating} disabled />
+                                                </div>
+                                            </Col>
+                                        ))
+                                    }
+                                </Row>
+                            </div>
+                        </Content>
+                    </div>
+                }
             </div>
         </div>
     );

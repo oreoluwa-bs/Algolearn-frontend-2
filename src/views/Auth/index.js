@@ -1,6 +1,6 @@
 import '../../styles/auth.css';
 
-export * from './LoginPage';
-export * from './SignupPage';
-export * from './ForgotPassword';
-export * from './ResetPassword';
+export { default as LoginPage } from './LoginPage';
+export { default as SignupPage } from './SignupPage';
+export { default as ForgotPassword } from './ForgotPassword';
+export { default as ResetPassword } from './ResetPassword';

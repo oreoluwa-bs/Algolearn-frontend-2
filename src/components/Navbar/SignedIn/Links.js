@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Menu, Avatar } from 'antd';
 import { BookOutlined, DashboardOutlined } from '@ant-design/icons';
+import { AuthContext } from '../../../store/context/auth';
 
 const { SubMenu } = Menu;
 
 
 const Inlinks = (props) => {
+    const { auth, handleLogout } = useContext(AuthContext);
     return (
         <div className='nav-links-right'>
             <Menu
@@ -29,12 +31,12 @@ const Inlinks = (props) => {
                 <SubMenu title={
                     <span className='submenu-title-wrapper'>
                         {/* <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: localStorage.getItem('avatarColor') }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar> */}
-                        <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: localStorage.getItem('avatarColor') }}>LK</Avatar>
+                        <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: 'orange' }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                     </span>
                 }>
                     <Menu.Item key='manageaccount'>Manage your account<Link to='/account' /></Menu.Item>
                     <Menu.Item key='logout'>
-                        <Button block type='primary' onClick={() => { }}>Logout</Button>
+                        <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>
                     </Menu.Item>
                 </SubMenu>
             </Menu>
