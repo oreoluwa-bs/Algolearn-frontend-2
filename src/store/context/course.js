@@ -8,7 +8,6 @@ export const CourseContext = createContext();
 
 class CourseContextProvider extends Component {
     state = {
-        courses: [],
         response: {
             status: null,
             message: null
@@ -18,8 +17,9 @@ class CourseContextProvider extends Component {
     getAllCourses = async () => {
         try {
             const res = await instance.get(`/courses`);
-            const { data } = res.data;
-            this.setState({ courses: data.doc });
+            // const { data } = res.data;
+            // this.setState({ courses: data.doc });
+            return res.data;
         } catch (error) {
             const { status, message } = error.response.data;
             this.feedback({ status, message });
@@ -63,7 +63,7 @@ class CourseContextProvider extends Component {
     handleDeleteCourse = async (id) => {
         try {
             const res = await instance.delete(`/courses/${id}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
-            this.feedback({ status: 'success', message: 'Your course has been edited' });
+            this.feedback({ status: 'success', message: 'Your course has been deleted' });
             return res.data;
         } catch (error) {
             const { status, message } = error.response.data;

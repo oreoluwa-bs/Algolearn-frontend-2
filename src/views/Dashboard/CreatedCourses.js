@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from 'react';
+import React, { lazy, Suspense, useContext, useState } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../store/context/auth';
@@ -9,10 +9,14 @@ const { Search } = Input;
 
 const CreatedCourses = () => {
     const { auth } = useContext(AuthContext);
-    // const [courses, setCourses] = useState([]);
-    const courses = auth.createdCourses;
-    const handleSearch = (e) => {
+    const [courses, setCourses] = useState(auth.createdCourses);
 
+    const handleSearch = (e) => {
+        setCourses(auth.createdCourses.filter((course) => {
+            const title_course = course.title.toLowerCase();
+            const search_params = e.target.value.toLowerCase();
+            return title_course.includes(search_params);
+        }));
     };
 
     if (!auth) return <Redirect to='/dashboard' />

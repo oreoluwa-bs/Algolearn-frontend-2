@@ -45,7 +45,7 @@ const EditCoursePage = (props) => {
             <div style={{ backgroundColor: 'white', padding: '10px 20px' }}>
                 {
                     course && course.title &&
-                    <Form name='create-course' initialValues={{ title: course.title, difficulty: course.difficulty, description: course.description }} hideRequiredMark size='large' layout='vertical' onFinish={onFinish}>
+                    <Form name='edit-course' initialValues={{ title: course.title, difficulty: course.difficulty, description: course.description }} hideRequiredMark size='large' layout='vertical' onFinish={onFinish}>
                         <Row gutter={{ md: 24 }}>
                             <Col xs={24} md={16}>
                                 <Form.Item label='Title:' name='title' rules={[...TextInputRules('Course title')]} hasFeedback>

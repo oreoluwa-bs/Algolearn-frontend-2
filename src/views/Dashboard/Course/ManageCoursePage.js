@@ -1,22 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Collapse, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
+import { LessonContext } from '../../../store/context/lesson';
+import { CreateLessonPage, EditLessonPage } from '..';
 
 const { Paragraph } = Typography;
 const { Panel } = Collapse;
 
 const ManageCoursePage = (props) => {
-    const { auth, handleGetMe } = useContext(AuthContext);
-    const { handleGetCourse } = useContext(CourseContext);
+    const { auth } = useContext(AuthContext);
+    const { handleGetCourse, handleDeleteCourse } = useContext(CourseContext);
+    const { handleDeleteLesson } = useContext(LessonContext);
 
     const [course, setCourse] = useState({});
-    const [lessonModalVisible, setLessonModal] = useState(false);
+    const [lessonCreateModalVisible, setLessonCreateModal] = useState(false);
+    const [lessonEditModalVisible, setLessonEditModal] = useState(false);
     const [testModalVisible, setTestModal] = useState(false);
     const [tagColor, setTagColor] = useState('#2db7f5');
+    const [lessonIndex, setLessonIndex] = useState();
 
+
+    const getCourse = async (slug) => {
+        const res = await handleGetCourse(slug);
+        setCourse(res.data);
+        if (res.status === 'error') {
+            props.history.push('error-404');
+        };
+    };
 
     useEffect(() => {
         const handleInit = async (slug) => {
@@ -44,6 +57,7 @@ const ManageCoursePage = (props) => {
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role === 'student') return <Redirect to='/dashboard' />
+    if (auth && course && course.title && auth._id.toString() !== course.author._id.toString()) return <Redirect to='/dashboard' />
 
     return (
         <Layout>
@@ -54,12 +68,10 @@ const ManageCoursePage = (props) => {
                         extra={[
                             <Popconfirm key='del-pop' title='Are you sure delete this course? This is irreversible'
                                 onCancel={null} okText='Yes' cancelText='No'
-                                onConfirm={() => {
-                                    // handleDeleteLesson(course._id, lesson.key);
-                                }}
-                            >
-                                <Button type='danger' icon={<DeleteOutlined />} key='del'>Delete Course</Button>
+                                onConfirm={() => { handleDeleteCourse(course._id) }}>
+                                <Button type='dashed' icon={<DeleteOutlined />} key='del'>Delete Course</Button>
                             </Popconfirm>,
+                            <Button icon={<EyeOutlined />} onClick={() => { props.history.push(`/classroom/${course.slug}`) }} key='preview'>Preview Course</Button>,
                             <Button type='primary' icon={<EditOutlined />} onClick={() => { props.history.push(`/dashboard/edit/${course.slug}`) }} key='edit'>Edit Course</Button>,
                         ]}>
                         <Descriptions size='small' column={8}>
@@ -77,8 +89,8 @@ const ManageCoursePage = (props) => {
                     </div>
                     <div>
                         <Collapse accordion className='site-collapse-custom-collapse' bordered={true} defaultActiveKey={['lessons']}>
-                            <Panel header='Lessons' key='lessons' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setLessonModal(true) }}>Add Lesson</Button>}>
-                                <Table size='small' rowKey={(record) => record._id} tableLayout='fixed' dataSource={course.lessons} columns={[
+                            <Panel header='Lessons' key='lessons' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setLessonCreateModal(true) }}>Add Lesson</Button>}>
+                                <Table size='small' rowKey={(record) => record._id} tableLayout='fixed' pagination={false} dataSource={course.lessons} columns={[
                                     {
                                         title: 'Title',
                                         dataIndex: 'title',
@@ -92,21 +104,24 @@ const ManageCoursePage = (props) => {
                                                 <Tooltip title='Delete this lesson' key='del-button'>
                                                     <Popconfirm
                                                         title='Are you sure delete this lesson?'
-                                                        onConfirm={() => {
-                                                            // handleDeleteLesson(course._id, lesson.key);
+                                                        onConfirm={async () => {
+                                                            await handleDeleteLesson({ courseId: course._id, lessonId: lesson._id });
+                                                            await getCourse(course.slug);
                                                         }}
                                                         onCancel={null}
                                                         okText='Yes'
                                                         cancelText='No'
                                                     >
-                                                        <Button type='danger' icon='delete' />
+                                                        <Button type='dashed'>Delete</Button>
                                                     </Popconfirm>
                                                 </Tooltip>
                                                 <Divider type='vertical' />
                                                 <Tooltip title='Edit this lesson' key='edit-button'>
-                                                    <Button type='primary' icon='edit' onClick={() => {
-                                                        // props.history.push(`/${course._id}/${lesson.key}/lesson/edit`);
-                                                    }} />
+                                                    <Button type='primary' onClick={async () => {
+                                                        const tempIndex = course.lessons.findIndex((re) => re._id === lesson._id)
+                                                        await setLessonIndex(tempIndex);
+                                                        setLessonEditModal(true);
+                                                    }} >Edit</Button>
                                                 </Tooltip>
                                             </span>
                                         ),
@@ -114,7 +129,7 @@ const ManageCoursePage = (props) => {
                                 ]} />
                             </Panel>
                             <Panel header='Final test' key='test' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setTestModal(true); }}>Add Question</Button>}>
-                                <Table tableLayout='fixed' dataSource={course.test} columns={[
+                                <Table tableLayout='fixed' dataSource={course.test} pagination={false} columns={[
                                     {
                                         title: 'Question',
                                         dataIndex: 'question',
@@ -135,14 +150,14 @@ const ManageCoursePage = (props) => {
                                                         okText='Yes'
                                                         cancelText='No'
                                                     >
-                                                        <Button type='danger' icon='delete' />
+                                                        <Button type='dashed'>Delete</Button>
                                                     </Popconfirm>
                                                 </Tooltip>
                                                 <Divider type='vertical' />
                                                 <Tooltip title='Edit this lesson' key='edit-button'>
-                                                    <Button type='primary' icon='edit' onClick={() => {
+                                                    <Button type='primary' onClick={() => {
                                                         // props.history.push(`/${course._id}/${lesson.key}/lesson/edit`);
-                                                    }} />
+                                                    }} >Edit</Button>
                                                 </Tooltip>
                                             </span>
                                         ),
@@ -150,19 +165,23 @@ const ManageCoursePage = (props) => {
                                 ]} />
                             </Panel>
                             <Panel header='Reviews' key='reviews' className='site-collapse-custom-panel'>
-                                <Table tableLayout='fixed' dataSource={course.reviews} expandable={{
+                                <Table tableLayout='fixed' dataSource={course.reviews} pagination={false} expandable={{
                                     expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.review}</p>,
                                 }}
                                     columns={[{ title: 'Review', dataIndex: 'review', key: 'review', }]} />
                             </Panel>
                         </Collapse>
 
-                        {/* Modals */}
-                        <Modal title='Create lesson' visible={lessonModalVisible} footer={null}
-                            onOk={() => setLessonModal(false)} onCancel={() => { setLessonModal(false) }}>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
+                        {/* Modals Create */}
+                        <Modal title='Create lesson' visible={lessonCreateModalVisible} footer={null} width='75vw'
+                            onOk={() => setLessonCreateModal(false)} onCancel={() => { setLessonCreateModal(false) }}>
+                            <CreateLessonPage course={course} close={() => { setLessonCreateModal(false) }} getCourse={getCourse} />
+                        </Modal>
+
+                        {/* Modals Edit */}
+                        <Modal title='Edit lesson' visible={lessonEditModalVisible} footer={null} width='75vw'
+                            onOk={() => setLessonEditModal(false)} onCancel={() => { setLessonEditModal(false) }}>
+                            <EditLessonPage lesson={course.lessons[lessonIndex]} course={course} close={() => { setLessonEditModal(false) }} getCourse={getCourse} />
                         </Modal>
 
                         <Modal title='Create Test' visible={testModalVisible} footer={null}
