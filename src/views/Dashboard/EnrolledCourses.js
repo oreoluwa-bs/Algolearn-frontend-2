@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useContext } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
-import { Link } from 'react-router-dom';
-// import { CourseContext } from '../../store/context/course';
+import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../store/context/auth';
 
 const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
@@ -14,6 +13,9 @@ const EnrolledCourses = () => {
     const handleSearch = (e) => {
 
     };
+
+    if (!auth) return <Redirect to='/dashboard' />
+
     return (
         <div className='catalogue-container'>
             <div style={{ paddingTop: '50px' }}>

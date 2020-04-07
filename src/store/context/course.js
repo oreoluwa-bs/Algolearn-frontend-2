@@ -31,6 +31,16 @@ class CourseContextProvider extends Component {
         }
     }
 
+    // CRUD COURSE
+    handleGetCourse = async (slug) => {
+        try {
+            const res = await instance.get(`/courses/${slug}`);
+            return res.data.data;
+        } catch (error) {
+            return error.response.data
+        }
+    }
+
     handleCreateCourse = async (values) => {
         const { title, description, difficulty } = values;
         try {
@@ -43,7 +53,31 @@ class CourseContextProvider extends Component {
             this.feedback({ status, message });
         }
     }
+    handleEditCourse = async (id, values) => {
+        const { title, description, difficulty } = values;
+        try {
+            const res = await instance.patch(`/courses/${id}`, { title, description, difficulty }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            this.feedback({ status: 'success', message: 'Your course has been edited' });
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
 
+    handleDeleteCourse = async (id) => {
+        try {
+            const res = await instance.delete(`/courses/${id}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            this.feedback({ status: 'success', message: 'Your course has been edited' });
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+
+    // ENROLLMENT
     handleEnrollInCourse = async (id) => {
         try {
             const res = await instance.patch(`/courses/enroll/${id}`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
@@ -79,10 +113,15 @@ class CourseContextProvider extends Component {
         return (
             <CourseContext.Provider value={{
                 ...this.state,
+
+                // CRUD COURSE
                 getAllCourses: this.getAllCourses,
+                handleGetCourse: this.handleGetCourse,
                 handleCreateCourse: this.handleCreateCourse,
+                handleEditCourse: this.handleEditCourse,
+                handleDeleteCourse: this.handleDeleteCourse,
 
-
+                // ENROLLMENT
                 handleEnrollInCourse: this.handleEnrollInCourse,
                 handleUnEnrollInCourse: this.handleUnEnrollInCourse,
             }}>

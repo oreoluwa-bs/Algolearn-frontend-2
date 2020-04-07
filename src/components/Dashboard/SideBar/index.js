@@ -21,15 +21,6 @@ const SideBar = ({ currentMatch }) => {
                     </Menu.Item>
                 }
                 {
-                    auth.role === 'student' &&
-                    <Menu.Item key="created-courses">
-                        <FolderAddOutlined />
-                        <span>Created Courses</span>
-                        <Link to={`${currentMatch.path}/created-courses`} />
-                    </Menu.Item>
-                }
-
-                {
                     auth.role === 'tutor' &&
                     <Menu.Item key="created-courses">
                         <FolderAddOutlined />

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avatar } from 'antd';
 import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
-import Axios from 'axios';
 import { AuthContext } from '../../store/context/auth';
 import { CourseContext } from '../../store/context/course';
 
@@ -12,21 +11,22 @@ const { Content } = Layout;
 
 const CourseDetails = (props) => {
     const { auth, handleGetMe } = useContext(AuthContext);
-    const { handleEnrollInCourse } = useContext(CourseContext);
+    const { handleEnrollInCourse, handleGetCourse } = useContext(CourseContext);
     const [course, setCourse] = useState({});
     const [isEnrolled, setIsEnrolled] = useState(false);
 
     useEffect(() => {
-        Axios.get(`http://localhost:5000/api/v1/courses/${props.match.params.slug}`)
-            .then((data) => {
-                console.log(data.data.data.data)
-                setCourse(data.data.data.data);
-            })
-            .catch(err => {
-                props.history.push('/page-not-found');
-                return null
-            });
-    }, [props.match.params.slug, props.history]);
+        const handleInit = async (slug) => {
+            const res = await handleGetCourse(slug);
+            console.log(res);
+            setCourse(res.data);
+            if (res.status === 'error') {
+                props.history.push('error-404');
+            };
+        }
+
+        handleInit(props.match.params.slug);
+    }, [props.match.params.slug, props.history, handleGetCourse]);
 
     const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
 

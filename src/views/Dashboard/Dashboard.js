@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
 import { SideBar } from '../../components/Dashboard';
 import { AuthContext } from '../../store/context/auth';
-import { CreatedCourses, EnrolledCourses, CreateCoursePage } from '.';
+import { CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage } from '.';
 
 const { Content } = Layout;
 
@@ -33,6 +33,9 @@ const DashboardV1 = (props) => {
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
+
+                        <Route path={`${currentMatch.path}/manage/:slug`} component={EditCoursePage} />
+                        <Route path={`${currentMatch.path}/edit/:slug`} component={EditCoursePage} />
                     </Switch>
                 </Content>
             </Layout>
@@ -65,6 +68,9 @@ const DashboardV2 = (props) => {
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
+
+                        <Route path={`${currentMatch.path}/manage/:slug`} component={EditCoursePage} />
+                        <Route path={`${currentMatch.path}/edit/:slug`} component={EditCoursePage} />
                     </Switch>
                 </Content>
             </Layout>
