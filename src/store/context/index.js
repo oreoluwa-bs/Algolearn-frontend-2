@@ -7,11 +7,11 @@ import CourseContextProvider from './course';
 
 function RootContext(props) {
     // const apiUrl = config.apiUrl;
-    const apiUrl = 'http://localhost:5000/api/v1'
+    // const apiUrl = 'http://localhost:5000/api/v1'
     return (
-        <AuthContextProvider apiUrl={apiUrl}>
-            {/* <AdminUserContextProvider apiUrl={apiUrl}>*/}
-            <CourseContextProvider apiUrl={apiUrl}>
+        <AuthContextProvider >
+            {/* <AdminUserContextProvider >*/}
+            <CourseContextProvider >
                 {/* <ColorContextProvider> */}
                 {props.children}
                 {/* </ColorContextProvider>*/}

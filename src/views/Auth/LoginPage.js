@@ -15,7 +15,7 @@ const LoginPage = () => {
     };
 
     if (auth) {
-        return <Redirect to='/' />
+        return <Redirect to='/dashboard' />
     }
     return (
         <AuthFormWrapper bgColor='#16E0BD'>
@@ -53,7 +53,7 @@ const LoginPage = () => {
                     </Form.Item>
                     <Form.Item style={{ textAlign: 'center' }}>
                         <Divider>OR</Divider>
-                        <Text>Not a member? <Link to='/signup?v="student"'>Become a learner</Link> or <Link to='/signup?v="tutor"'>Become a tutor</Link></Text>
+                        <Text>Not a member? <Link to='/signup?v=student'>Become a learner</Link> or <Link to='/signup?v=tutor'>Become a tutor</Link></Text>
                     </Form.Item>
                 </Form>
             </div>

@@ -4,20 +4,23 @@ import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avata
 import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
 import Axios from 'axios';
 import { AuthContext } from '../../store/context/auth';
+import { CourseContext } from '../../store/context/course';
 
 const { Paragraph, Text, Title } = Typography;
 const { Content } = Layout;
 
 
 const CourseDetails = (props) => {
-    const { auth } = useContext(AuthContext);
+    const { auth, handleGetMe } = useContext(AuthContext);
+    const { handleEnrollInCourse } = useContext(CourseContext);
     const [course, setCourse] = useState({});
+    const [isEnrolled, setIsEnrolled] = useState(false);
 
     useEffect(() => {
         Axios.get(`http://localhost:5000/api/v1/courses/${props.match.params.slug}`)
             .then((data) => {
-                // console.log(data.data.data.data)
-                setCourse(data.data.data.data)
+                console.log(data.data.data.data)
+                setCourse(data.data.data.data);
             })
             .catch(err => {
                 props.history.push('/page-not-found');
@@ -28,9 +31,19 @@ const CourseDetails = (props) => {
     const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
 
     const handleCourseEnrollment = async () => {
-        await // handleEnrollInCourse(course._id);
+        const res = await handleEnrollInCourse(course._id);
+        // console.log(res);
+        await handleGetMe();
+        if (res.status === 'success') {
             props.history.push(`/dashboard`);
+        }
     };
+    useEffect(() => {
+        if (auth) {
+            const found = auth.enrolledCourses.findIndex((el) => el._id === course._id);
+            found >= 0 ? setIsEnrolled(true) : setIsEnrolled(false);
+        }
+    }, [auth, course])
 
     const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
 
@@ -45,10 +58,18 @@ const CourseDetails = (props) => {
                         <Divider />
                         <Space>
                             {
-                                auth &&
+                                auth && course.author && auth._id !== course.author._id && !isEnrolled &&
                                 <div>
                                     <div className='enroll-btn'>
-                                        <Button type='primary' size='large' disabled={false} onClick={handleCourseEnrollment}>Start Free Course</Button>
+                                        <Button type='primary' size='large' onClick={handleCourseEnrollment}>Start Free Course</Button>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                auth && course.author && auth._id !== course.author._id && isEnrolled &&
+                                <div>
+                                    <div className='enroll-btn'>
+                                        <Link to={`/classroom/${course.slug}/`} className='ant-btn ant-btn-lg ant-btn-primary'>Classroom</Link>
                                     </div>
                                 </div>
                             }
@@ -57,14 +78,6 @@ const CourseDetails = (props) => {
                                 <div>
                                     <div className='enroll-btn'>
                                         <Link to='/login' className='ant-btn ant-btn-lg ant-btn-primary'>Start free course</Link>
-                                    </div>
-                                </div>
-                            }
-                            {
-                                auth &&
-                                <div>
-                                    <div>
-                                        <Link to={`/${course.slug}/manage`} className='ant-btn ant-btn-lg'>Manage course</Link>
                                     </div>
                                 </div>
                             }
@@ -164,7 +177,7 @@ const CourseDetails = (props) => {
                                 <Row gutter={16}>
                                     {
                                         course.reviews.map((review) => (
-                                            <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
+                                            <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
                                                 <div className='review-card' style={{ borderColor: review.rating > 2 ? review.rating > 3 ? reviewColors[1] : reviewColors[0] : reviewColors[2] }}>
                                                     <div>
                                                         {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`http://localhost:5000/photos${review.user.photo}`} />}

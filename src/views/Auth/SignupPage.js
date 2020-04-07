@@ -22,7 +22,7 @@ const SignupPage = (props) => {
     }, [props.location.search]);
 
     if (auth) {
-        return <Redirect to='/' />
+        return <Redirect to='/dashboard' />
     }
     return (
         <AuthFormWrapper bgColor='#89A6FB'>

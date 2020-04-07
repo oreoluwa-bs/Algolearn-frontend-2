@@ -1,11 +1,13 @@
 import React, { Component, createContext } from 'react';
-import axios from 'axios';
 import { message } from 'antd';
+import instance from '../../axios';
+import utils from '../../utils';
 
 export const AuthContext = createContext();
 
 class AuthContextProvider extends Component {
-    initAuth = sessionStorage.getItem('auth') || null;
+
+    initAuth = localStorage.getItem('auth') || null;
     state = {
         auth: JSON.parse(this.initAuth) || null,
         response: {
@@ -13,14 +15,18 @@ class AuthContextProvider extends Component {
             message: null
         }
     }
-
+    // componentDidMount() {
+    //     if (!this.initAuth) this.setAuthToken();
+    // }
     setAuthToken = (token) => {
-        token ? axios.defaults.headers.common["Authorization"] = token : delete axios.defaults.headers.common["Authorization"]
+        if (token) {
+            document.cookie = `jwt=${token}; expires=${new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)}; path=/;`;
+        }
     };
 
 
     handleInit = () => {
-        axios.get(`${this.props.apiUrl}/`).then(() => {
+        instance.get(`/`).then(() => {
             return
         }).catch(() => {
             return
@@ -28,7 +34,7 @@ class AuthContextProvider extends Component {
     }
 
     handleLogout = () => {
-        sessionStorage.removeItem('auth');
+        localStorage.removeItem('auth');
         this.setState({ auth: null });
         this.feedback({ status: 'success', message: `You have logged out successfully!` });
         this.setAuthToken();
@@ -38,11 +44,11 @@ class AuthContextProvider extends Component {
         const { email, password } = credentials;
         let authToken;
         try {
-            const res = await axios.post(`${this.props.apiUrl}/users/login`, { email, password });
+            const res = await instance.post(`/users/login`, { email, password });
             const { data, token } = res.data;
             authToken = token;
             this.setState({ auth: data.user });
-            sessionStorage.setItem('auth', JSON.stringify(data.user));
+            localStorage.setItem('auth', JSON.stringify(data.user));
             this.feedback({ status: 'success', message: `Hello, ${data.user.firstname}!` });
         } catch (error) {
             const { status, message } = error.response.data;
@@ -55,17 +61,30 @@ class AuthContextProvider extends Component {
         const { email, password, firstname, lastname, role } = credentials;
         let authToken;
         try {
-            const res = await axios.post(`${this.props.apiUrl}/users/signup`, { email, password, firstname, lastname, role });
+            const res = await instance.post(`/users/signup`, { email, password, firstname, lastname, role });
             const { data, token } = res.data;
             authToken = token;
             this.setState({ auth: data.user });
-            sessionStorage.setItem('auth', JSON.stringify(data.user));
+            localStorage.setItem('auth', JSON.stringify(data.user));
             this.feedback({ status: 'success', message: `Hello, ${data.user.firstname}!` });
         } catch (error) {
             const { status, message } = error.response.data;
             this.feedback({ status, message });
         }
         this.setAuthToken(authToken);
+    }
+
+    handleGetMe = async () => {
+        try {
+            const res = await instance.get(`/users/me`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const { data } = res.data;
+            this.setState({ auth: data.data });
+            localStorage.setItem('auth', JSON.stringify(data.data));
+            return data.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
     }
 
     feedback = (response) => {
@@ -87,6 +106,8 @@ class AuthContextProvider extends Component {
                 handleLogout: this.handleLogout,
                 handleLogin: this.handleLogin,
                 handleSignUp: this.handleSignUp,
+
+                handleGetMe: this.handleGetMe,
             }}>
                 {this.props.children}
             </AuthContext.Provider>
