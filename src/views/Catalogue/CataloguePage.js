@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from 'react';
+import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
 import { Link } from 'react-router-dom';
 import { CourseContext } from '../../store/context/course';
@@ -9,7 +9,10 @@ const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview')
 const { Search } = Input;
 
 const CataloguePage = () => {
-    const { courses } = useContext(CourseContext);
+    const { courses, getAllCourses } = useContext(CourseContext);
+    useEffect(() => {
+        getAllCourses();
+    }, [getAllCourses]);
     const handleSearch = (e) => {
 
     };

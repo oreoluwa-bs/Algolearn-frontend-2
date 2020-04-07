@@ -15,11 +15,6 @@ class CourseContextProvider extends Component {
         }
     }
 
-
-    componentDidMount() {
-        this.getAllCourses();
-    }
-
     getAllCourses = async () => {
         try {
             const res = await instance.get(`/courses`);
