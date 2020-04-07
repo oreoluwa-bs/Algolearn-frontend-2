@@ -1,7 +1,6 @@
 import React, { Component, createContext } from 'react';
 import { message } from 'antd';
-import instance from '../../axios';
-import utils from '../../utils';
+import { utils, instance } from '../../config';
 
 export const LessonContext = createContext();
 
