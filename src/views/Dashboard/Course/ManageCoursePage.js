@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Collapse, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { CreateLessonPage, EditLessonPage } from '..';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
-import { CreateLessonPage, EditLessonPage } from '..';
 
 const { Paragraph } = Typography;
 const { Panel } = Collapse;

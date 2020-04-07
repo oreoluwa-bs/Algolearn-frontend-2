@@ -2,6 +2,7 @@ import React from 'react';
 import AuthContextProvider from './auth';
 import CourseContextProvider from './course';
 import LessonContextProvider from './lesson';
+import { ConfigProvider } from 'antd';
 // import ColorContextProvider from './colors';
 // import { config } from '../../config';
 // import AdminUserContextProvider from './admin';
@@ -15,7 +16,9 @@ function RootContext(props) {
             <CourseContextProvider>
                 <LessonContextProvider>
                     {/* <ColorContextProvider> */}
-                    {props.children}
+                    <ConfigProvider>
+                        {props.children}
+                    </ConfigProvider>
                     {/* </ColorContextProvider>*/}
                 </LessonContextProvider>
             </CourseContextProvider>
