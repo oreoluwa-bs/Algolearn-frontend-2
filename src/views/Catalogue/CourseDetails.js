@@ -18,7 +18,7 @@ const CourseDetails = (props) => {
     useEffect(() => {
         const handleInit = async (slug) => {
             const res = await handleGetCourse(slug);
-            console.log(res);
+            // console.log(res);
             setCourse(res.data);
             if (res.status === 'error') {
                 props.history.push('error-404');
@@ -40,7 +40,7 @@ const CourseDetails = (props) => {
     };
     useEffect(() => {
         if (auth) {
-            const found = auth.enrolledCourses.findIndex((el) => el._id === course._id);
+            const found = auth.enrolledCourses.findIndex((el) => el.course._id === course._id);
             found >= 0 ? setIsEnrolled(true) : setIsEnrolled(false);
         }
     }, [auth, course])

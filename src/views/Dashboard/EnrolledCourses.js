@@ -13,7 +13,7 @@ const EnrolledCourses = () => {
 
     const handleSearch = (e) => {
         setCourses(auth.enrolledCourses.filter((course) => {
-            const title_course = course.title.toLowerCase();
+            const title_course = course.course.title.toLowerCase();
             const search_params = e.target.value.toLowerCase();
             return title_course.includes(search_params);
         }));
@@ -45,13 +45,13 @@ const EnrolledCourses = () => {
                     <div>
                         <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
                             {courses.map((course) => (
-                                <Suspense key={course.slug} fallback={
-                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                <Suspense key={course.course.slug} fallback={
+                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
                                         <div className='skeleton-card loading' style={{ height: 300 }}></div>
                                     </Col>}>
-                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                        <Link to={`/classroom/${course.slug}`}>
-                                            <Thumbnails course={course} />
+                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                        <Link to={`/classroom/${course.course.slug}`}>
+                                            <Thumbnails course={course.course} />
                                         </Link>
                                     </Col>
                                 </Suspense>

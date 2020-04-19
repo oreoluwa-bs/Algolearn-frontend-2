@@ -72,9 +72,28 @@ class CourseContextProvider extends Component {
 
 
     // ENROLLMENT
+    // handleEnrollInCourse = async (id) => {
+    //     try {
+    //         const res = await instance.patch(`/courses/enroll/${id}`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+    //         this.feedback({ status: 'success', message: 'Your have enrolled in this course' });
+    //         return res.data;
+    //     } catch (error) {
+    //         const { status, message } = error.response.data;
+    //         this.feedback({ status, message });
+    //     }
+    // }
+    // handleUnEnrollInCourse = async (id) => {
+    //     try {
+    //         await instance.delete(`/courses/enroll/${id}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+    //         this.feedback({ status: 'success', message: 'Your have unenrolled from this course' });
+    //     } catch (error) {
+    //         const { status, message } = error.response.data;
+    //         this.feedback({ status, message });
+    //     }
+    // }
     handleEnrollInCourse = async (id) => {
         try {
-            const res = await instance.patch(`/courses/enroll/${id}`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.post(`/courses/${id}/enrolls/`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             this.feedback({ status: 'success', message: 'Your have enrolled in this course' });
             return res.data;
         } catch (error) {
@@ -84,7 +103,7 @@ class CourseContextProvider extends Component {
     }
     handleUnEnrollInCourse = async (id) => {
         try {
-            await instance.delete(`/courses/enroll/${id}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            await instance.delete(`/courses/${id}/enrolls/`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             this.feedback({ status: 'success', message: 'Your have unenrolled from this course' });
         } catch (error) {
             const { status, message } = error.response.data;
