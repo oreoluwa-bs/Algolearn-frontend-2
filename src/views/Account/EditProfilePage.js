@@ -20,7 +20,7 @@ const EditProfilePage = (props) => {
     if (!auth) return <Redirect to='/dashboard' />
     return (
         <Layout>
-            <PageHeader title={null} subTitle='Edit your profile' />
+            <PageHeader title={null} subTitle='Edit profile' />
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 <Form name='edit-profile' initialValues={{ ...auth }} hideRequiredMark size='large' layout='vertical' onFinish={onFinishEditProfile}>
                     <Row gutter={{ md: 24 }}>
@@ -73,7 +73,7 @@ const EditProfilePage = (props) => {
                 <div><br /><Divider /></div>
             </div>
 
-            <PageHeader title={null} subTitle='Change your password' />
+            <PageHeader title={null} subTitle='Change password' />
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 <Form name='change-password' hideRequiredMark size='large' layout='vertical' onFinish={onFinishChangePassword}>
                     <Row gutter={{ md: 24 }}>
