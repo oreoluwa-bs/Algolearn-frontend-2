@@ -34,7 +34,7 @@ const Inlinks = (props) => {
                         <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: 'orange' }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                     </span>
                 }>
-                    <Menu.Item key='manageaccount'>Manage your account<Link to='/account' /></Menu.Item>
+                    <Menu.Item key='manageaccount'>Manage my account<Link to='/account' /></Menu.Item>
                     <Menu.Item key='logout'>
                         <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>
                     </Menu.Item>
