@@ -37,4 +37,13 @@ export const NameRules = (inputname) => (
     ]
 );
 
+export const ConfirmPasswordRules = (getFieldValue) => ({
+    validator(rule, value) {
+        if (!value || getFieldValue('password') === value) {
+            return Promise.resolve();
+        }
+        return Promise.reject('The two passwords that you entered do not match!');
+    },
+});
+
 // /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

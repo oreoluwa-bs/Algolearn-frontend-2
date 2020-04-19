@@ -28,7 +28,7 @@ const Inlinks = (props) => {
                     <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
                 </Menu.Item>
                 <span className='ant-divider' style={{ margin: '0 1em' }} />
-                <SubMenu popupClassName='nac' title={
+                <SubMenu title={
                     <span>
                         {/* <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: localStorage.getItem('avatarColor') }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar> */}
                         <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: 'orange' }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>

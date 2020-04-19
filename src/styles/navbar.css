@@ -23,10 +23,6 @@
     color: rgba(0, 0, 0, 0.65);
 } */
 
-.nac.ant-menu-submenu-popup > .ant-menu {
-  background-color: #001529;
-}
-
 @media screen and (max-width:768px) {
     .navbar--header .nav-links-right{
       display: none;

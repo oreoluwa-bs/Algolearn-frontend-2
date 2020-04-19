@@ -170,7 +170,7 @@ const CourseDetails = (props) => {
                     </div>
                 </Content>
                 {
-                    course.reviews &&
+                    course.reviews && course.reviews.length > 0 &&
                     <div style={{ backgroundColor: '#FAFBFC' }}>
                         <Content className='course-details-container' style={{ backgroundColor: 'inherit' }}>
                             <div style={{ paddingTop: 64, paddingBottom: 40 }}>
