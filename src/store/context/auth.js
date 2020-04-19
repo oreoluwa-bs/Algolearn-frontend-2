@@ -123,8 +123,9 @@ class AuthContextProvider extends Component {
         const { password, passwordConfirm } = credentials;
         try {
             const res = await instance.patch(`/users/updateMyPassword`, { password, passwordConfirm }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
-            const { data } = res.data;
+            const { data, token } = res.data;
             this.feedback({ status: 'success', message: `Password has been updated!` });
+            this.setAuthToken(token);
             return data.data;
         } catch (error) {
             const { status, message } = error.response.data;
