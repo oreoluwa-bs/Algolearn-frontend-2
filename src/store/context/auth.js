@@ -92,6 +92,49 @@ class AuthContextProvider extends Component {
         }
     }
 
+    handleUpdateMe = async (credentials) => {
+        const { firstname, lastname, role, email } = credentials;
+        try {
+            const res = await instance.patch(`/users/me`, { firstname, lastname, role, email }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const { data } = res.data;
+            this.handleGetMe();
+            this.feedback({ status: 'success', message: `Profile has been updated!` });
+            return data.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+    handleDeleteMe = async () => {
+        try {
+            const res = await instance.delete(`/users/me`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const { data } = res.data;
+            this.handleLogout();
+            this.feedback({ status: 'success', message: `Profile has been deleted!` });
+            return data.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+    handleUpdatePassword = async (credentials) => {
+        const { password, passwordConfirm } = credentials;
+        try {
+            const res = await instance.patch(`/users/updateMyPassword`, { password, passwordConfirm }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const { data } = res.data;
+            this.feedback({ status: 'success', message: `Password has been updated!` });
+            return data.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+
+
+
     feedback = (response) => {
         if (response.status === 'success') {
             message.success(response.message);
@@ -113,6 +156,9 @@ class AuthContextProvider extends Component {
                 handleSignUp: this.handleSignUp,
 
                 handleGetMe: this.handleGetMe,
+                handleUpdateMe: this.handleUpdateMe,
+                handleUpdatePassword: this.handleUpdatePassword,
+                handleDeleteMe: this.handleDeleteMe,
             }}>
                 {this.props.children}
             </AuthContext.Provider>

@@ -1,30 +1,20 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Layout, Input, Button, Form, PageHeader, Select, Row, Col, Divider } from 'antd';
-import { BookOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../store/context/auth';
-import { CourseContext } from '../../store/context/course';
 import { PasswordRules, EmailRules, NameRules, ConfirmPasswordRules } from '../../components/Auth/AuthRules';
 const { Option } = Select;
 
 const EditProfilePage = (props) => {
-    const { auth, handleGetMe } = useContext(AuthContext);
-    const { handle } = useContext(CourseContext);
-
-    // useEffect(() => {
-    //     const init = async () => {
-    //         await handleGetMe();
-    //     }
-    //     init();
-    // }, [handleGetMe]);
+    const { auth, handleUpdateMe, handleUpdatePassword } = useContext(AuthContext);
 
     const onFinishChangePassword = async (values) => {
-        // const res = await handleCreateCourse(values);
+        await handleUpdatePassword(values);
     };
 
     const onFinishEditProfile = async (values) => {
-        // const res = await handleCreateCourse(values);
-        // await handleGetMe();
+        await handleUpdateMe(values);
     };
 
     if (!auth) return <Redirect to='/dashboard' />
@@ -99,7 +89,7 @@ const EditProfilePage = (props) => {
                         </Col>
                         <Col xs={24} md={12}>
                             <Form.Item
-                                label='Confirm Password:' name='confirmpassword'
+                                label='Confirm Password:' name='passwordConfirm'
                                 rules={[...PasswordRules, ({ getFieldValue }) => ConfirmPasswordRules(getFieldValue),]}>
                                 <Input.Password
                                     prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}

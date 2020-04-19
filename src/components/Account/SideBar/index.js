@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
-import { BookOutlined, FolderAddOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../../store/context/auth';
+// import { AuthContext } from '../../../store/context/auth';
 
 const { Sider } = Layout;
 
 const SideBar = ({ currentMatch }) => {
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
