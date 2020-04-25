@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Collapse, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { CreateLessonPage, EditLessonPage, CreateTestPage, EditTestPage } from '..';
+import { EditLessonPage, CreateTestPage, EditTestPage } from '..';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
@@ -16,7 +16,6 @@ const ManageCoursePage = (props) => {
     const { handleDeleteLesson } = useContext(LessonContext);
 
     const [course, setCourse] = useState({});
-    const [lessonCreateModalVisible, setLessonCreateModal] = useState(false);
     const [lessonEditModalVisible, setLessonEditModal] = useState(false);
     const [testCreateModalVisible, setTestCreateModal] = useState(false);
     const [testEditModalVisible, setTestEditModal] = useState(false);
@@ -91,7 +90,7 @@ const ManageCoursePage = (props) => {
                     </div>
                     <div>
                         <Collapse accordion className='site-collapse-custom-collapse' bordered={true} defaultActiveKey={['lessons']}>
-                            <Panel header='Lessons' key='lessons' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setLessonCreateModal(true) }}>Add Lesson</Button>}>
+                            <Panel header='Lessons' key='lessons' className='site-collapse-custom-panel' extra={<Button onClick={() => props.history.push(`/dashboard/${course.slug}/lesson/create`)}>Add Lesson</Button>}>
                                 <Table size='small' rowKey={(record) => record._id} tableLayout='fixed' pagination={false} dataSource={course.lessons} columns={[
                                     {
                                         title: 'Title',
@@ -175,12 +174,6 @@ const ManageCoursePage = (props) => {
                                     columns={[{ title: 'Review', dataIndex: 'review', key: 'review', }]} />
                             </Panel>
                         </Collapse>
-
-                        {/* Modals Create */}
-                        <Modal title='Create lesson' visible={lessonCreateModalVisible} footer={null} width='75vw'
-                            onOk={() => setLessonCreateModal(false)} onCancel={() => { setLessonCreateModal(false) }}>
-                            <CreateLessonPage course={course} close={() => { setLessonCreateModal(false) }} getCourse={getCourse} />
-                        </Modal>
 
                         {/* Modals Edit */}
                         <Modal title='Edit lesson' visible={lessonEditModalVisible} footer={null} width='75vw'
