@@ -9,3 +9,7 @@ export { default as ManageCoursePage } from './Course/ManageCoursePage';
 
 export { default as CreateLessonPage } from './Lesson/CreateLessonPage';
 export { default as EditLessonPage } from './Lesson/EditLessonPage';
+
+
+export { default as CreateTestPage } from './Tests/CreateTestPage';
+export { default as EditTestPage } from './Tests/EditTestPage';

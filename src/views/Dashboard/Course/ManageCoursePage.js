@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Collapse, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { CreateLessonPage, EditLessonPage } from '..';
+import { CreateLessonPage, EditLessonPage, CreateTestPage, EditTestPage } from '..';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
@@ -18,9 +18,11 @@ const ManageCoursePage = (props) => {
     const [course, setCourse] = useState({});
     const [lessonCreateModalVisible, setLessonCreateModal] = useState(false);
     const [lessonEditModalVisible, setLessonEditModal] = useState(false);
-    const [testModalVisible, setTestModal] = useState(false);
+    const [testCreateModalVisible, setTestCreateModal] = useState(false);
+    const [testEditModalVisible, setTestEditModal] = useState(false);
     const [tagColor, setTagColor] = useState('#2db7f5');
     const [lessonIndex, setLessonIndex] = useState();
+    const [testIndex, setTestIndex] = useState();
 
 
     const getCourse = async (slug) => {
@@ -128,7 +130,7 @@ const ManageCoursePage = (props) => {
                                     },
                                 ]} />
                             </Panel>
-                            <Panel header='Final test' key='test' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setTestModal(true); }}>Add Question</Button>}>
+                            <Panel header='Final test' key='test' className='site-collapse-custom-panel' extra={<Button onClick={event => { event.stopPropagation(); setTestCreateModal(true); }}>Add Question</Button>}>
                                 <Table tableLayout='fixed' dataSource={course.test} pagination={false} columns={[
                                     {
                                         title: 'Question',
@@ -138,7 +140,7 @@ const ManageCoursePage = (props) => {
                                     {
                                         title: 'Action',
                                         key: 'action',
-                                        render: (lesson) => (
+                                        render: (question) => (
                                             <span>
                                                 <Tooltip title='Delete this question' key='del-button'>
                                                     <Popconfirm
@@ -154,9 +156,11 @@ const ManageCoursePage = (props) => {
                                                     </Popconfirm>
                                                 </Tooltip>
                                                 <Divider type='vertical' />
-                                                <Tooltip title='Edit this lesson' key='edit-button'>
+                                                <Tooltip title='Edit this question' key='edit-button'>
                                                     <Button type='primary' onClick={() => {
-                                                        // props.history.push(`/${course._id}/${lesson.key}/lesson/edit`);
+                                                        const tempIndex = course.test.findIndex((re) => re._id === question._id)
+                                                        setTestIndex(tempIndex);
+                                                        setTestEditModal(true);
                                                     }} >Edit</Button>
                                                 </Tooltip>
                                             </span>
@@ -184,11 +188,14 @@ const ManageCoursePage = (props) => {
                             <EditLessonPage lesson={course.lessons[lessonIndex]} course={course} close={() => { setLessonEditModal(false) }} getCourse={getCourse} />
                         </Modal>
 
-                        <Modal title='Create Test' visible={testModalVisible} footer={null}
-                            onOk={() => { setTestModal(false) }} onCancel={() => { setTestModal(false) }}>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
+                        <Modal title='Create Test' visible={testCreateModalVisible} footer={null} width='75vw'
+                            onOk={() => { setTestCreateModal(false) }} onCancel={() => { setTestCreateModal(false) }}>
+                            <CreateTestPage course={course} close={() => { setTestCreateModal(false) }} getCourse={getCourse} />
+                        </Modal>
+
+                        <Modal title='Edit Test' visible={testEditModalVisible} footer={null} width='75vw'
+                            onOk={() => { setTestEditModal(false) }} onCancel={() => { setTestEditModal(false) }}>
+                            <EditTestPage course={course} test={course.test ? course.test[testIndex] : {}} close={() => { setTestEditModal(false) }} getCourse={getCourse} />
                         </Modal>
                     </div>
                 </div>
