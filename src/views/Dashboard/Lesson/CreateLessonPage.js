@@ -5,6 +5,7 @@ import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormR
 import { LessonContext } from '../../../store/context/lesson';
 import { CourseContext } from '../../../store/context/course';
 import { AuthContext } from '../../../store/context/auth';
+import { Redirect } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -90,6 +91,9 @@ const CreateLessonPage = (props) => {
             <div className="ant-upload-text">Upload</div>
         </div>
     );
+
+    if (!auth) return <Redirect to='/dashboard' />
+    if (auth?.role === 'student') return <Redirect to='/dashboard' />
 
     return (
         <Layout>
