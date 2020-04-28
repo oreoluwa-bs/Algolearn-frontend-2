@@ -1,7 +1,7 @@
 export { default as AccountPage } from './AccountPage';
 export { default as EditProfilePage } from './EditProfilePage';
 
-// export { default as EnrolledCourses } from './EnrolledCourses';
+export { default as EnrolledCourses } from './EnrolledCourses';
 // export { default as CreatedCourses } from './CreatedCourses';
 
 // export { default as EditCoursePage } from './Course/EditCoursePage';
