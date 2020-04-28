@@ -1,8 +1,10 @@
 .dash .ant-layout-sider-trigger {
-    position: static;
+  position: static;
 }
 
-[data-theme='compact'] .site-collapse-custom-collapse .site-collapse-custom-panel,
+[data-theme="compact"]
+  .site-collapse-custom-collapse
+  .site-collapse-custom-panel,
 .site-collapse-custom-collapse .site-collapse-custom-panel {
   background: #fff;
   border-radius: 2px;
