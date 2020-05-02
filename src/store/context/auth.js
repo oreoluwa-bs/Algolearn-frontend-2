@@ -43,40 +43,32 @@ class AuthContextProvider extends Component {
 
     handleLogin = async (credentials) => {
         const { email, password } = credentials;
-        let authToken;
         try {
             const res = await instance.post(`/users/login`, { email, password });
             const { data, token } = res.data;
-            authToken = token;
-            // this.setState({ auth: data.user });
-            this.setAuthToken(authToken);
-            // localStorage.setItem('auth', JSON.stringify(data.user));
-            this.handleGetMe();
+            this.setAuthToken(token);
+            this.setState({ auth: data.user });
+            localStorage.setItem('auth', JSON.stringify(data.user));
             this.feedback({ status: 'success', message: `Hello, ${data.user.firstname}!` });
         } catch (error) {
             const { status, message } = error.response.data;
             this.feedback({ status, message });
         }
-        // this.setAuthToken(authToken);
     }
 
     handleSignUp = async (credentials) => {
         const { email, password, firstname, lastname, role } = credentials;
-        let authToken;
         try {
             const res = await instance.post(`/users/signup`, { email, password, firstname, lastname, role });
             const { data, token } = res.data;
-            authToken = token;
-            // this.setState({ auth: data.user });
-            this.setAuthToken(authToken);
-            // localStorage.setItem('auth', JSON.stringify(data.user));
-            this.handleGetMe();
+            this.setAuthToken(token);
+            this.setState({ auth: data.user });
+            localStorage.setItem('auth', JSON.stringify(data.user));
             this.feedback({ status: 'success', message: `Hello, ${data.user.firstname}!` });
         } catch (error) {
             const { status, message } = error.response.data;
             this.feedback({ status, message });
         }
-        // this.setAuthToken(authToken);
     }
 
     handleGetMe = async () => {

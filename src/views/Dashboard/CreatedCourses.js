@@ -1,7 +1,8 @@
-import React, { lazy, Suspense, useContext, useState } from 'react';
+import React, { lazy, Suspense, useContext, useState, useEffect } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../store/context/auth';
+import { CourseContext } from '../../store/context/course';
 
 const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
 
@@ -9,11 +10,22 @@ const { Search } = Input;
 
 const CreatedCourses = () => {
     const { auth } = useContext(AuthContext);
-    const [courses, setCourses] = useState(auth.createdCourses);
+    const { getAllCourses } = useContext(CourseContext);
+    const [orgCourses, setOrgCourses] = useState([]);
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const handleInit = async () => {
+            const res = await getAllCourses(`?author=${auth._id}`);
+            setOrgCourses(res.data.doc);
+            setCourses(res.data.doc);
+        }
+        handleInit();
+    }, [getAllCourses,auth]);
 
     const handleSearch = (e) => {
-        setCourses(auth.createdCourses.filter((course) => {
-            const title_course = course.title.toLowerCase();
+        setCourses(orgCourses.filter((course) => {
+            const title_course = course.course.title.toLowerCase();
             const search_params = e.target.value.toLowerCase();
             return title_course.includes(search_params);
         }));

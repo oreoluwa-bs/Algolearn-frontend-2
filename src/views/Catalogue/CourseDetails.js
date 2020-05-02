@@ -4,6 +4,7 @@ import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avata
 import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../store/context/auth';
 import { CourseContext } from '../../store/context/course';
+import { EnrollmentContext } from '../../store/context/enroll';
 
 const { Paragraph, Text, Title } = Typography;
 const { Content } = Layout;
@@ -11,9 +12,22 @@ const { Content } = Layout;
 
 const CourseDetails = (props) => {
     const { auth, handleGetMe } = useContext(AuthContext);
-    const { handleEnrollInCourse, handleGetCourse } = useContext(CourseContext);
+    const { handleGetCourse } = useContext(CourseContext);
+    const { handleEnrollInCourse, handleGetEnrolledInCourse } = useContext(EnrollmentContext);
     const [course, setCourse] = useState({});
     const [isEnrolled, setIsEnrolled] = useState(false);
+
+    const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
+    const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
+
+    const handleCourseEnrollment = async () => {
+        const res = await handleEnrollInCourse(course._id);
+        // console.log(res);
+        await handleGetMe();
+        if (res?.status === 'success') {
+            props.history.push(`/dashboard`);
+        }
+    };
 
     useEffect(() => {
         const handleInit = async (slug) => {
@@ -28,24 +42,16 @@ const CourseDetails = (props) => {
         handleInit(props.match.params.slug);
     }, [props.match.params.slug, props.history, handleGetCourse]);
 
-    const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
-
-    const handleCourseEnrollment = async () => {
-        const res = await handleEnrollInCourse(course._id);
-        // console.log(res);
-        await handleGetMe();
-        if (res.status === 'success') {
-            props.history.push(`/dashboard`);
-        }
-    };
     useEffect(() => {
-        if (auth) {
-            const found = auth.enrolledCourses.findIndex((el) => el.course._id === course._id);
-            found >= 0 ? setIsEnrolled(true) : setIsEnrolled(false);
+        const checkIfEnrolled = async () => {
+            const res = await handleGetEnrolledInCourse(course._id, `/?user=${auth?._id}`);
+            res.results > 0 ? setIsEnrolled(true) : setIsEnrolled(false);
         }
-    }, [auth, course])
+        if (auth && course?._id) {
+            checkIfEnrolled();
+        }
 
-    const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
+    }, [auth, course, handleGetEnrolledInCourse])
 
     return (
         <div>

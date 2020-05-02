@@ -30,7 +30,7 @@ const InDrawer = (props) => {
                     <Menu.Item key='manageaccount'>
                         <UserOutlined />
                         <span>Manage my account</span>
-                        <Link to='/account' />
+                        <Link to='/account/' />
                     </Menu.Item>
                     <Menu.Item key='logout'>
                         <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>

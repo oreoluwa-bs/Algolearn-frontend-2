@@ -13,9 +13,9 @@ class CourseContextProvider extends Component {
         }
     }
 
-    getAllCourses = async () => {
+    getAllCourses = async (params) => {
         try {
-            const res = await instance.get(`/courses`);
+            const res = await instance.get(`/courses${params ? params : '/'}`);
             // const { data } = res.data;
             // this.setState({ courses: data.doc });
             return res.data;
@@ -91,25 +91,6 @@ class CourseContextProvider extends Component {
     //         this.feedback({ status, message });
     //     }
     // }
-    handleEnrollInCourse = async (id) => {
-        try {
-            const res = await instance.post(`/courses/${id}/enrolls/`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
-            this.feedback({ status: 'success', message: 'Your have enrolled in this course' });
-            return res.data;
-        } catch (error) {
-            const { status, message } = error.response.data;
-            this.feedback({ status, message });
-        }
-    }
-    handleUnEnrollInCourse = async (id) => {
-        try {
-            await instance.delete(`/courses/${id}/enrolls/`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
-            this.feedback({ status: 'success', message: 'Your have unenrolled from this course' });
-        } catch (error) {
-            const { status, message } = error.response.data;
-            this.feedback({ status, message });
-        }
-    }
 
     feedback = (response) => {
         if (response.status === 'success') {
@@ -133,10 +114,6 @@ class CourseContextProvider extends Component {
                 handleCreateCourse: this.handleCreateCourse,
                 handleEditCourse: this.handleEditCourse,
                 handleDeleteCourse: this.handleDeleteCourse,
-
-                // ENROLLMENT
-                handleEnrollInCourse: this.handleEnrollInCourse,
-                handleUnEnrollInCourse: this.handleUnEnrollInCourse,
             }}>
                 {this.props.children}
             </CourseContext.Provider>
