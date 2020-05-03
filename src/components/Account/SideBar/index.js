@@ -9,7 +9,7 @@ const SideBar = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
-            <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[props.location.pathname.split('/account')[1]]}>
+            <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[props.location.pathname.split(props.currentMatch.path)[1]]}>
                 <Menu.Item key='/'>
                     <UserOutlined />
                     <span>Edit Profile</span>
