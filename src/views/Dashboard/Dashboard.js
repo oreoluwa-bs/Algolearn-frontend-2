@@ -3,7 +3,11 @@ import { Layout } from 'antd';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
 import { SideBar } from '../../components/Dashboard';
 import { AuthContext } from '../../store/context/auth';
-import { CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage, ManageCoursePage, CreateLessonPage } from '.';
+import {
+    CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage,
+    ManageCoursePage, CreateLessonPage, EditLessonPage, ManageLessonsPage,
+    CourseStatsPage
+} from '.';
 import '../../styles/dashboard.css'
 
 const { Content } = Layout;
@@ -26,8 +30,11 @@ const DashboardV1 = (props) => {
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
 
-                        <Route path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
-                        <Route path={`${currentMatch.path}/edit/:slug`} component={EditCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/edit/:slug`} component={EditCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/`} component={ManageLessonsPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/edit/:lessonSlug`} component={EditLessonPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={CourseStatsPage} />
 
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
                     </Switch>
@@ -63,8 +70,12 @@ const DashboardV2 = (props) => {
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
 
-                        <Route path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
-                        <Route path={`${currentMatch.path}/edit/:slug`} component={EditCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/edit/:slug`} component={EditCoursePage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/`} component={ManageLessonsPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/edit/:lessonSlug`} component={EditLessonPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={ManageCoursePage} />
+
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
                     </Switch>
                 </Content>

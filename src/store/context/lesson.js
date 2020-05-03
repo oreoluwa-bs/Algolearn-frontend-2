@@ -24,6 +24,16 @@ class LessonContextProvider extends Component {
     // }
 
     // CRUD COURSE
+    handleGetCourseLessons = async (courseId, params) => {
+        try {
+            const res = await instance.get(`/courses/${courseId}/lessons${params ? params : '/'}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            return res.data.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
     handleGetLesson = async ({ courseId, lessonId }) => {
         try {
             const res = await instance.get(`/courses/${courseId}/lessons/${lessonId}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
@@ -87,6 +97,7 @@ class LessonContextProvider extends Component {
 
                 // CRUD LESSON
                 // getAllCourses: this.getAllCourses,
+                handleGetCourseLessons: this.handleGetCourseLessons,
                 handleGetLesson: this.handleGetLesson,
                 handleCreateLesson: this.handleCreateLesson,
                 handleEditLesson: this.handleEditLesson,

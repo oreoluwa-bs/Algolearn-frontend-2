@@ -5,10 +5,12 @@ export { default as CreatedCourses } from './CreatedCourses';
 export { default as CreateCoursePage } from './Course/CreateCoursePage';
 export { default as EditCoursePage } from './Course/EditCoursePage';
 export { default as ManageCoursePage } from './Course/ManageCoursePage';
+export { default as CourseStatsPage } from './Course/CourseStatsPage';
 
 
 export { default as CreateLessonPage } from './Lesson/CreateLessonPage';
 export { default as EditLessonPage } from './Lesson/EditLessonPage';
+export { default as ManageLessonsPage } from './Lesson/ManageLessonsPage';
 
 
 export { default as CreateTestPage } from './Tests/CreateTestPage';

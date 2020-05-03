@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Layout, Input, Button, Form, Tooltip, Upload, message, PageHeader } from 'antd';
 import { BookOutlined, QuestionCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../store/context/lesson';
-import { CourseContext } from '../../../store/context/course';
 import { AuthContext } from '../../../store/context/auth';
 import { Redirect } from 'react-router-dom';
 
@@ -11,41 +10,18 @@ const { TextArea } = Input;
 
 const CreateLessonPage = (props) => {
     const { handleCreateLesson } = useContext(LessonContext);
-    const { handleGetCourse } = useContext(CourseContext);
     const { auth } = useContext(AuthContext);
-    const [course, setCourse] = useState({});
-
     const [imageUrl, setImageUrl] = useState();
     const [loading, setLoading] = useState(false);
     const [forml] = Form.useForm();
-
-
-    // const getCourse = async (slug) => {
-    //     const res = await handleGetCourse(slug);
-    //     setCourse(res.data);
-    //     if (res.status === 'error') {
-    //         props.history.push('error-404');
-    //     };
-    // };
-
-    useEffect(() => {
-        const handleInit = async (slug) => {
-            const res = await handleGetCourse(slug);
-            setCourse(res.data);
-            if (res.status === 'error') {
-                props.history.push('error-404');
-            };
-        }
-
-        handleInit(props.match.params.slug);
-    }, [props.match.params.slug, props.history, handleGetCourse]);
+    const { course } = props.location.state;
 
     const onFinish = async (values) => {
         values.video = !values.video ? null : values.video;
         const res = await handleCreateLesson(course._id, values);
         if (res.status === 'success') {
             forml.resetFields();
-            props.history.push(`/dashboard/manage/${course.slug}`);
+            props.history.push(`/dashboard/manage/${course.slug}/lesson/`);
         }
     };
 
