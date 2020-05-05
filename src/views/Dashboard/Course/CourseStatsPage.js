@@ -1,21 +1,31 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Collapse, Table, } from 'antd';
 // import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
-// import { CourseContext } from '../../../store/context/course';
+import { CourseContext } from '../../../store/context/course';
 
 const { Panel } = Collapse;
 
 const CourseStatsPage = (props) => {
     const { auth } = useContext(AuthContext);
-    // const {  } = useContext(CourseContext);
-    const { course } = props.location.state;
+    const { handleGetCourse } = useContext(CourseContext);
+    const [course, setCourse] = useState({});
 
     useEffect(() => {
-
-    }, []);
-
+        if (props?.location?.state) {
+            setCourse(props.location.state.course);
+        } else {
+            const alt = async () => {
+                const res = await handleGetCourse(props.match.params.slug);
+                setCourse(res.data);
+                if (res?.status === 'error') {
+                    props.history.push(`/dashboard/manage/${props.match.params.slug}`)
+                }
+            }
+            alt();
+        }
+    }, [handleGetCourse, props]);
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role === 'student') return <Redirect to='/dashboard' />

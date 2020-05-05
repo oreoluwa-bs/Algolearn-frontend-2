@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Button, Collapse, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
 import { CreateTestPage, EditTestPage } from '..';
 import { AuthContext } from '../../../store/context/auth';
+import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
 
 const { Panel } = Collapse;
@@ -10,7 +11,8 @@ const { Panel } = Collapse;
 const ManageLessonsPage = (props) => {
     const { auth } = useContext(AuthContext);
     const { handleDeleteLesson, handleGetCourseLessons } = useContext(LessonContext);
-    const { course } = props.location.state;
+    const { handleGetCourse } = useContext(CourseContext);
+    const [course, setCourse] = useState({});
     const [lessons, setLessons] = useState([]);
 
     const [testCreateModalVisible, setTestCreateModal] = useState(false);
@@ -32,6 +34,21 @@ const ManageLessonsPage = (props) => {
             handleInit(course._id);
         }
     }, [course, course._id, handleGetCourseLessons]);
+
+    useEffect(() => {
+        if (props?.location?.state) {
+            setCourse(props.location.state.course);
+        } else {
+            const alt = async () => {
+                const res = await handleGetCourse(props.match.params.slug);
+                setCourse(res.data);
+                if (res?.status === 'error') {
+                    props.history.push(`/dashboard/manage/${props.match.params.slug}`)
+                }
+            }
+            alt();
+        }
+    }, [handleGetCourse, props]);
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role === 'student') return <Redirect to='/dashboard' />

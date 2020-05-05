@@ -1,20 +1,37 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Layout, Input, Button, Form, Tooltip, Upload, message, PageHeader } from 'antd';
 import { BookOutlined, QuestionCircleOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../store/context/lesson';
 import { AuthContext } from '../../../store/context/auth';
-import { Redirect } from 'react-router-dom';
+import { CourseContext } from '../../../store/context/course';
 
 const { TextArea } = Input;
 
 const CreateLessonPage = (props) => {
     const { handleCreateLesson } = useContext(LessonContext);
+    const { handleGetCourse } = useContext(CourseContext);
     const { auth } = useContext(AuthContext);
     const [imageUrl, setImageUrl] = useState();
     const [loading, setLoading] = useState(false);
     const [forml] = Form.useForm();
-    const { course } = props.location.state;
+    const [course, setCourse] = useState({});
+
+    useEffect(() => {
+        if (props?.location?.state) {
+            setCourse(props.location.state.course);
+        } else {
+            const alt = async () => {
+                const res = await handleGetCourse(props.match.params.slug);
+                setCourse(res.data);
+                if (res?.status === 'error') {
+                    props.history.push(`/dashboard/manage/${props.match.params.slug}`)
+                }
+            }
+            alt();
+        }
+    }, [handleGetCourse, props]);
 
     const onFinish = async (values) => {
         values.video = !values.video ? null : values.video;

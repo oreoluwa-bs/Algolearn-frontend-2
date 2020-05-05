@@ -18,7 +18,7 @@ const ManageCoursePage = (props) => {
             const res = await handleGetCourse(slug);
             setCourse(res.data);
             if (res.status === 'error') {
-                props.history.push('error-404');
+                props.history.push('/dashboard/pageNotFound');
             };
         }
         handleInit(props.match.params.slug);
