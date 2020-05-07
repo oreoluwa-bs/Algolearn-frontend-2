@@ -6,6 +6,7 @@ export { default as CreateCoursePage } from './Course/CreateCoursePage';
 export { default as EditCoursePage } from './Course/EditCoursePage';
 export { default as ManageCoursePage } from './Course/ManageCoursePage';
 export { default as CourseStatsPage } from './Course/CourseStatsPage';
+export { default as ManageCourseContent } from './Course/ManageCourseContent';
 
 
 export { default as CreateLessonPage } from './Lesson/CreateLessonPage';
@@ -15,3 +16,4 @@ export { default as ManageLessonsPage } from './Lesson/ManageLessonsPage';
 
 export { default as CreateTestPage } from './Tests/CreateTestPage';
 export { default as EditTestPage } from './Tests/EditTestPage';
+export { default as ManageTestPage } from './Tests/ManageTestPage';

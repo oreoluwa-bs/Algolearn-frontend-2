@@ -28,7 +28,6 @@ const EditLessonPage = (props) => {
         }
     }, [props]);
 
-    console.log(lesson);
     return (
         <Layout>
             <PageHeader onBack={() => { props.history.goBack() }} title='Edit lesson' />

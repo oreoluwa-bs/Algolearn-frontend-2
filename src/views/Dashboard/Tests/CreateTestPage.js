@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Layout, Input, Button, Form, Tooltip, Table, Popconfirm, Modal, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { AddOptionPage } from '../../../components/Dashboard';
 import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
+import { QuestionsContext } from '../../../store/context/questions';
 
 const { TextArea } = Input;
 
 const CreateTestPage = (props) => {
+    const { handleCreateTestQuestion } = useContext(QuestionsContext);
     const [questionOptions, setQuestionOptions] = useState([]);
     const [correctOption, setCorrectOption] = useState();
     const [optionModalVisible, setOptionModal] = useState(false);
+
     const [forml] = Form.useForm();
 
 
@@ -17,18 +20,23 @@ const CreateTestPage = (props) => {
         if (correctOption) {
             values.correctOption = correctOption;
             values.options = questionOptions;
-            console.log(values);
+            // console.log(values.question);
+            await handleCreateTestQuestion(props.course._id, values);
+            forml.resetFields();
+            setCorrectOption();
+            setQuestionOptions([]);
+            await props.getTests(props.course._id);
+            props.close();
         } else {
             message.error('Please select a correct option');
         }
     };
 
-
     return (
         <Layout>
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 <Form form={forml} name='create-test' initialValues={{}} hideRequiredMark layout='vertical' onFinish={onFinish}>
-                    <Form.Item name='text' rules={[...TextInputRules('Test question')]} label={
+                    <Form.Item name='question' rules={[...TextInputRules('Test question')]} label={
                         <span>Question:&nbsp;
                         <Tooltip title={
                                 <span>For more customization write in markdown.

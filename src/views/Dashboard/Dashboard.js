@@ -5,8 +5,8 @@ import { SideBar } from '../../components/Dashboard';
 import { AuthContext } from '../../store/context/auth';
 import {
     CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage,
-    ManageCoursePage, CreateLessonPage, EditLessonPage, ManageLessonsPage,
-    CourseStatsPage
+    ManageCoursePage, CreateLessonPage, EditLessonPage,
+    CourseStatsPage, ManageCourseContent
 } from '.';
 import '../../styles/dashboard.css'
 
@@ -32,7 +32,7 @@ const DashboardV1 = (props) => {
 
                         <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
                         <Route exact path={`${currentMatch.path}/manage/edit/:slug`} component={EditCoursePage} />
-                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/`} component={ManageLessonsPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/content/`} component={ManageCourseContent} />
                         <Route exact path={`${currentMatch.path}/manage/:slug/lesson/edit/:lessonSlug`} component={EditLessonPage} />
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={CourseStatsPage} />
 
@@ -72,7 +72,7 @@ const DashboardV2 = (props) => {
 
                         <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
                         <Route exact path={`${currentMatch.path}/manage/edit/:slug`} component={EditCoursePage} />
-                        <Route exact path={`${currentMatch.path}/manage/:slug/lesson/`} component={ManageLessonsPage} />
+                        <Route exact path={`${currentMatch.path}/manage/:slug/content/`} component={ManageCourseContent} />
                         <Route exact path={`${currentMatch.path}/manage/:slug/lesson/edit/:lessonSlug`} component={EditLessonPage} />
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={ManageCoursePage} />
 

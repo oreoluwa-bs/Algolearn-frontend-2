@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Popconfirm } from 'antd';
-import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined } from '@ant-design/icons';
+import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Popconfirm, Tooltip } from 'antd';
+import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined, FolderOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 
@@ -47,31 +47,39 @@ const ManageCoursePage = (props) => {
                 <div>
                     <PageHeader title={course.title} tags={<Tag color={tagColor}>{course.difficulty}</Tag>}
                         extra={[
-                            <Popconfirm key='del-pop' title='Are you sure delete this course? This is irreversible'
-                                onCancel={null} okText='Yes' cancelText='No'
-                                onConfirm={() => { handleDeleteCourse(course._id) }}>
-                                <Button type='dashed' icon={<DeleteOutlined />} key='del'>Delete Course</Button>
-                            </Popconfirm>,
-                            <Button icon={<EyeOutlined />} onClick={() => { props.history.push(`/classroom/${course.slug}`) }} key='preview'>Preview Course</Button>,
-                            <Button type='primary' icon={<EditOutlined />} onClick={() => { props.history.push(`/dashboard/manage/edit/${course.slug}`) }} key='edit'>Edit Course</Button>,
-                            <Button onClick={() => {
-                                props.history.push({
-                                    pathname: `/dashboard/manage/${course.slug}/lesson/`,
-                                    state: {
-                                        course,
-                                    }
-                                })
-                            }} key='lessons'>
-                                Manage Lessons
-                            </Button>,
-                            <Button icon={<LineChartOutlined />} onClick={() => {
-                                props.history.push({
-                                    pathname: `/dashboard/manage/${course.slug}/stats/`,
-                                    state: {
-                                        course,
-                                    }
-                                })
-                            }} key='stats' />,
+                            <Tooltip key='del' title='Delete Course'>
+                                <Popconfirm key='del-pop' title='Are you sure delete this course? This is irreversible'
+                                    onCancel={null} okText='Yes' cancelText='No'
+                                    onConfirm={() => { handleDeleteCourse(course._id) }}>
+                                    <Button type='dashed' icon={<DeleteOutlined />} key='del' />
+                                </Popconfirm>
+                            </Tooltip>,
+                            <Tooltip key='preview' title='Preview Course'>
+                                <Button icon={<EyeOutlined />} onClick={() => { props.history.push(`/classroom/${course.slug}`) }} />
+                            </Tooltip>,
+                            <Tooltip key='stats ' title='Course Stats'>
+                                <Button icon={<LineChartOutlined />} onClick={() => {
+                                    props.history.push({
+                                        pathname: `/dashboard/manage/${course.slug}/stats/`,
+                                        state: {
+                                            course,
+                                        }
+                                    })
+                                }} key='stats' />,
+                                                 </Tooltip>,
+                            <Tooltip key='manage' title='Manage Course Content'>
+                                <Button icon={<FolderOutlined />} onClick={() => {
+                                    props.history.push({
+                                        pathname: `/dashboard/manage/${course.slug}/content/`,
+                                        state: {
+                                            course,
+                                        }
+                                    })
+                                }} key='lessons' />
+                            </Tooltip>,
+                            <Tooltip key='edit' title='Edit Course'>
+                                <Button type='primary' icon={<EditOutlined />} onClick={() => { props.history.push(`/dashboard/manage/edit/${course.slug}`) }} />
+                            </Tooltip>,
                         ]}>
                         <Descriptions size='small' column={8}>
                             <Descriptions.Item label='Creator'>{course.author.firstname} {course.author.lastname}</Descriptions.Item>
