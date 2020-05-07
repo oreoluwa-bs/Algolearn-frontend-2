@@ -44,12 +44,24 @@ class EnrollmentContextProvider extends Component {
     }
 
     // CRUD USER ENROLLMENT
-    handleGetMyEnrolled = async () => {
+    handleGetMyEnrolled = async (params) => {
         try {
-            const res = await instance.get(`/users/me/enrolls/`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.get(`/users/me/enrolls${params ? params : '/'}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             return res.data.data;
         } catch (error) {
             return error.response.data
+        }
+    }
+
+    handleEditUserCourseEnrollment = async (id, values) => {
+        const { title, text, video } = values;
+        try {
+            const res = await instance.patch(`/courses/${id}/enrolls/`, {}, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            console.log('Edited Enrollment');
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
         }
     }
 
@@ -57,19 +69,6 @@ class EnrollmentContextProvider extends Component {
         try {
             await instance.delete(`/users/me/enrolls/${id}/`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             this.feedback({ status: 'success', message: 'Your have unenrolled from this course' });
-        } catch (error) {
-            const { status, message } = error.response.data;
-            this.feedback({ status, message });
-        }
-    }
-
-
-    handleEditLesson = async ({ courseId, lessonId }, values) => {
-        const { title, text, video } = values;
-        try {
-            const res = await instance.patch(`/courses/${courseId}/lessons/${lessonId}`, { title, text, video }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
-            this.feedback({ status: 'success', message: 'Your lesson has been edited' });
-            return res.data;
         } catch (error) {
             const { status, message } = error.response.data;
             this.feedback({ status, message });
@@ -97,12 +96,11 @@ class EnrollmentContextProvider extends Component {
                 handleGetEnrolledInCourse: this.handleGetEnrolledInCourse,
                 handleGetMyEnrolled: this.handleGetMyEnrolled,
 
+                handleEditUserCourseEnrollment: this.handleEditUserCourseEnrollment,
+
                 // ENROLLMENT
                 handleEnrollInCourse: this.handleEnrollInCourse,
                 handleUnEnrollInCourse: this.handleUnEnrollInCourse,
-
-                handleEditLesson: this.handleEditLesson,
-                handleDeleteLesson: this.handleDeleteLesson,
 
             }}>
                 {this.props.children}

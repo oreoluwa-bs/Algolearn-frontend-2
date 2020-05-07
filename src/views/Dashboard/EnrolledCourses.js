@@ -59,10 +59,10 @@ const EnrolledCourses = () => {
                         <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
                             {courses?.map((course) => (
                                 <Suspense key={course.course.slug} fallback={
-                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
                                         <div className='skeleton-card loading' style={{ height: 300 }}></div>
                                     </Col>}>
-                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                    <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
                                         <Link to={`/classroom/${course.course.slug}`}>
                                             {/* <Thumbnails course={course.course} /> */}
                                             <Thumbnails courseData={course} hideDeleteButton />
