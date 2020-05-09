@@ -67,7 +67,7 @@ const EnrolledCourses = () => {
                                             to={{
                                                 pathname: `/classroom/${course.course.slug}`,
                                                 state: {
-                                                    course,
+                                                    course: course,
                                                 }
                                             }}>
                                             {/* <Thumbnails course={course.course} /> */}

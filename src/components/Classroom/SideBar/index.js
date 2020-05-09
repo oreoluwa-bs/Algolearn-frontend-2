@@ -33,7 +33,7 @@ const SideBar = (props) => {
                 {
                     lessons &&
                     lessons.map((lesson) => {
-                        const isEnrolled = [{ _id: '5e8cceb630733391a8f279d0', slug: 'ixiaiandai' }].findIndex((les) => les._id === lesson._id) !== -1;
+                        const isEnrolled = [{ _id: '5e8cceb630733391a8f279d0', slug: 'ixiaiandai' }]?.findIndex((les) => les._id === lesson._id) !== -1;
                         return (
                             <Menu.Item key={`/${lesson.slug}`}>
                                 {isEnrolled && <CheckOutlined style={{ color: green[5] }} />}

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Popconfirm, Tooltip } from 'antd';
-import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined, FolderOutlined } from '@ant-design/icons';
+import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Tooltip, Modal } from 'antd';
+import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined, FolderOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 
 const { Paragraph } = Typography;
+const { confirm } = Modal;
 
 const ManageCoursePage = (props) => {
     const { auth } = useContext(AuthContext);
@@ -36,6 +37,21 @@ const ManageCoursePage = (props) => {
         }
     }, [course]);
 
+    const showDeleteConfirm = () => {
+        confirm({
+            title: 'Are you sure delete this course?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'This is action irreversible',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                handleDeleteCourse(course._id);
+            },
+            onCancel() { },
+        });
+    }
+
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role === 'student') return <Redirect to='/dashboard' />
     if (auth && course && course.title && auth._id.toString() !== course.author._id.toString()) return <Redirect to='/dashboard' />
@@ -48,14 +64,23 @@ const ManageCoursePage = (props) => {
                     <PageHeader title={course.title} tags={<Tag color={tagColor}>{course.difficulty}</Tag>}
                         extra={[
                             <Tooltip key='del' title='Delete Course'>
-                                <Popconfirm key='del-pop' title='Are you sure delete this course? This is irreversible'
+                                {/* <Popconfirm key='del-pop' title='Are you sure delete this course? This is irreversible'
                                     onCancel={null} okText='Yes' cancelText='No'
                                     onConfirm={() => { handleDeleteCourse(course._id) }}>
                                     <Button type='dashed' icon={<DeleteOutlined />} key='del' />
-                                </Popconfirm>
+                                </Popconfirm> */}
+                                <Button onClick={showDeleteConfirm} type='dashed' icon={<DeleteOutlined />} key='del' />
+
                             </Tooltip>,
                             <Tooltip key='preview' title='Preview Course'>
-                                <Button icon={<EyeOutlined />} onClick={() => { props.history.push(`/classroom/${course.slug}`) }} />
+                                <Button icon={<EyeOutlined />} onClick={() => {
+                                    props.history.push({
+                                        pathname: `/classroom/${course.slug}`,
+                                        state: {
+                                            course: { course },
+                                        }
+                                    })
+                                }} />
                             </Tooltip>,
                             <Tooltip key='stats ' title='Course Stats'>
                                 <Button icon={<LineChartOutlined />} onClick={() => {

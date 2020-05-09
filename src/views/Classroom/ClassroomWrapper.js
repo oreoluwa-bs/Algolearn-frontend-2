@@ -20,26 +20,33 @@ const ClassroomWrapper = (props) => {
     const { handleGetCourse } = useContext(CourseContext);
     const { handleGetEnrolledInCourse } = useContext(EnrollmentContext);
 
-    const [course, setCourse] = useState({});
+    const [course, setCourse] = useState(null);
     let currentMatch = useRouteMatch();
 
     useEffect(() => {
-        if (props?.location?.state?.course) {
+        if (props.location.state?.course) {
             setCourse(props.location.state.course);
+            console.log('d');
         } else {
-            const alt = async () => {
-                const resCourse = await handleGetCourse(props.match.params.slug);
-                if (resCourse.data) {
-                    const res = await handleGetEnrolledInCourse(resCourse.data._id, `?user=${auth._id}`);
-                    setCourse(res.data.doc[0]);
-                    if (res?.status === 'error') {
-                        props.history.push(`/dashboard/enrolled-courses`);
+            if (!course) {
+                const alt = async () => {
+                    const resCourse = await handleGetCourse(props.match.params.slug);
+                    if (resCourse.data) {
+                        if (auth?.role === 'tutor') {
+                            setCourse({ course: resCourse.data })
+                        } else {
+                            const res = await handleGetEnrolledInCourse(resCourse.data._id, `?user=${auth?._id}`);
+                            setCourse(res.data.doc[0]);
+                            if (res?.status === 'error') {
+                                props.history.push(`/dashboard/enrolled-courses`);
+                            }
+                        }
                     }
                 }
+                alt();
             }
-            alt();
         }
-    }, [auth._id, handleGetCourse, handleGetEnrolledInCourse, props]);
+    }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course]);
 
     if (!auth) return <Redirect to='/dashboard' />
     return (

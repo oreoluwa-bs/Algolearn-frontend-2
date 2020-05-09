@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Layout, Input, Button, Form, PageHeader, Select, Row, Col, Divider } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Layout, Input, Button, Form, PageHeader, Select, Row, Col, Divider, Modal } from 'antd';
+import { UserOutlined, LockOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../store/context/auth';
 import { PasswordRules, EmailRules, NameRules, ConfirmPasswordRules } from '../../components/Auth/AuthRules';
 const { Option } = Select;
 
+const { confirm } = Modal;
+
 const EditProfilePage = (props) => {
-    const { auth, handleUpdateMe, handleUpdatePassword } = useContext(AuthContext);
+    const { auth, handleUpdateMe, handleUpdatePassword, handleDeleteMe } = useContext(AuthContext);
 
     const onFinishChangePassword = async (values) => {
         await handleUpdatePassword(values);
@@ -16,6 +18,21 @@ const EditProfilePage = (props) => {
     const onFinishEditProfile = async (values) => {
         await handleUpdateMe(values);
     };
+
+    const showDeleteConfirm = () => {
+        confirm({
+            title: 'Are you sure delete your account?',
+            icon: <ExclamationCircleOutlined />,
+            // content: 'Some descriptions',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                handleDeleteMe();
+            },
+            onCancel() { },
+        });
+    }
 
     if (!auth) return <Redirect to='/dashboard' />
     return (
@@ -65,7 +82,7 @@ const EditProfilePage = (props) => {
                         </Col>
                     </Row>
                     <Form.Item>
-                        <Button style={{ float: 'right' }} size='large' type='primary' htmlType='submit'>
+                        <Button style={{ float: 'right' }} type='primary' htmlType='submit'>
                             Update profile
                             </Button>
                     </Form.Item>
@@ -98,11 +115,18 @@ const EditProfilePage = (props) => {
                         </Col>
                     </Row>
                     <Form.Item>
-                        <Button style={{ float: 'right' }} size='large' type='primary' htmlType='submit'>
+                        <Button style={{ float: 'right' }} type='primary' htmlType='submit'>
                             Change password
                                 </Button>
                     </Form.Item>
                 </Form>
+                <div><br /><Divider /></div>
+            </div>
+            <PageHeader title={null} subTitle='Delete Account' />
+            <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
+                <Button size='large' onClick={showDeleteConfirm}>
+                    Delete my account
+                </Button>
             </div>
         </Layout >
     );
