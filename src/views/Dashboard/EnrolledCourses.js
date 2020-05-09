@@ -63,7 +63,13 @@ const EnrolledCourses = () => {
                                         <div className='skeleton-card loading' style={{ height: 300 }}></div>
                                     </Col>}>
                                     <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
-                                        <Link to={`/classroom/${course.course.slug}`}>
+                                        <Link
+                                            to={{
+                                                pathname: `/classroom/${course.course.slug}`,
+                                                state: {
+                                                    course,
+                                                }
+                                            }}>
                                             {/* <Thumbnails course={course.course} /> */}
                                             <Thumbnails courseData={course} hideDeleteButton />
                                         </Link>
