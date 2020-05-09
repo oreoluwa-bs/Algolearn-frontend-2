@@ -58,7 +58,7 @@ const EnrolledCourses = () => {
                             {courses?.map((item) => (
                                 <Suspense key={item.course.slug} fallback={
                                     <Col key={item.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
-                                        <div className='skeleton-card loading' style={{ height: 300 }}></div>
+                                        <div className='skeleton-card loading' style={{ height: 200 }}></div>
                                     </Col>}>
                                     <Col key={item.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
                                         <Thumbnails courseData={item} link={`/catalogue/${item.course.slug}`} />

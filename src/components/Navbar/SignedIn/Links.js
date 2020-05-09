@@ -31,7 +31,7 @@ const Inlinks = (props) => {
                 <SubMenu title={
                     <span>
                         {/* <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: localStorage.getItem('avatarColor') }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar> */}
-                        <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: 'orange' }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                        <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                     </span>
                 }>
                     <Menu.Item key='manageaccount'>Manage my account<Link to='/account/' /></Menu.Item>

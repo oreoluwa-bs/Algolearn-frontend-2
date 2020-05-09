@@ -31,7 +31,7 @@ const EnrolledPreview = (props) => {
                                 <h1>{courseData.course.title}</h1>
                                 <Paragraph ellipsis={{ rows: 3 }}>{courseData.course.description}</Paragraph>
                                 <div>
-                                    <Progress percent={50} status='active' />
+                                    <Progress percent={50} status='active' strokeColor={courseData.course.color} />
                                 </div>
                             </div>
                         </Link>
@@ -43,7 +43,7 @@ const EnrolledPreview = (props) => {
                             <Paragraph ellipsis={{ rows: 3 }}>{courseData.course.description}</Paragraph>
 
                             <div>
-                                <Progress percent={50} status='active' />
+                                <Progress percent={50} status='active' strokeColor={courseData.course.color} />
                             </div>
                         </div>
                     }
