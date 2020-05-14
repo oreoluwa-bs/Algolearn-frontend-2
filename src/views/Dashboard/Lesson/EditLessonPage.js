@@ -24,7 +24,7 @@ const EditLessonPage = (props) => {
             setCourse(props.location.state.course);
             setLesson(props.location.state.lesson);
         } else {
-            props.history.push(`/dashboard/manage/${props.match.params.slug}/lesson`)
+            props.history.push(`/dashboard/manage/${props.match.params.slug}/content`)
         }
     }, [props]);
 

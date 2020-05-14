@@ -10,10 +10,17 @@ import { ClassView } from '.';
 const { Content } = Layout;
 
 const Main = ({ allProps, course }) => {
-    const lastViewed = { slug: 'introduction-79d0' }
-    return <Redirect to={`/classroom/${allProps.match.params.slug}/lesson/${lastViewed.slug}`} />
+
+    return (<div>Click lesson to contiue</div>)
 }
 
+// const MainMain = ({ allProps, course }) => {
+//     console.log(course);
+//     if (course) {
+//         return <Redirect to={`/classroom/${course.course.slug}/lesson`} />
+//     }
+//     return <div></div>
+// }
 
 const ClassroomWrapper = (props) => {
     const { auth } = useContext(AuthContext);
@@ -26,14 +33,13 @@ const ClassroomWrapper = (props) => {
     useEffect(() => {
         if (props.location.state?.course) {
             setCourse(props.location.state.course);
-            console.log('d');
         } else {
             if (!course) {
                 const alt = async () => {
                     const resCourse = await handleGetCourse(props.match.params.slug);
                     if (resCourse.data) {
                         if (auth?.role === 'tutor') {
-                            setCourse({ course: resCourse.data })
+                            setCourse({ course: resCourse.data });
                         } else {
                             const res = await handleGetEnrolledInCourse(resCourse.data._id, `?user=${auth?._id}`);
                             setCourse(res.data.doc[0]);
@@ -47,7 +53,6 @@ const ClassroomWrapper = (props) => {
             }
         }
     }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course]);
-
     if (!auth) return <Redirect to='/dashboard' />
     return (
         <Layout className='dash'>
@@ -55,8 +60,8 @@ const ClassroomWrapper = (props) => {
             <Layout style={{ padding: '48px 48px 0' }}>
                 <Content style={{ padding: 24, margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
                     <Switch>
-                        <Route exact path={`${currentMatch.path}/`} component={() => <Main course={course} allProps={props} />} />
-                        <Route exact path={`${currentMatch.path}/lesson`} component={() => <Main course={course} allProps={props} />} />
+                        <Route exact path={`${currentMatch.path}/`} component={() => <Redirect to={`/classroom/${props.match.params.slug}/lesson/`} />} />
+                        <Route exact path={`${currentMatch.path}/lesson/`} component={() => <Main course={course} allProps={props} />} />
                         <Route exact path={`${currentMatch.path}/lesson/:lessonSlug`} component={ClassView} />
                     </Switch>
                 </Content>

@@ -38,7 +38,7 @@ const CreateLessonPage = (props) => {
         const res = await handleCreateLesson(course._id, values);
         if (res.status === 'success') {
             forml.resetFields();
-            props.history.push(`/dashboard/manage/${course.slug}/lesson/`);
+            props.history.push(`/dashboard/manage/${course.slug}/content/`);
         }
     };
 

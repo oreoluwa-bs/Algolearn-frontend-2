@@ -7,6 +7,8 @@ const { Paragraph } = Typography;
 
 const EnrolledPreview = (props) => {
     const { courseData, hideDeleteButton, link } = props;
+
+    const progressPercent = Math.floor((courseData.completed.length / courseData.course.lessonsQuantity) * 100);
     return (
         <div className='enroll-course-card'>
             <div className='enroll-course-card-content'>
@@ -31,7 +33,7 @@ const EnrolledPreview = (props) => {
                                 <h1>{courseData.course.title}</h1>
                                 <Paragraph ellipsis={{ rows: 3 }}>{courseData.course.description}</Paragraph>
                                 <div>
-                                    <Progress percent={50} status='active' strokeColor={courseData.course.color} />
+                                    <Progress percent={progressPercent} status='active' strokeColor={courseData.course.color} />
                                 </div>
                             </div>
                         </Link>
@@ -43,7 +45,7 @@ const EnrolledPreview = (props) => {
                             <Paragraph ellipsis={{ rows: 3 }}>{courseData.course.description}</Paragraph>
 
                             <div>
-                                <Progress percent={50} status='active' strokeColor={courseData.course.color} />
+                                <Progress percent={progressPercent} status='active' strokeColor={courseData.course.color} />
                             </div>
                         </div>
                     }
