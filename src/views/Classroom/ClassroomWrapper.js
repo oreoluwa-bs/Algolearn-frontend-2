@@ -14,14 +14,6 @@ const Main = ({ allProps, course }) => {
     return (<div>Click lesson to contiue</div>)
 }
 
-// const MainMain = ({ allProps, course }) => {
-//     console.log(course);
-//     if (course) {
-//         return <Redirect to={`/classroom/${course.course.slug}/lesson`} />
-//     }
-//     return <div></div>
-// }
-
 const ClassroomWrapper = (props) => {
     const { auth } = useContext(AuthContext);
     const { handleGetCourse } = useContext(CourseContext);

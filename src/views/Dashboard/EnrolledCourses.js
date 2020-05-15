@@ -17,7 +17,7 @@ const EnrolledCourses = () => {
 
     useEffect(() => {
         const handleInit = async () => {
-            const res = await handleGetMyEnrolled();
+            const res = await handleGetMyEnrolled('?sort=+lastViewed');
             setOrgCourses(res.doc);
             setCourses(res.doc);
         }

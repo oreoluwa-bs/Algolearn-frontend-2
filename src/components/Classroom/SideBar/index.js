@@ -69,6 +69,7 @@ const SideBar = (props) => {
                                         pathname: `${props.currentMatch.url}/lesson/${lesson.slug}`,
                                         state: {
                                             lesson,
+                                            lessons,
                                         }
                                     }} />
                             </Menu.Item>
