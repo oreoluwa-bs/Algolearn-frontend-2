@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { Layout } from 'antd';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
-import { SideBar } from '../../components/Dashboard';
-import { AuthContext } from '../../store/context/auth';
+import { SideBar } from '../../../components/Dashboard';
+import { AuthContext } from '../../../store/context/auth';
 import {
     CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage,
     ManageCoursePage, CreateLessonPage, EditLessonPage,
     CourseStatsPage, ManageCourseContent
-} from '.';
-import '../../styles/dashboard.css'
+} from '..';
+import '../../../styles/dashboard.css'
 
 const { Content } = Layout;
 

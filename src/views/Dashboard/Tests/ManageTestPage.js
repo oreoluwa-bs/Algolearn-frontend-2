@@ -14,13 +14,13 @@ const ManageTestPage = (props) => {
     const [testIndex, setTestIndex] = useState();
 
     const getTests = async (courseId) => {
-        const res = await handleGetCourseTest(courseId, '?sort=createdAt');
+        const res = await handleGetCourseTest(courseId, '/?sort=createdAt');
         setTest(res.doc);
     }
 
     useEffect(() => {
         const handleInit = async (courseId) => {
-            const resTest = await handleGetCourseTest(courseId, '?sort=createdAt');
+            const resTest = await handleGetCourseTest(courseId, '/?sort=createdAt');
             setTest(resTest.doc);
         }
 

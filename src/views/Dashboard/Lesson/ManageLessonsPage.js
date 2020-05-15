@@ -9,12 +9,12 @@ const ManageLessonsPage = (props) => {
     const [lessons, setLessons] = useState([]);
 
     const getLessons = async (courseId) => {
-        const res = await handleGetCourseLessons(courseId, '?sort=createdAt');
+        const res = await handleGetCourseLessons(courseId, '/?sort=createdAt');
         setLessons(res.doc);
     }
     useEffect(() => {
         const handleInit = async (courseId) => {
-            const res = await handleGetCourseLessons(courseId, '?sort=createdAt');
+            const res = await handleGetCourseLessons(courseId, '/?sort=createdAt');
             setLessons(res.doc);
         }
 

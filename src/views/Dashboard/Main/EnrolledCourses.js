@@ -1,11 +1,11 @@
 import React, { lazy, Suspense, useContext, useState, useEffect } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
-import { AuthContext } from '../../store/context/auth';
-import { EnrollmentContext } from '../../store/context/enroll';
+import { AuthContext } from '../../../store/context/auth';
+import { EnrollmentContext } from '../../../store/context/enroll';
 
 // const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
-const Thumbnails = lazy(() => import('../../components/Account/EnrolledPreview'));
+const Thumbnails = lazy(() => import('../../../components/Account/EnrolledPreview'));
 
 const { Search } = Input;
 
@@ -17,7 +17,7 @@ const EnrolledCourses = () => {
 
     useEffect(() => {
         const handleInit = async () => {
-            const res = await handleGetMyEnrolled('?sort=+lastViewed');
+            const res = await handleGetMyEnrolled('/?sort=lastViewed');
             setOrgCourses(res.doc);
             setCourses(res.doc);
         }

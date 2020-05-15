@@ -30,7 +30,7 @@ const CoursePreview = (props) => {
                     <Paragraph ellipsis={{ rows: 3 }}>{course.description}</Paragraph>
                     <div>
                         <div>
-                            <Avatar size='small' style={{ color: 'white', backgroundColor: '#E0A458', marginRight: 10 }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                            <Avatar size='small' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458', marginRight: 10 }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
                             <Text type='secondary'>{course.author.firstname} {course.author.lastname}</Text>
                         </div>
                     </div>

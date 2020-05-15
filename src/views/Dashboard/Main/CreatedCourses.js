@@ -1,10 +1,10 @@
 import React, { lazy, Suspense, useContext, useState, useEffect } from 'react';
 import { Input, Row, Col, BackTop } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
-import { AuthContext } from '../../store/context/auth';
-import { CourseContext } from '../../store/context/course';
+import { AuthContext } from '../../../store/context/auth';
+import { CourseContext } from '../../../store/context/course';
 
-const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
+const Thumbnails = lazy(() => import('../../../components/Catalogue/CoursePreview'));
 
 const { Search } = Input;
 
@@ -21,7 +21,7 @@ const CreatedCourses = () => {
             setCourses(res.data.doc);
         }
         handleInit();
-    }, [getAllCourses,auth]);
+    }, [getAllCourses, auth]);
 
     const handleSearch = (e) => {
         setCourses(orgCourses.filter((course) => {

@@ -25,7 +25,8 @@ const EnrolledPreview = (props) => {
                             >
                                 <span className='del-button'><DeleteOutlined /></span>
                             </Popconfirm>
-                        </div>}
+                        </div>
+                    }
                     {
                         link &&
                         <Link to={link}>
