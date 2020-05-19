@@ -54,9 +54,9 @@ class EnrollmentContextProvider extends Component {
     }
 
     handleEditUserCourseEnrollment = async (id, values) => {
-        const { lastViewed, completed, course } = values;
+        const { lastViewed, completed, course, test } = values;
         try {
-            const res = await instance.patch(`/users/me/enrolls/${id}/`, { lastViewed, completed, course }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.patch(`/users/me/enrolls/${id}/`, { lastViewed, completed, course, test }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             return res.data;
         } catch (error) {
             const { status, message } = error.response.data;

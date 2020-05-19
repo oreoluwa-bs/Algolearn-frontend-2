@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouteMatch, Redirect, Link } from 'react-router-dom';
 import { Layout, } from 'antd';
-import { SideBar } from '../../components/Classroom';
-import { AuthContext } from '../../store/context/auth';
-import { CourseContext } from '../../store/context/course';
-import { LessonContext } from '../../store/context/lesson';
-import { EnrollmentContext } from '../../store/context/enroll';
-import { ClassView } from '.';
+import { SideBar } from '../../../components/Classroom';
+import { AuthContext } from '../../../store/context/auth';
+import { CourseContext } from '../../../store/context/course';
+import { LessonContext } from '../../../store/context/lesson';
+import { EnrollmentContext } from '../../../store/context/enroll';
+import { ClassView } from '..';
 
 const { Content } = Layout;
 

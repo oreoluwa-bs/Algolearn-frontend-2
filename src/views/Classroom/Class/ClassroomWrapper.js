@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState, Suspense, lazy } from 'react';
 import { Layout, Col, Row } from 'antd';
 import { Redirect, Link, } from 'react-router-dom';
-import { EnrollmentContext } from '../../store/context/enroll';
-import { AuthContext } from '../../store/context/auth';
-import { CourseContext } from '../../store/context/course';
-import { LessonContext } from '../../store/context/lesson';
-import '../../styles/classroom.css';
+import { EnrollmentContext } from '../../../store/context/enroll';
+import { AuthContext } from '../../../store/context/auth';
+import { CourseContext } from '../../../store/context/course';
+import { LessonContext } from '../../../store/context/lesson';
+import '../../../styles/classroom.css';
 
-const Thumbnails = lazy(() => import('../../components/Classroom/LessonPreview'));
+const Thumbnails = lazy(() => import('../../../components/Classroom/LessonPreview'));
 
 const { Content } = Layout;
 

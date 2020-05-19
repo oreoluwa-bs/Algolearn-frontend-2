@@ -8,7 +8,7 @@ import { LoginPage, SignupPage } from './views/Auth';
 import { CataloguePage, CourseDetails } from './views/Catalogue';
 import { Dashboard } from './views/Dashboard';
 import { AccountPage } from './views/Account';
-import { ClassContainer, ClassroomWrapper, Classroom } from './views/Classroom';
+import { ClassContainer, ClassroomWrapper, Classroom, Examhall, ExamSubmitted } from './views/Classroom';
 import './App.css';
 
 const { Footer } = Layout;
@@ -44,6 +44,8 @@ const App = () => {
               <Route exact path='/classroom' component={ClassContainer} />
               <Route exact path='/classroom/:slug' component={ClassroomWrapper} />
               <Route exact path='/classroom/:slug/lesson' component={ClassroomWrapper} />
+              <Route exact path='/classroom/:slug/test' component={Examhall} />
+              <Route exact path='/classroom/:slug/test-results' component={ExamSubmitted} />
               <Route exact path='/classroom/:slug/lesson/:lessonSlug' component={Classroom} />
 
               {/* Page Not Found */}
