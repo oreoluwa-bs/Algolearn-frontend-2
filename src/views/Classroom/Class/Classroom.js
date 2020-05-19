@@ -25,7 +25,7 @@ const Classroom = (props) => {
         const getEnrolledCoursess = async () => {
             const resCourse = await handleGetCourse(props.match.params.slug);
             if (resCourse.data) {
-                if (auth?.role === 'tutor') {
+                if (auth?.role === 'tutor' && auth?._id === resCourse.data.author._id) {
                     setCourse({ course: resCourse.data, completed: true });
                 } else {
                     const res = await handleGetEnrolledInCourse(resCourse.data._id, `/?user=${auth?._id}`);

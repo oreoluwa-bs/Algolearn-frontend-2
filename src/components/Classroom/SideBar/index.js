@@ -30,7 +30,7 @@ const SideBar = (props) => {
 
     useEffect(() => {
         const handleUpdateCompleted = async () => {
-            const isCompleted = completedLessons?.findIndex((les) => `/${les.slug}` === defKey) !== -1;
+            const isCompleted = completedLessons !== true ? completedLessons?.findIndex((les) => `/${les.slug}` === defKey) !== -1 : true;
             if (!isCompleted && props.parentData.course) {
                 const currLesson = lessons.find((item) => `/${item.slug}` === defKey)
                 if (!currLesson) return
@@ -65,7 +65,7 @@ const SideBar = (props) => {
                 <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[defKey]}>
                     {
                         lessons && lessons.map((lessonItem) => {
-                            const isEnrolled = completedLessons.findIndex((les) => les._id === lessonItem._id) !== -1;
+                            const isEnrolled = completedLessons !== true ? completedLessons.findIndex((les) => les._id === lessonItem._id) !== -1 : true;
                             return (
                                 <Menu.Item key={`/${lessonItem.slug}`}>
                                     {isEnrolled && <CheckOutlined style={{ color: green[5] }} />}

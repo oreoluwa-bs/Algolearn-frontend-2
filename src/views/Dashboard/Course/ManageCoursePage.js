@@ -77,7 +77,7 @@ const ManageCoursePage = (props) => {
                                     props.history.push({
                                         pathname: `/classroom/${course.slug}`,
                                         state: {
-                                            course: { course },
+                                            course: { course, completed: true },
                                         }
                                     })
                                 }} />

@@ -3,7 +3,8 @@ import { CheckOutlined, Loading3QuartersOutlined } from '@ant-design/icons';
 
 const LessonPreview = (props) => {
     const { lessonData } = props;
-    const isCompleted = lessonData.course.completed.findIndex((item) => item._id === lessonData.lesson._id) === -1;
+    const isCompleted = lessonData.course.completed !== true ? lessonData.course.completed.findIndex((item) => item._id === lessonData.lesson._id) === -1 : false;
+
     return (
         <div className='lesson-card-container'>
             <div className='completed-badge-container'>
