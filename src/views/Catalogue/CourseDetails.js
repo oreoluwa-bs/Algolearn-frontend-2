@@ -35,7 +35,7 @@ const CourseDetails = (props) => {
             // console.log(res);
             setCourse(res.data);
             if (res.status === 'error') {
-                props.history.push('error-404');
+                props.history.push('page-not-found');
             };
         }
 
@@ -56,7 +56,7 @@ const CourseDetails = (props) => {
     return (
         <div>
             <div>
-                <div style={{ backgroundColor: 'rgb(194, 140, 174)' }} className='course-header'>
+                <div style={{ backgroundColor: course.color ?? 'rgb(194, 140, 174)' }} className='course-header'>
                     <div className='course-header-bg'></div>
                     <div className='course-header-container'>
                         <BookOutlined />
@@ -155,7 +155,7 @@ const CourseDetails = (props) => {
                                             </Space>
                                         </div>
                                         {
-                                            course.tests && course.tests.length > 0 &&
+                                            // course.tests && course.tests.length > 0 &&
                                             <div className='course-additional-item'>
                                                 <Space>
                                                     <CheckSquareOutlined />

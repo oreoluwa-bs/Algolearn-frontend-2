@@ -21,7 +21,7 @@ const EditCoursePage = (props) => {
             const res = await handleGetCourse(slug);
             setCourse(res.data);
             if (res.status === 'error') {
-                props.history.push('error-404');
+                props.history.push('page-not-found');
             };
         }
 

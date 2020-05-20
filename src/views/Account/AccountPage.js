@@ -5,6 +5,7 @@ import { SideBar } from '../../components/Account';
 import { AuthContext } from '../../store/context/auth';
 import { EditProfilePage, EnrolledCourses } from '.';
 import '../../styles/account.css'
+import { PageNotfoundDashboard } from '../../components/Dashboard';
 
 const { Content } = Layout;
 
@@ -23,6 +24,7 @@ const DashboardV1 = (props) => {
 
                         <Route path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
                         <Route path={`${currentMatch.path}/edit/:slug`} component={EditCoursePage} /> */}
+                        <Route component={PageNotfoundDashboard} />
                     </Switch>
                 </Content>
             </Layout>

@@ -3,6 +3,7 @@ import { Input, Row, Col, BackTop } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
+import { EmptyState } from '../../../components/Dashboard';
 
 const Thumbnails = lazy(() => import('../../../components/Catalogue/CoursePreview'));
 
@@ -25,7 +26,7 @@ const CreatedCourses = () => {
 
     const handleSearch = (e) => {
         setCourses(orgCourses.filter((course) => {
-            const title_course = course.course.title.toLowerCase();
+            const title_course = course.title.toLowerCase();
             const search_params = e.target.value.toLowerCase();
             return title_course.includes(search_params);
         }));
@@ -57,20 +58,34 @@ const CreatedCourses = () => {
                     <br />
                     <br />
                     <div>
-                        <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
-                            {courses.map((course) => (
-                                <Suspense key={course.slug} fallback={
-                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                        <div className='skeleton-card loading' style={{ height: 300 }}></div>
-                                    </Col>}>
-                                    <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                        <Link to={`/dashboard/manage/${course.slug}`}>
-                                            <Thumbnails course={course} />
-                                        </Link>
-                                    </Col>
-                                </Suspense>
-                            ))}
-                        </Row>
+                        {
+                            orgCourses.length > 0 &&
+                            <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
+                                {
+                                    courses.map((course) => (
+                                        <Suspense key={course.slug} fallback={
+                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                                <div className='skeleton-card loading' style={{ height: 300 }}></div>
+                                            </Col>}>
+                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                                <Link to={`/dashboard/manage/${course.slug}`}>
+                                                    <Thumbnails course={course} />
+                                                </Link>
+                                            </Col>
+                                        </Suspense>
+                                    ))}
+                            </Row>
+                        }
+                        {
+                            !orgCourses?.length > 0 &&
+                            <EmptyState description="You have not created in any course yet"
+                                extra={[<Link to='/dashboard/course/create' className='ant-btn ant-btn-primary ant-btn-lg'>Create a course</Link>]}
+                            />
+                        }
+                        {
+                            !courses?.length > 0 && orgCourses?.length > 0 &&
+                            <EmptyState description="No matching courses found" />
+                        }
                     </div>
                     <BackTop />
                 </div>

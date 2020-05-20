@@ -6,6 +6,7 @@ import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
 import '../../../styles/classroom.css';
+import { EmptyState } from '../../../components/Dashboard';
 
 const Thumbnails = lazy(() => import('../../../components/Classroom/LessonPreview'));
 
@@ -53,7 +54,7 @@ const ClassroomWrapper = (props) => {
         }
     }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course, handleGetCourseLessons]);
     if (!auth) return <Redirect to='/dashboard' />
-
+    console.log(course);
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
@@ -61,29 +62,45 @@ const ClassroomWrapper = (props) => {
                     <h1 style={{ textAlign: 'center' }}>Lessons</h1>
                     <br />
                     <br />
-                    <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
-                        {
-                            lessons?.map((lesson) => (
-                                <Suspense key={lesson.slug} fallback={
-                                    <Col key={lesson.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                        <div className='skeleton-card loading' style={{ height: 150 }}></div>
-                                    </Col>}>
-                                    <Col key={lesson.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
-                                        <Link
-                                            to={{
-                                                pathname: `/classroom/${course.course.slug}/lesson/${lesson.slug}`,
-                                                state: {
-                                                    course,
-                                                    lesson,
-                                                    lessons,
-                                                }
-                                            }}>
-                                            <Thumbnails lessonData={{ course, lesson }} />
-                                        </Link>
-                                    </Col>
-                                </Suspense>
-                            ))}
-                    </Row>
+                    {
+                        lessons?.length > 0 &&
+                        <Row gutter={{ xs: 10, md: 28, lg: 36, xl: 48 }}>
+                            {
+                                lessons?.map((lesson) => (
+                                    <Suspense key={lesson.slug} fallback={
+                                        <Col key={lesson.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                            <div className='skeleton-card loading' style={{ height: 150 }}></div>
+                                        </Col>}>
+                                        <Col key={lesson.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                            <Link
+                                                to={{
+                                                    pathname: `/classroom/${course.course.slug}/lesson/${lesson.slug}`,
+                                                    state: {
+                                                        course,
+                                                        lesson,
+                                                        lessons,
+                                                    }
+                                                }}>
+                                                <Thumbnails lessonData={{ course, lesson }} />
+                                            </Link>
+                                        </Col>
+                                    </Suspense>
+                                ))}
+                        </Row>
+                    }
+                    {
+                        !lessons?.length > 0 && auth?.role === 'tutor' && auth.role === 'tutor' && auth?._id === course?.course.author._id &&
+                        <EmptyState description="No lessons found"
+                            extra={[<Link to={{
+                                pathname: `/dashboard/${props.match.params.slug}/lesson/create`,
+                                state: { course, }
+                            }} className='ant-btn ant-btn-primary ant-btn-lg'>Create a lesson</Link>]}
+                        />
+                    }
+                    {
+                        !lessons?.length > 0 && auth?.role === 'tutor' && auth?._id !== course?.course.author._id &&
+                        <EmptyState description="No lessons found" />
+                    }
                 </Content>
             </Layout>
         </Layout>

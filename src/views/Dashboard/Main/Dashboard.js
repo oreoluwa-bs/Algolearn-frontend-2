@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Layout } from 'antd';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
-import { SideBar } from '../../../components/Dashboard';
+import { SideBar, PageNotfoundDashboard } from '../../../components/Dashboard';
 import { AuthContext } from '../../../store/context/auth';
 import {
     CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage,
@@ -37,6 +37,8 @@ const DashboardV1 = (props) => {
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={CourseStatsPage} />
 
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
+
+                        <Route component={PageNotfoundDashboard} />
                     </Switch>
                 </Content>
             </Layout>
@@ -77,6 +79,8 @@ const DashboardV2 = (props) => {
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={ManageCoursePage} />
 
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
+
+                        <Route component={PageNotfoundDashboard} />
                     </Switch>
                 </Content>
             </Layout>

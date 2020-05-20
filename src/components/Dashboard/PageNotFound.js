@@ -6,7 +6,7 @@ const PageNotFound = (props) => {
     return (
         <div>
             <Layout>
-                <div style={{ backgroundColor: 'white', minHeight: 'calc(100vh - 135px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ backgroundColor: 'white', minHeight: 'calc(100vh - 230px)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div>
                         <Result
                             status="404"
