@@ -2,9 +2,11 @@ import React from 'react';
 import {
     BoldOutlined, ItalicOutlined, UnderlineOutlined,
     UnorderedListOutlined, OrderedListOutlined, CodeOutlined,
+    PictureOutlined, LinkOutlined
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuoteLeft, faHeading } from '@fortawesome/free-solid-svg-icons'
+import { Tooltip } from 'antd';
 
 const INLINE_STYLES = [
     { label: 'Bold', style: 'BOLD', icon: <BoldOutlined /> },
@@ -19,15 +21,14 @@ const BLOCK_TYPES = [
     // { label: 'H4', style: 'header-four', icon: null },
     // { label: 'H5', style: 'header-five', icon: null },
     // { label: 'H6', style: 'header-six', icon: null },
-    { label: 'Header', style: 'header-two', icon: <FontAwesomeIcon icon={faHeading} /> },
+    { label: 'Header', style: 'header-three', icon: <FontAwesomeIcon icon={faHeading} /> },
     { label: 'Blockquote', style: 'blockquote', icon: <FontAwesomeIcon icon={faQuoteLeft} /> },
-    { label: 'UL', style: 'unordered-list-item', icon: <UnorderedListOutlined /> },
-    { label: 'OL', style: 'ordered-list-item', icon: <OrderedListOutlined /> },
+    { label: 'UL', labelLong: 'Unordered List', style: 'unordered-list-item', icon: <UnorderedListOutlined /> },
+    { label: 'OL', labelLong: 'Ordered List', style: 'ordered-list-item', icon: <OrderedListOutlined /> },
     { label: 'Code Block', style: 'code-block', icon: <CodeOutlined /> },
 ];
 
-
-export const BlockStyleControls = (props) => {
+const BlockStyleControls = (props) => {
     const { editorState } = props;
     const selection = editorState.getSelection();
     const blockType = editorState
@@ -51,17 +52,18 @@ export const BlockStyleControls = (props) => {
                 };
 
                 return (
-                    <span key={type.label} className={className} onMouseDown={onToggle}>
-                        {type.icon ?? type.label}
-                    </span>
+                    <Tooltip key={type.label} title={type.labelLong ?? type.label}>
+                        <span key={type.label} className={className} onMouseDown={onToggle}>
+                            {type.icon ?? type.label}
+                        </span>
+                    </Tooltip>
                 );
             })}
         </span>
     );
 };
 
-
-export const InlineStyleControls = (props) => {
+const InlineStyleControls = (props) => {
     const currentStyle = props.editorState.getCurrentInlineStyle();
 
     return (
@@ -80,11 +82,54 @@ export const InlineStyleControls = (props) => {
                 };
 
                 return (
-                    <span key={type.label} className={className} onMouseDown={onToggle}>
-                        {type.icon ?? type.label}
-                    </span>
+                    <Tooltip key={type.label} title={type.label}>
+                        <span className={className} onMouseDown={onToggle}>
+                            {type.icon ?? type.label}
+                        </span>
+                    </Tooltip>
                 );
             })}
         </span>
     );
 };
+
+const OtherControls = (props) => {
+    const { onAddImage, onAddLink } = props;
+    return (
+        <>
+            <Tooltip title="Insert Image">
+                <span className="RichEditor-styleButton" onClick={onAddImage}>
+                    <PictureOutlined />
+                </span>
+            </Tooltip>
+            <Tooltip title="Insert External Link">
+                <span className="RichEditor-styleButton" onClick={onAddLink}>
+                    <LinkOutlined />
+                </span>
+            </Tooltip>
+        </>
+    )
+}
+
+
+const StaticToolbar = (props) => {
+    const { editorState, toggleBlockType, toggleInlineStyle, onAddImage, onAddLink } = props;
+    return (
+        <>
+            <InlineStyleControls
+                editorState={editorState}
+                onToggle={toggleInlineStyle}
+            />
+            <BlockStyleControls
+                editorState={editorState}
+                onToggle={toggleBlockType}
+            />
+            <OtherControls
+                onAddImage={onAddImage}
+                onAddLink={onAddLink}
+            />
+        </>
+    );
+}
+
+export default StaticToolbar;

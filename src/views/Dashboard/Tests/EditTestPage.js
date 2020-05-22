@@ -50,7 +50,7 @@ const EditTestPage = (props) => {
                             <span>Question:&nbsp;
                         <Tooltip title={
                                     <span>For more customization write in markdown.
-                                Check <a href='https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet'>Markdown Guide</a> for more information.
+                                Check <a href='https://guides.github.com/features/mastering-markdown/'>Markdown Guide</a> for more information.
                                 </span>
                                 }>
                                     <QuestionCircleOutlined />

@@ -3,13 +3,14 @@
   border: 1px solid #ddd;
   font-size: 14px;
   padding: 15px;
+  padding-top: 0;
 }
 
 .RichEditor-editor {
-  border-top: 1px solid #ddd;
+  /* border-top: 1px solid #ddd; */
   cursor: text;
   font-size: 16px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 /* .RichEditor-editor .editor { */
@@ -186,4 +187,8 @@
 
 .RichEditor-editor .editor .toolbar-item.RichEditor-activeButton {
   color: #1890ff;
+}
+
+.rich-text-image {
+  width: 200px;
 }

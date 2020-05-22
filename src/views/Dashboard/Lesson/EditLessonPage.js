@@ -1,21 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Layout, Input, Button, Form, Tooltip, PageHeader } from 'antd';
+import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { BookOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../store/context/lesson';
-
-const { TextArea } = Input;
+import { RichTextEditor } from '../../../components/Dashboard';
+import { decorator } from '../../../components/Dashboard/RichTextEditor/utils';
 
 const EditLessonPage = (props) => {
     const { handleEditLesson } = useContext(LessonContext);
     const [course, setCourse] = useState({});
     const [lesson, setLesson] = useState({});
 
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator));
+
+    const editorRef = useRef(Editor);
+
     const onFinish = async (values) => {
         values.video = !values.video ? lesson.video : values.video;
+        values.text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
         const res = await handleEditLesson({ courseId: course._id, lessonId: lesson._id }, values);
         if (res.status === 'success') {
-            props.history.push(`/dashboard/manage/${course.slug}`);
+            props.history.push(`/dashboard/manage/${course.slug}/content`);
         }
     };
 
@@ -28,9 +34,14 @@ const EditLessonPage = (props) => {
         }
     }, [props]);
 
+    useEffect(() => {
+        if (lesson?._id) {
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(lesson.text)), decorator));
+        }
+    }, [lesson]);
     return (
         <Layout>
-            <PageHeader onBack={() => { props.history.goBack() }} title='Edit lesson' />
+            <PageHeader onBack={() => { props.history.push(`/dashboard/manage/${props.match.params.slug}/content/`) }} title='Edit lesson' />
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 {
                     lesson?.title &&
@@ -41,16 +52,17 @@ const EditLessonPage = (props) => {
                         </Form.Item>
                         <Form.Item name='text' label={
                             <span>Text:&nbsp;
-                        <Tooltip title={
-                                    <span>For more customization write in markdown.
-                                Check <a href='https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet'>Markdown Guide</a> for more information
-                                </span>
+                            <Tooltip title={
+                                    <span>For more customization write in markdown. Check <a href='https://guides.github.com/features/mastering-markdown/'>Markdown Guide</a> for more information. Note some features do not work.</span>
                                 }>
                                     <QuestionCircleOutlined />
                                 </Tooltip>
                             </span>
                         }>
-                            <TextArea autoSize={{ minRows: 15 }} />
+                            <RichTextEditor editorState={editorState} editorRef={editorRef}
+                                customStyle={{ minHeight: 'calc(100vh - 500px)' }}
+                                EditorState={EditorState}
+                                setEditorState={setEditorState} placeholder='Write Something...' />
                         </Form.Item>
                         <Form.Item>
                             <Button style={{ float: 'right' }} size='large' type='primary' htmlType='submit'>

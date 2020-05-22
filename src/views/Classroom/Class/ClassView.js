@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { Layout, Typography, Button } from 'antd';
+import ReactMarkdown from 'react-markdown';
+import { draftToMarkdown } from 'markdown-draft-js';
 
 // const { Content } = Layout;
 const { Title } = Typography;
@@ -20,7 +22,6 @@ const ClassView = (props) => {
     }, [props.parentData]);
 
     if (lessons && course) {
-
     }
     return (
         <div>
@@ -48,10 +49,11 @@ const ClassView = (props) => {
                             renderItem={item => <List.Item className='flag-modal-list-item' onClick={() => { handleFlag(item) }}>{item}</List.Item>}
                         />
                     </Modal> */}
-                    <div className='class-texct'>
+                    <div className='class-text'>
                         <br />
                         <br />
-                        <div>{lesson.text} </div>
+                        {/* <div>{lesson.text} </div> */}
+                        <div> <ReactMarkdown source={lesson.text ? draftToMarkdown(JSON.parse(lesson.text)) : null} /></div>
                     </div>
 
                 </div>

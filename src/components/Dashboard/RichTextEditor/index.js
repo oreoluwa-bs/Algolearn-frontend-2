@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { Editor, RichUtils, getDefaultKeyBinding } from 'draft-js';
-import { BlockStyleControls, InlineStyleControls } from './StaticToolbar';
-import { getSelectionRange, getSelectionCoords } from './utils';
-import InlineToolbar from './InlineToolbar';
+import { Divider, Modal, Form, Input } from 'antd';
+import { Editor, RichUtils, getDefaultKeyBinding, AtomicBlockUtils } from 'draft-js';
+import StaticToolbar from './StaticToolbar';
+import { mediaBlockRenderer } from './utils';
 import '../../../styles/richtexteditor.css';
 import 'draft-js/dist/Draft.css';
 
 const RichTextEditor = (props) => {
-    const { editorState, setEditorState, editorRef, placeholder, EditorState } = props;
-    const [inlineToolbarState, setInlineToolbarState] = useState({ show: false });
+    const { editorState, setEditorState, editorRef, placeholder, readOnly, EditorState } = props;
+
+    const [pictureModal, setPictureModal] = useState(false);
+    const [formPicture] = Form.useForm();
+
+    const [linkModal, setLinkModal] = useState(false);
+    const [formLink] = Form.useForm();
 
     const renderPlaceholder = (placeholder, editorState) => {
         const contentState = editorState.getCurrentContent();
@@ -18,23 +23,6 @@ const RichTextEditor = (props) => {
     }
 
     const handleOnChange = (editorState) => {
-        if (!editorState.getSelection().isCollapsed()) {
-            const selectionRange = getSelectionRange();
-            if (!selectionRange) {
-                setInlineToolbarState({ show: false });
-                return;
-            }
-            const selectionCoords = getSelectionCoords(selectionRange);
-            setInlineToolbarState({
-                ...inlineToolbarState,
-                position: {
-                    top: selectionCoords.offsetTop,
-                    left: selectionCoords.offsetLeft
-                }, show: true
-            });
-        } else {
-            setInlineToolbarState({ show: false });
-        }
         setEditorState(editorState);
     }
 
@@ -79,45 +67,93 @@ const RichTextEditor = (props) => {
     }
 
 
-    const setLink = () => {
-        // getting url from prompt dialogue
-        const urlValue = prompt('Paste URL', '');
-        // getting current contentState
-        const contentState = editorState.getCurrentContent();
-        // creating Entity
-        const contentStateWithEntity = contentState.createEntity(
-            'LINK',
-            'SEGMENTED',
-            { url: urlValue }
-        );
-        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-        // updating currentContent property in editorState
-        const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
+    // const setLink = () => {
+    //     // getting url from prompt dialogue
+    //     const urlValue = prompt('Paste URL', '');
+    //     // getting current contentState
+    //     const contentState = editorState.getCurrentContent();
+    //     // creating Entity
+    //     const contentStateWithEntity = contentState.createEntity(
+    //         'LINK',
+    //         'SEGMENTED',
+    //         { url: urlValue }
+    //     );
+    //     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    //     // updating currentContent property in editorState
+    //     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
 
-        // generating and saving new editor state
-        setEditorState(RichUtils.toggleLink(
-            newEditorState,
-            newEditorState.getSelection(),
-            entityKey));
+    //     // generating and saving new editor state
+    //     setEditorState(RichUtils.toggleLink(
+    //         newEditorState,
+    //         newEditorState.getSelection(),
+    //         entityKey));
 
 
-        setTimeout(() => editorRef.current.focus(), 0);
+    //     setTimeout(() => editorRef.current.focus(), 0);
+    // }
+
+    const handlePictureAdd = () => {
+        // e.preventDefault();
+        formPicture.validateFields()
+            .then(values => {
+                formPicture.resetFields();
+                setPictureModal(false);
+                // setUrlValue();
+                const contentState = editorState.getCurrentContent();
+                const contentStateWithEntity = contentState.createEntity(
+                    "image",
+                    "IMMUTABLE",
+                    { src: values.url }
+                );
+                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                const newEditorState = EditorState.set(
+                    editorState,
+                    { currentContent: contentStateWithEntity },
+                    "create-entity"
+                );
+                setEditorState(AtomicBlockUtils.insertAtomicBlock(
+                    newEditorState,
+                    entityKey,
+                    `!['Image'](${values.url})`
+                ));
+                setTimeout(() => editorRef.current.focus(), 0);
+
+            }).catch(info => {
+                console.log('Validate Failed:', info);
+            });
+    }
+
+    const handleLinkAdd = () => {
+        const selection = editorState.getSelection();
+        formLink.validateFields()
+            .then(values => {
+                formLink.resetFields();
+                setLinkModal(false);
+
+                if (!values.url) {
+                    handleOnChange(RichUtils.toggleLink(editorState, selection, null));
+                    return 'handled';
+                }
+                const content = editorState.getCurrentContent();
+                const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: values.url });
+                const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+                const entityKey = contentWithEntity.getLastCreatedEntityKey();
+                handleOnChange(RichUtils.toggleLink(newEditorState, selection, entityKey));
+
+                setTimeout(() => editorRef.current.focus(), 0);
+            }).catch(info => {
+                console.log('Validate Failed:', info);
+            });
     }
 
     return (
         <div className='RichEditor-root'>
-            <InlineStyleControls
-                editorState={editorState}
-                onToggle={toggleInlineStyle}
-            />
-            <BlockStyleControls
-                editorState={editorState}
-                onToggle={toggleBlockType}
-            />
             <div className='RichEditor-editor'>
                 <div id='editor-container' className='editor' style={props.customStyle} onClick={() => editorRef.current.focus()}>
                     <Editor
+                        readOnly={readOnly}
                         spellCheck
+                        blockRendererFn={mediaBlockRenderer}
                         handleKeyCommand={handleKeyCommand}
                         keyBindingFn={mapKeyToEditorCommand}
                         editorState={editorState}
@@ -125,19 +161,50 @@ const RichTextEditor = (props) => {
                         placeholder={renderPlaceholder(placeholder, editorState)}
                         ref={editorRef}
                     />
-                    {
-                        inlineToolbarState.show ? <InlineToolbar
-                            editorState={editorState}
-                            onToggleInline={toggleInlineStyle}
-                            onToggleBlock={toggleBlockType}
-                            position={inlineToolbarState.position}
-                            setLink={setLink}
-                            customStyle={props.customStyle}
-                        /> : null
-                    }
                 </div>
             </div>
-        </div>
+            <Divider />
+            {
+                !readOnly &&
+                <>
+                    <StaticToolbar
+                        editorState={editorState}
+                        toggleInlineStyle={toggleInlineStyle}
+                        toggleBlockType={toggleBlockType}
+                        onAddImage={() => setPictureModal(true)}
+                        onAddLink={() => setLinkModal(true)}
+                    />
+                </>
+            }
+            <Modal
+                visible={pictureModal}
+                title="Insert Image Link"
+                okText="Add Image"
+                cancelText="Cancel"
+                onCancel={() => setPictureModal(false)}
+                onOk={handlePictureAdd}
+            >
+                <Form form={formPicture} layout="vertical" hideRequiredMark>
+                    <Form.Item rules={[{ required: true, message: 'Please input image link' }]} name='url' hasFeedback>
+                        <Input placeholder='https://example.com' />
+                    </Form.Item>
+                </Form>
+            </Modal>
+            <Modal
+                visible={linkModal}
+                title="Insert Link"
+                okText="Insert Link"
+                cancelText="Cancel"
+                onCancel={() => setLinkModal(false)}
+                onOk={handleLinkAdd}
+            >
+                <Form form={formLink} layout="vertical" hideRequiredMark>
+                    <Form.Item rules={[{ required: true, message: 'Please input link' }]} name='url' hasFeedback>
+                        <Input placeholder='https://example.com' />
+                    </Form.Item>
+                </Form>
+            </Modal>
+        </div >
     );
 }
 

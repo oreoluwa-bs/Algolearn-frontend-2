@@ -91,7 +91,7 @@ const ClassroomWrapper = (props) => {
                     {
                         !lessons?.length > 0 && auth?.role === 'tutor' && auth.role === 'tutor' && auth?._id === course?.course.author._id &&
                         <EmptyState description="No lessons found"
-                            extra={[<Link to={{
+                            extra={[<Link key='addlesson' to={{
                                 pathname: `/dashboard/${props.match.params.slug}/lesson/create`,
                                 state: { course, }
                             }} className='ant-btn ant-btn-primary ant-btn-lg'>Create a lesson</Link>]}
