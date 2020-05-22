@@ -66,39 +66,11 @@ const RichTextEditor = (props) => {
 
     }
 
-
-    // const setLink = () => {
-    //     // getting url from prompt dialogue
-    //     const urlValue = prompt('Paste URL', '');
-    //     // getting current contentState
-    //     const contentState = editorState.getCurrentContent();
-    //     // creating Entity
-    //     const contentStateWithEntity = contentState.createEntity(
-    //         'LINK',
-    //         'SEGMENTED',
-    //         { url: urlValue }
-    //     );
-    //     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    //     // updating currentContent property in editorState
-    //     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
-
-    //     // generating and saving new editor state
-    //     setEditorState(RichUtils.toggleLink(
-    //         newEditorState,
-    //         newEditorState.getSelection(),
-    //         entityKey));
-
-
-    //     setTimeout(() => editorRef.current.focus(), 0);
-    // }
-
     const handlePictureAdd = () => {
-        // e.preventDefault();
         formPicture.validateFields()
             .then(values => {
                 formPicture.resetFields();
                 setPictureModal(false);
-                // setUrlValue();
                 const contentState = editorState.getCurrentContent();
                 const contentStateWithEntity = contentState.createEntity(
                     "image",
