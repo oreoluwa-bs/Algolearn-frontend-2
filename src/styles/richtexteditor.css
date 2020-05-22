@@ -1,0 +1,189 @@
+.RichEditor-root {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  padding: 15px;
+}
+
+.RichEditor-editor {
+  border-top: 1px solid #ddd;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* .RichEditor-editor .editor { */
+/* min-height: 200px; */
+/* width: 100% -20 px; */
+/* overflow-y: scroll; */
+/* overflow-y: auto; */
+/* overflow-x: auto; */
+/* overflow: -moz-scrollbars-none; */
+/* -ms-overflow-style: none; */
+/* } */
+
+/* .RichEditor-editor .editor::-webkit-scrollbar {
+  width: 0 !important;
+} */
+
+.RichEditor-editor .editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+  /* height: 500px; */
+  /* height: 100%; */
+  /* width: 100%; */
+  /* overflow-y: scroll; */
+}
+
+/* .RichEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+} */
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+/* .RichEditor-editor .RichEditor-blockquote {
+    border-left: 5px solid green;
+    color: #666;
+    font-style: italic;
+    margin: 16px 0;
+    padding: 10px 20px;
+  } */
+
+.RichEditor-editor blockquote {
+  border-left: 5px solid #eee;
+  border-radius: 5px;
+  color: #666;
+  background-color: #f6f8fa;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  /* background-color: rgba(0, 0, 0, 0.04); */
+  /* color: #1890ff; */
+  /* font-size: 16px; */
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  font-family: monospace;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  padding: 20px 20px 8px;
+  word-wrap: normal;
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.RichEditor-controls {
+  font-size: 14px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.RichEditor-styleButton {
+  color: #999;
+  cursor: pointer;
+  padding: 2px 16px;
+  display: inline-block;
+  /* margin-right: 16px; */
+}
+
+.RichEditor-styleButton:hover {
+  background-color: white;
+  color: #1890ff;
+}
+
+.RichEditor-activeButton {
+  color: #1890ff;
+}
+
+/* .RichEditor-editor .editor .toolbar {
+} */
+
+.RichEditor-editor .editor .toolbar.RichEditor-controls {
+  position: absolute;
+  z-index: 9999;
+  height: 35px;
+  cursor: default;
+}
+
+.RichEditor-editor .editor .toolbar.RichEditor-controls .toolbar-items {
+  position: absolute;
+  left: 40px;
+  z-index: 1;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  list-style: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.RichEditor-editor .editor .toolbar-items::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  margin-left: -5px;
+  border-top: 5px solid #999;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  /* box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);  */
+}
+
+/* box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05); */
+.RichEditor-editor .editor .toolbar-item.RichEditor-styleButton {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 95%;
+  border-bottom: 1px solid #999;
+  transition: all 0.15s linear;
+  cursor: pointer;
+}
+
+.RichEditor-editor .editor .toolbar-item .bold {
+  font-weight: bold;
+}
+
+.RichEditor-editor .editor .toolbar-item .italic {
+  font-style: italic;
+}
+
+.RichEditor-editor .editor .toolbar-item.RichEditor-styleButton:hover,
+.RichEditor-editor .editor .toolbar-item.active.RichEditor-styleButton:hover {
+  color: #1890ff;
+}
+.RichEditor-editor .editor .toolbar-item.RichEditor-styleButton:hover svg path,
+.RichEditor-editor
+  .editor
+  .toolbar-item.active.RichEditor-styleButton:hover
+  svg
+  path {
+  fill: #1890ff;
+}
+
+.RichEditor-editor .editor .toolbar-item.RichEditor-activeButton {
+  color: #1890ff;
+}
