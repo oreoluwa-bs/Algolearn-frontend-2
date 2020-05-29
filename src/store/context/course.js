@@ -92,6 +92,17 @@ class CourseContextProvider extends Component {
     //     }
     // }
 
+    handleGetCourseEnrolledStats = async (id, year) => {
+        try {
+            const res = await instance.get(`/courses/${id}/enrolls/enrolled-stats/${year}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+
     feedback = (response) => {
         if (response.status === 'success') {
             message.success(response.message);
@@ -114,6 +125,8 @@ class CourseContextProvider extends Component {
                 handleCreateCourse: this.handleCreateCourse,
                 handleEditCourse: this.handleEditCourse,
                 handleDeleteCourse: this.handleDeleteCourse,
+
+                handleGetCourseEnrolledStats: this.handleGetCourseEnrolledStats,
             }}>
                 {this.props.children}
             </CourseContext.Provider>

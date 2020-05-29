@@ -3,6 +3,7 @@ import { Layout, Statistic, Col, Row, Divider, Select } from 'antd';
 import { Line } from 'react-chartjs-2';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
+import { utils } from '../../../config';
 
 const { Option } = Select;
 
@@ -29,12 +30,6 @@ const AdminHome = () => {
         handleChangeYear(value);
     }
 
-    const getYearRange = () => {
-        const currentYear = (new Date()).getFullYear();
-        const rangeYear = (start, stop, step) => Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
-        return rangeYear(currentYear, 2020, -1);
-    }
-
     useEffect(() => {
         const handleInit = async () => {
             const res = await handleUsersStats(new Date().getFullYear());
@@ -50,7 +45,7 @@ const AdminHome = () => {
             setUsersCount(res.data.userCount);
         }
         handleInit();
-    }, [auth, handleUsersStats]);
+    }, [handleUsersStats]);
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role !== 'admin') return <Redirect to='/dashboard' />
@@ -72,7 +67,7 @@ const AdminHome = () => {
                         <Select showSearch style={{ width: 100, float: 'right' }} placeholder="Select a year" defaultValue={new Date().getFullYear()} onChange={onChange}
                             optionFilterProp="children" filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                             {
-                                getYearRange().map((yearValue) => <Option key={yearValue} value={yearValue}>{yearValue}</Option>)
+                                utils.getYearRange().map((yearValue) => <Option key={yearValue} value={yearValue}>{yearValue}</Option>)
                             }
                         </Select>
                     </div>

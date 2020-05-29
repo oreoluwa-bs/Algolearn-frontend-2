@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { PageHeader, Layout, Collapse, Table, } from 'antd';
-// import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined } from '@ant-design/icons';
+import { PageHeader, Layout, Collapse, Table, Tabs } from 'antd';
+import { LineChartOutlined, BarChartOutlined, CommentOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
+import { EnrollmentStats } from '../../../components/Dashboard';
+
+const { TabPane } = Tabs;
 
 const { Panel } = Collapse;
 
@@ -36,23 +39,26 @@ const CourseStatsPage = (props) => {
             {
                 course?.title &&
                 <div>
-                    <PageHeader
-                        onBack={() => { props.history.goBack() }}
-                        title={course.title}
-                        extra={[]}>
-                    </PageHeader>
-                    <div style={{ backgroundColor: 'white', padding: '20px' }}>
-
-                        <div>
-                            <Collapse accordion className='site-collapse-custom-collapse' bordered={true} defaultActiveKey={['reviews']}>
-                                <Panel header='Reviews' key='reviews' className='site-collapse-custom-panel'>
-                                    <Table tableLayout='fixed' dataSource={course.reviews} pagination={false} expandable={{
-                                        expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.review}</p>,
-                                    }}
-                                        columns={[{ title: 'Review', dataIndex: 'review', key: 'review', }]} />
-                                </Panel>
-                            </Collapse>
-                        </div>
+                    <PageHeader onBack={() => { props.history.push(`/dashboard/manage/${props.match.params.slug}`) }} title={course.title} extra={[]}></PageHeader>
+                    <div style={{ backgroundColor: 'white', padding: '20px 0' }}>
+                        <Tabs defaultActiveKey='test-stats' tabPosition="left">
+                            <TabPane tab={<span><CommentOutlined />Reviews</span>} key='reviews'>
+                                <div>
+                                    <Collapse accordion className='site-collapse-custom-collapse' bordered={true} defaultActiveKey={['reviews']}>
+                                        <Panel header='Reviews' key='reviews' className='site-collapse-custom-panel'>
+                                            <Table tableLayout='fixed' dataSource={course.reviews} pagination={false} expandable={{
+                                                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.review}</p>,
+                                            }}
+                                                columns={[{ title: 'Review', dataIndex: 'review', key: 'review', }]} />
+                                        </Panel>
+                                    </Collapse>
+                                </div>
+                            </TabPane>
+                            <TabPane tab={<span><LineChartOutlined />Enrollment Stats</span>} key='enrollment-stats'>
+                                <EnrollmentStats course={course} />
+                            </TabPane>
+                            <TabPane tab={<span><BarChartOutlined />Test Stats</span>} key='test-stats'>Tab 2</TabPane>
+                        </Tabs>
                     </div>
                 </div>
             }
