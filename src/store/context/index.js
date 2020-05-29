@@ -5,7 +5,7 @@ import CourseContextProvider from './course';
 import LessonContextProvider from './lesson';
 import EnrollmentContextProvider from './enroll';
 import QuestionsContextProvider from './questions';
-// import ColorContextProvider from './colors';
+import ReportContextProvider from './report';
 // import AdminUserContextProvider from './admin';
 
 function RootContext(props) {
@@ -16,9 +16,11 @@ function RootContext(props) {
                 <LessonContextProvider>
                     <EnrollmentContextProvider>
                         <QuestionsContextProvider>
-                            <ConfigProvider>
-                                {props.children}
-                            </ConfigProvider>
+                            <ReportContextProvider>
+                                <ConfigProvider>
+                                    {props.children}
+                                </ConfigProvider>
+                            </ReportContextProvider>
                         </QuestionsContextProvider>
                     </EnrollmentContextProvider>
                 </LessonContextProvider>

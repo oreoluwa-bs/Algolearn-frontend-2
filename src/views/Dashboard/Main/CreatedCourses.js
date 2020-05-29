@@ -34,6 +34,7 @@ const CreatedCourses = () => {
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role === 'student') return <Redirect to='/dashboard' />
+    if (auth?.role === 'admin') return <Redirect to='/dashboard' />
 
     return (
         <div className='catalogue-container'>
@@ -79,7 +80,7 @@ const CreatedCourses = () => {
                         {
                             !orgCourses?.length > 0 &&
                             <EmptyState description="You have not created in any course yet"
-                                extra={[<Link to='/dashboard/course/create' className='ant-btn ant-btn-primary ant-btn-lg'>Create a course</Link>]}
+                                extra={[<Link key='ad' to='/dashboard/course/create' className='ant-btn ant-btn-primary ant-btn-lg'>Create a course</Link>]}
                             />
                         }
                         {

@@ -33,7 +33,8 @@ const EnrolledCourses = () => {
         }));
     };
     if (!auth) return <Redirect to='/account' />
-
+    if (auth?.role === 'admin') return <Redirect to='/account' />
+    
     return (
         <div className='catalogue-container'>
             <div style={{ paddingTop: '50px' }}>

@@ -127,6 +127,29 @@ class AuthContextProvider extends Component {
 
 
 
+    // ADMIN
+
+    handleGetAllUsers = async (params) => {
+        try {
+            const res = await instance.get(`/users${params ? params : '/'}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            // const { data } = res.data;
+            // this.setState({ courses: data.doc });
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+    handleUsersStats = async (year) => {
+        try {
+            const res = await instance.get(`/users/stats/${year}`, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
 
     feedback = (response) => {
         if (response.status === 'success') {
@@ -152,6 +175,11 @@ class AuthContextProvider extends Component {
                 handleUpdateMe: this.handleUpdateMe,
                 handleUpdatePassword: this.handleUpdatePassword,
                 handleDeleteMe: this.handleDeleteMe,
+
+
+                // Admin
+                handleGetAllUsers: this.handleGetAllUsers,
+                handleUsersStats: this.handleUsersStats,
             }}>
                 {this.props.children}
             </AuthContext.Provider>

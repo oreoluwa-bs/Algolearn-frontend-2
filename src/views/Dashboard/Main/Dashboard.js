@@ -9,6 +9,7 @@ import {
     CourseStatsPage, ManageCourseContent
 } from '..';
 import '../../../styles/dashboard.css'
+import { MonitorCourses, MonitorUsers, MonitorReportedCourses, AdminHome } from '../Admin';
 
 const { Content } = Layout;
 
@@ -24,6 +25,7 @@ const DashboardV1 = (props) => {
                         <Route exact path={`${currentMatch.path}/`} component={() => {
                             if (auth.role === 'student') return <Redirect to={`${currentMatch.path}/enrolled-courses`} />
                             if (auth.role === 'tutor') return <Redirect to={`${currentMatch.path}/created-courses`} />
+                            if (auth.role === 'admin') return <Redirect to={`${currentMatch.path}/home`} />
                             return
                         }} />
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
@@ -37,6 +39,13 @@ const DashboardV1 = (props) => {
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={CourseStatsPage} />
 
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
+
+
+                        {/* Admin */}
+                        <Route path={`${currentMatch.path}/home`} component={AdminHome} />
+                        <Route path={`${currentMatch.path}/courses`} component={MonitorCourses} />
+                        <Route path={`${currentMatch.path}/users`} component={MonitorUsers} />
+                        <Route path={`${currentMatch.path}/reported-courses`} component={MonitorReportedCourses} />
 
                         <Route component={PageNotfoundDashboard} />
                     </Switch>
@@ -67,6 +76,7 @@ const DashboardV2 = (props) => {
                         <Route exact path={`${currentMatch.path}/`} component={() => {
                             if (auth.role === 'student') return <Redirect to={`${currentMatch.path}/enrolled-courses`} />
                             if (auth.role === 'tutor') return <Redirect to={`${currentMatch.path}/created-courses`} />
+                            if (auth.role === 'admin') return <Redirect to={`${currentMatch.path}/home`} />
                         }} />
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
@@ -79,6 +89,13 @@ const DashboardV2 = (props) => {
                         <Route exact path={`${currentMatch.path}/manage/:slug/stats`} component={ManageCoursePage} />
 
                         <Route path={`${currentMatch.path}/:slug/lesson/create`} component={CreateLessonPage} />
+
+
+                        {/* Admin */}
+                        <Route path={`${currentMatch.path}/home`} component={AdminHome} />
+                        <Route path={`${currentMatch.path}/courses`} component={MonitorCourses} />
+                        <Route path={`${currentMatch.path}/users`} component={MonitorUsers} />
+                        <Route path={`${currentMatch.path}/reported-courses`} component={MonitorReportedCourses} />
 
                         <Route component={PageNotfoundDashboard} />
                     </Switch>

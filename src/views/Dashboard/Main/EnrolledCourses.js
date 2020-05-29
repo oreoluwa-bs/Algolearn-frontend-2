@@ -34,6 +34,7 @@ const EnrolledCourses = () => {
     };
 
     if (!auth) return <Redirect to='/dashboard' />
+    if (auth?.role === 'admin') return <Redirect to='/dashboard' />
 
     return (
         <div className='catalogue-container'>

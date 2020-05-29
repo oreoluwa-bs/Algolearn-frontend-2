@@ -62,32 +62,35 @@ const CourseDetails = (props) => {
                         <BookOutlined />
                         <Title level={1} style={{ color: 'white' }}>{course.title}</Title>
                         <Divider />
-                        <Space>
-                            {
-                                auth && course.author && auth._id !== course.author._id && !isEnrolled &&
-                                <div>
-                                    <div className='enroll-btn'>
-                                        <Button type='primary' size='large' onClick={handleCourseEnrollment}>Start Free Course</Button>
+                        {
+                            auth?.role !== 'admin' &&
+                            < Space >
+                                {
+                                    auth && course.author && auth._id !== course.author._id && !isEnrolled &&
+                                    <div>
+                                        <div className='enroll-btn'>
+                                            <Button type='primary' size='large' onClick={handleCourseEnrollment}>Start Free Course</Button>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            {
-                                auth && course.author && auth._id !== course.author._id && isEnrolled &&
-                                <div>
-                                    <div className='enroll-btn'>
-                                        <Link to={`/classroom/${course.slug}/`} className='ant-btn ant-btn-lg ant-btn-primary'>Classroom</Link>
+                                }
+                                {
+                                    auth && course.author && auth._id !== course.author._id && isEnrolled &&
+                                    <div>
+                                        <div className='enroll-btn'>
+                                            <Link to={`/classroom/${course.slug}/`} className='ant-btn ant-btn-lg ant-btn-primary'>Classroom</Link>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            {
-                                !auth &&
-                                <div>
-                                    <div className='enroll-btn'>
-                                        <Link to='/login' className='ant-btn ant-btn-lg ant-btn-primary'>Start free course</Link>
+                                }
+                                {
+                                    !auth &&
+                                    <div>
+                                        <div className='enroll-btn'>
+                                            <Link to='/login' className='ant-btn ant-btn-lg ant-btn-primary'>Start free course</Link>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        </Space>
+                                }
+                            </Space>
+                        }
                     </div>
                 </div>
                 <Content className='course-details-container'>
@@ -204,7 +207,7 @@ const CourseDetails = (props) => {
                     </div>
                 }
             </div>
-        </div>
+        </div >
     );
 }
 
