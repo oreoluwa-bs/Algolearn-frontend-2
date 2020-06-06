@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Layout, Menu } from 'antd';
 import { CheckOutlined, Loading3QuartersOutlined } from '@ant-design/icons';
 import { green } from '@ant-design/colors';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { EnrollmentContext } from '../../../store/context/enroll';
 
 const { Sider } = Layout;
@@ -71,7 +71,7 @@ const SideBar = (props) => {
                                     {isEnrolled && <CheckOutlined style={{ color: green[5] }} />}
                                     {!isEnrolled && <Loading3QuartersOutlined />}
                                     <span>{lessonItem.title}</span>
-                                    <Link to={{
+                                    <NavLink to={{
                                         pathname: `/classroom/${props.currentMatch.params.slug}/lesson/${lessonItem.slug}`,
                                         state: {
                                             course,
@@ -147,7 +147,7 @@ export default SideBar;
 //                                 {isEnrolled && <CheckOutlined style={{ color: green[5] }} />}
 //                                 {!isEnrolled && <MinusOutlined />}
 //                                 <span>{lesson.title}</span>
-//                                 <Link to={
+//                                 <NavLink to={
 //                                     {
 //                                         pathname: `${props.currentMatch.url}/lesson/${lesson.slug}`,
 //                                         state: {

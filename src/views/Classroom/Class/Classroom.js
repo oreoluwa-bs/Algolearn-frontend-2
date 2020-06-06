@@ -27,6 +27,11 @@ const Classroom = (props) => {
             if (resCourse.data) {
                 if (auth?.role === 'tutor' && auth?._id === resCourse.data.author._id) {
                     setCourse({ course: resCourse.data, completed: true });
+                } else if (auth?.role === 'admin') {
+                    setCourse({ course: resCourse.data, completed: true });
+                    const resLesson = await handleGetCourseLessons(resCourse.data._id, '/?sort=createdAt');
+                    setLessons(resLesson.doc);
+                    setLesson(resLesson.doc.find((less) => less.slug === props.match.params.lessonSlug));
                 } else {
                     const res = await handleGetEnrolledInCourse(resCourse.data._id, `/?user=${auth?._id}`);
                     if (res?.status === 'error') {
@@ -44,7 +49,6 @@ const Classroom = (props) => {
             setCourse(props.location.state.course);
             setLessons(props.location.state.lessons);
             setLesson(props.location.state.lesson);
-
         } else {
             getEnrolledCoursess();
         }

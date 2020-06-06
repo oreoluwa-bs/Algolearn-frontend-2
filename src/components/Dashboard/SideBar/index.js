@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Layout, Menu } from 'antd';
 import { BookOutlined, FolderAddOutlined, UserOutlined, ExclamationCircleOutlined, HomeOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 
 const { Sider } = Layout;
@@ -27,7 +27,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/created-courses'>
                         <FolderAddOutlined />
                         <span>Created Courses</span>
-                        <Link to={`${currentMatch.path}/created-courses`} />
+                        <NavLink to={`${currentMatch.path}/created-courses`} />
                     </Menu.Item>
                 }
                 {
@@ -35,7 +35,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/enrolled-courses'>
                         <BookOutlined />
                         <span>Enrolled Courses</span>
-                        <Link to={`${currentMatch.path}/enrolled-courses`} />
+                        <NavLink to={`${currentMatch.path}/enrolled-courses`} />
                     </Menu.Item>
                 }
                 {
@@ -43,7 +43,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/home'>
                         <HomeOutlined />
                         <span>Home</span>
-                        <Link to={`${currentMatch.path}/home`} />
+                        <NavLink to={`${currentMatch.path}/home`} />
                     </Menu.Item>
                 }
                 {
@@ -51,7 +51,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/courses'>
                         <BookOutlined />
                         <span>All Courses</span>
-                        <Link to={`${currentMatch.path}/courses`} />
+                        <NavLink to={`${currentMatch.path}/courses`} />
                     </Menu.Item>
                 }
                 {
@@ -59,7 +59,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/users'>
                         <UserOutlined />
                         <span>All Users</span>
-                        <Link to={`${currentMatch.path}/users`} />
+                        <NavLink to={`${currentMatch.path}/users`} />
                     </Menu.Item>
                 }
                 {
@@ -67,7 +67,7 @@ const SideBar = ({ currentMatch, location }) => {
                     <Menu.Item key='/reported-courses'>
                         <ExclamationCircleOutlined />
                         <span>Reported Courses</span>
-                        <Link to={`${currentMatch.path}/reported-courses`} />
+                        <NavLink to={`${currentMatch.path}/reported-courses`} />
                     </Menu.Item>
                 }
             </Menu>

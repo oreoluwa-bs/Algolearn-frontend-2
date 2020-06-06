@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import { BookOutlined } from '@ant-design/icons';
 
@@ -15,16 +15,16 @@ const Outlinks = () => {
                 <Menu.Item key='catalogue'>
                     <BookOutlined />
                     <span>Catalogue</span>
-                    <Link to='/catalogue' />
+                    <NavLink to='/catalogue' />
                 </Menu.Item>
             </Menu>
             <span className='ant-divider' style={{ margin: '0 1em' }} />
-            <Link to='/login'>
+            <NavLink to='/login'>
                 <Button type='link'>Login</Button>
-            </Link>
-            <Link to='/signup?v=student' style={{ marginLeft: '5px' }}>
+            </NavLink>
+            <NavLink to='/signup?v=student' style={{ marginLeft: '5px' }}>
                 <Button type='primary'>Become a learner</Button>
-            </Link>
+            </NavLink>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button, Menu, Drawer } from 'antd';
 import { BookOutlined, DashboardOutlined, UserOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
@@ -19,18 +19,18 @@ const InDrawer = (props) => {
                     <Menu.Item key='catalogue'>
                         <BookOutlined />
                         <span>Catalogue</span>
-                        <Link to='/catalogue' />
+                        <NavLink to='/catalogue' />
                     </Menu.Item>
                     <Menu.Item key='classroom'>
                         <DashboardOutlined />
                         <span>Dashboard</span>
-                        <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
+                        <NavLink to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
                     </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item key='manageaccount'>
                         <UserOutlined />
                         <span>Manage my account</span>
-                        <Link to='/account/' />
+                        <NavLink to='/account/' />
                     </Menu.Item>
                     <Menu.Item key='logout'>
                         <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>

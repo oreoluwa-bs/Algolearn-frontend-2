@@ -32,12 +32,12 @@ class ReportContextProvider extends Component {
         }
     }
 
-    handleReportCourse = async (courseId, values) => {
-        const { report } = values;
+    handleReportCourse = async (values) => {
+        const { courseId, report, lesson } = values;
         try {
-            const res = await instance.post(`/reports/create/${courseId}`, { report }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.post(`/reports/create/${courseId}`, { report, lesson }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             // const { data } = res.data;
-            this.feedback({ status: 'success', message: 'You have reported this course' });
+            this.feedback({ status: 'success', message: 'You have report has been sent. Thanks for your feedback' });
             return res.data;
         } catch (error) {
             const { status, message } = error.response.data;

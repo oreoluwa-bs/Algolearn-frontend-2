@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button, Menu, Avatar } from 'antd';
 import { BookOutlined, DashboardOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
@@ -20,12 +20,12 @@ const Inlinks = (props) => {
                 <Menu.Item key='catalogue'>
                     <BookOutlined />
                     <span>Catalogue</span>
-                    <Link to='/catalogue' />
+                    <NavLink to='/catalogue' />
                 </Menu.Item>
                 <Menu.Item key='classroom'>
                     <DashboardOutlined />
                     <span>Dashboard</span>
-                    <Link to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
+                    <NavLink to={`${true ? '/dashboard' : '/admin/dashboard'}`} />
                 </Menu.Item>
                 <span className='ant-divider' style={{ margin: '0 1em' }} />
                 <SubMenu title={
@@ -34,7 +34,7 @@ const Inlinks = (props) => {
                         <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                     </span>
                 }>
-                    <Menu.Item key='manageaccount'>Manage my account<Link to='/account/' /></Menu.Item>
+                    <Menu.Item key='manageaccount'>Manage my account<NavLink to='/account/' /></Menu.Item>
                     <Menu.Item key='logout'>
                         <Button block type='primary' onClick={() => handleLogout()}>Logout</Button>
                     </Menu.Item>

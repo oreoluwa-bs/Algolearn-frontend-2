@@ -24,7 +24,6 @@ const MonitorReportedCourses = () => {
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role !== 'admin') return <Redirect to='/dashboard' />
-
     return (
         <Layout>
             <div>
@@ -46,12 +45,12 @@ const MonitorReportedCourses = () => {
                                 ),
                             },
                             {
-                                title: 'Title',
+                                title: 'Course - Lesson',
                                 dataIndex: 'title',
                                 key: 'title',
                                 render: (text, record) => (
                                     <span>
-                                        <Link to={`/catalogue/${record.course.slug}`}>{record.course.title}</Link>
+                                        <Link to={`/classroom/${record.course.slug}/lesson/${record.lesson.slug}`}>{record.course.title} - {record.lesson.title}</Link>
                                     </span>
                                 ),
                             },
