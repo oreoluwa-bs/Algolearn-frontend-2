@@ -62,7 +62,7 @@ const SideBar = (props) => {
         <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
             {
                 defKey &&
-                <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[defKey]}>
+                <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[defKey]} selectedKeys={[defKey]}>
                     {
                         lessons && lessons.map((lessonItem) => {
                             const isEnrolled = completedLessons !== true ? completedLessons.findIndex((les) => les._id === lessonItem._id) !== -1 : true;

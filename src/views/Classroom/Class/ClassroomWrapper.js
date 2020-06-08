@@ -54,7 +54,7 @@ const ClassroomWrapper = (props) => {
         }
     }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course, handleGetCourseLessons]);
     if (!auth) return <Redirect to='/dashboard' />
-    console.log(course);
+    
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>

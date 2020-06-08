@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouteMatch, Redirect, Link } from 'react-router-dom';
+import { useRouteMatch, Redirect } from 'react-router-dom';
 import { Layout, } from 'antd';
-import { SideBar } from '../../../components/Classroom';
+import { SideBar, ClassFooter } from '../../../components/Classroom';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
@@ -78,17 +78,7 @@ const Classroom = (props) => {
             <Layout style={{ padding: '48px 48px 0' }}>
                 <Content style={{ padding: 24, margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
                     <ClassView currentMatch={currentMatch} parentData={{ lessons, lesson, course }} />
-                    {
-                        nextLesson?.slug &&
-                        <Link to={{
-                            pathname: `/classroom/${currentMatch.params.slug}/lesson/${nextLesson.slug}`,
-                            state: {
-                                course,
-                                lesson: nextLesson,
-                                lessons,
-                            }
-                        }} >next</Link>
-                    }
+                    <ClassFooter history={props.history} courseData={{ currentMatch, course, nextLesson, lessons, lesson }} />
                 </Content>
             </Layout>
         </Layout>
