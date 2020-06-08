@@ -74,7 +74,7 @@ const EditProfilePage = (props) => {
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item label='Account Type:' name='role' hasFeedback rules={[{ required: true, message: 'Please select a course skill-level' }]}>
-                                <Select>
+                                <Select disabled={auth.role === 'admin'}>
                                     <Option value='student'>Student</Option>
                                     <Option value='tutor'>Tutor</Option>
                                 </Select>

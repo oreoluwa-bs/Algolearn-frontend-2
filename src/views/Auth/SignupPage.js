@@ -9,7 +9,7 @@ import { AuthContext } from '../../store/context/auth';
 
 const SignupPage = (props) => {
     const { auth, handleSignUp } = useContext(AuthContext);
-    const [signUpRole, setSignUpRole] = useState('signup');
+    const [signUpRole, setSignUpRole] = useState('student');
 
     const onFinish = values => {
         values.role = signUpRole;
@@ -18,8 +18,12 @@ const SignupPage = (props) => {
 
     useEffect(() => {
         const values = queryString.parse(props.location.search);
-        setSignUpRole(values.v);
-    }, [props.location.search]);
+        if (values?.v !== 'admin' && (values?.v === 'student' || values?.v === 'tutor')) {
+            setSignUpRole(values.v);
+        } else {
+            props.history.push('/signup?v=student');
+        }
+    }, [props.history, props.location.search]);
 
     if (auth) {
         return <Redirect to='/dashboard' />
@@ -67,7 +71,7 @@ const SignupPage = (props) => {
                     </Form.Item>
                     <Form.Item>
                         <Button size='large' block type='primary' htmlType='submit' className='login-form-button'>
-                            Create my account
+                            Create my {signUpRole} account
                         </Button>
                     </Form.Item>
                 </Form>
