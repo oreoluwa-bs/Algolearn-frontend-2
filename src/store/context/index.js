@@ -5,27 +5,27 @@ import CourseContextProvider from './course';
 import LessonContextProvider from './lesson';
 import EnrollmentContextProvider from './enroll';
 import QuestionsContextProvider from './questions';
+import ReviewContextProvider from './review';
 import ReportContextProvider from './report';
-// import AdminUserContextProvider from './admin';
 
 function RootContext(props) {
     return (
         <AuthContextProvider>
-            {/* <AdminUserContextProvider >*/}
             <CourseContextProvider>
                 <LessonContextProvider>
                     <EnrollmentContextProvider>
                         <QuestionsContextProvider>
-                            <ReportContextProvider>
-                                <ConfigProvider>
-                                    {props.children}
-                                </ConfigProvider>
-                            </ReportContextProvider>
+                            <ReviewContextProvider>
+                                <ReportContextProvider>
+                                    <ConfigProvider>
+                                        {props.children}
+                                    </ConfigProvider>
+                                </ReportContextProvider>
+                            </ReviewContextProvider>
                         </QuestionsContextProvider>
                     </EnrollmentContextProvider>
                 </LessonContextProvider>
             </CourseContextProvider>
-            {/*</AdminUserContextProvider> */}
         </AuthContextProvider>
     );
 }

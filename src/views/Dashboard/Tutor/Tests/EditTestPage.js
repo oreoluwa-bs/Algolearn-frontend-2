@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Layout, Input, Button, Form, Tooltip, Table, Popconfirm, Modal, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { AddOptionPage } from '../../../components/Dashboard';
-import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
-import { QuestionsContext } from '../../../store/context/questions';
+import { AddOptionPage } from '../../../../components/Dashboard';
+import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
+import { QuestionsContext } from '../../../../store/context/questions';
 
 const { TextArea } = Input;
 

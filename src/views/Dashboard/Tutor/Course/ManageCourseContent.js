@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Divider } from 'antd';
-import { ManageTestPage, ManageLessonsPage } from '..';
-import { AuthContext } from '../../../store/context/auth';
-import { CourseContext } from '../../../store/context/course';
+import { ManageLessonsPage, ManageTestPage } from '../..';
+import { AuthContext } from '../../../../store/context/auth';
+import { CourseContext } from '../../../../store/context/course';
 
 const ManageCourseContent = (props) => {
     const { auth } = useContext(AuthContext);
@@ -35,7 +35,7 @@ const ManageCourseContent = (props) => {
                 course?.title &&
                 <div>
                     <PageHeader
-                        onBack={() => { props.history.goBack() }}
+                        onBack={() => { props.history.push(`/dashboard/manage/${props.match.params.slug}/`) }}
                         title={`${course.title}`}
                         extra={[]}>
                     </PageHeader>

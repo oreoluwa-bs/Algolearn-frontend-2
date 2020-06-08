@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
+import { ReviewModal } from '..';
+
 
 const ClassFooter = (props) => {
     const [reviewModal, setReviewModal] = useState(false);
     const { currentMatch, course, nextLesson, lessons, lesson } = props.courseData;
-    if (lesson) {
 
-    }
+    if (lesson) { }
+
     return (
         <div>
             <div>
@@ -23,17 +25,26 @@ const ClassFooter = (props) => {
                         });
                     }}>Next Lesson</Button>
                 }
-                {
+                {/* {
                     !nextLesson?.slug &&
                     <Button style={{ float: 'right' }} type='primary' onClick={() => { setReviewModal(true) }}>Complete Course</Button>
+                } */}
+                {
+                    !nextLesson?.slug && !course?.course?.testQuestionCount > 0 &&
+                    <Button style={{ float: 'right' }} type='primary' onClick={() => { setReviewModal(true) }}>Complete Course</Button>
+                }
+                {
+                    !nextLesson?.slug && course?.course?.testQuestionCount > 0 &&
+                    <Button style={{ float: 'right' }} type='primary' onClick={() => {
+                        props.history.push({
+                            pathname: `/classroom/${currentMatch.params.slug}/test`,
+                            // state: { course, }
+                        });
+                    }}>Start Test</Button>
                 }
             </div>
             <div>
-                <Modal title="We'd love to hear about your experience" visible={reviewModal} onOk={() => setReviewModal(false)} onCancel={() => setReviewModal(false)}>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                </Modal>
+                <ReviewModal reviewModal={reviewModal} setReviewModal={setReviewModal} />
             </div>
         </div>
     )

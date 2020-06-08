@@ -24,10 +24,13 @@ const Examhall = (props) => {
             const resCourse = await handleGetCourse(props.match.params.slug);
             if (resCourse.data) {
                 const res = await handleGetEnrolledInCourse(resCourse.data._id, `/?user=${auth?._id}`);
-                setCourse(res.data.doc[0]);
-                if (res?.status === 'error') {
+                if (!res.data.doc[0] && resCourse.data.author._id === auth._id) {
+                    props.history.push(`/dashboard/manage/${props.match.params.slug}/content/`);
+                }
+                if (res?.status === 'error' || (!res.data.doc[0] && resCourse.data.author._id !== auth._id)) {
                     props.history.push(`/dashboard/enrolled-courses`);
                 }
+                setCourse(res.data.doc[0]);
             }
         }
         if (props.location.state?.course) {
@@ -49,7 +52,7 @@ const Examhall = (props) => {
         }
     }, [course, handleGetCourseTest]);
 
-    const showDeleteConfirm = (values) => {
+    const showSubmitConfirm = (values) => {
         confirm({
             title: 'Are you sure you want to submit?',
             icon: <ExclamationCircleOutlined />,
@@ -91,17 +94,19 @@ const Examhall = (props) => {
             state: {
                 course: { ...course, test },
                 testQuestions,
+                showReviewModal: true
             }
         });
     };
 
     if (!auth) return <Redirect to='/dashboard' />
 
-    if (course?.test?.attempts >= 2) return <Redirect to={{
+    if (course?.test?.attempts >= 1 && testQuestions.length > 0) return <Redirect to={{
         pathname: `/classroom/${course.course.slug}/test-results`,
         state: {
-            course: { ...course, test },
+            course,
             testQuestions,
+            showReviewModal: false
         }
     }} />
     return (
@@ -111,7 +116,7 @@ const Examhall = (props) => {
                     <PageHeader title={course?.course?.title} style={{}} extra={[<Text type='secondary' key='attempts'>Attempts: {course?.test?.attempts}</Text>]}></PageHeader>
                     <Divider />
                     <div>
-                        <Form name="validate_other" onFinish={showDeleteConfirm}>
+                        <Form name="validate_other" onFinish={showSubmitConfirm}>
                             {
                                 testQuestions && testQuestions.length > 0 &&
                                 testQuestions.map((question, index) => {

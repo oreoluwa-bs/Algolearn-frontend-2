@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Layout, Input, Button, Form, Tooltip, PageHeader } from 'antd';
 import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { BookOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
-import { LessonContext } from '../../../store/context/lesson';
-import { RichTextEditor } from '../../../components/Dashboard';
-import { decorator } from '../../../components/Dashboard/RichTextEditor/utils';
+import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
+import { LessonContext } from '../../../../store/context/lesson';
+import { RichTextEditor } from '../../../../components/Dashboard';
+import { decorator } from '../../../../components/Dashboard/RichTextEditor/utils';
 
 const EditLessonPage = (props) => {
     const { handleEditLesson } = useContext(LessonContext);

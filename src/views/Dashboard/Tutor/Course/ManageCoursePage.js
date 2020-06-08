@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Tag, Button, Typography, Descriptions, Rate, Tooltip, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined, LineChartOutlined, FolderOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { AuthContext } from '../../../store/context/auth';
-import { CourseContext } from '../../../store/context/course';
+import { AuthContext } from '../../../../store/context/auth';
+import { CourseContext } from '../../../../store/context/course';
 
 const { Paragraph } = Typography;
 const { confirm } = Modal;

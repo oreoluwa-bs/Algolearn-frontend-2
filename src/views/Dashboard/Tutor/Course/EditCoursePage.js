@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Layout, Input, Button, Form, PageHeader, Select, Row, Col } from 'antd';
 import { BookOutlined } from '@ant-design/icons';
-import { AuthContext } from '../../../store/context/auth';
-import { CourseContext } from '../../../store/context/course';
-import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
+import { AuthContext } from '../../../../store/context/auth';
+import { CourseContext } from '../../../../store/context/course';
+import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
 
 const { TextArea } = Input;
 const { Option } = Select;

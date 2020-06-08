@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { PageHeader, Button, Table, Tooltip, Divider, Popconfirm } from 'antd';
-import { LessonContext } from '../../../store/context/lesson';
+import { LessonContext } from '../../../../store/context/lesson';
 import Title from 'antd/lib/typography/Title';
 
 const ManageLessonsPage = (props) => {

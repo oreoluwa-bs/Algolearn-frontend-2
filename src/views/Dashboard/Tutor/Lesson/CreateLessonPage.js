@@ -3,12 +3,12 @@ import { Redirect } from 'react-router-dom';
 import { Layout, Input, Button, Form, Tooltip, PageHeader } from 'antd';
 import { BookOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Editor, EditorState, convertToRaw } from 'draft-js';
-import { TextInputRules } from '../../../components/Dashboard/Course/CourseFormRules';
-import { LessonContext } from '../../../store/context/lesson';
-import { AuthContext } from '../../../store/context/auth';
-import { CourseContext } from '../../../store/context/course';
-import { RichTextEditor } from '../../../components/Dashboard';
-import { decorator } from '../../../components/Dashboard/RichTextEditor/utils';
+import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
+import { LessonContext } from '../../../../store/context/lesson';
+import { AuthContext } from '../../../../store/context/auth';
+import { CourseContext } from '../../../../store/context/course';
+import { RichTextEditor } from '../../../../components/Dashboard';
+import { decorator } from '../../../../components/Dashboard/RichTextEditor/utils';
 
 const CreateLessonPage = (props) => {
     const { handleCreateLesson } = useContext(LessonContext);

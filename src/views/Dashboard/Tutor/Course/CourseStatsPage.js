@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom';
 import { PageHeader, Layout, Collapse, Table, Tabs } from 'antd';
 // eslint-disable-next-line no-unused-vars
 import { LineChartOutlined, BarChartOutlined, CommentOutlined } from '@ant-design/icons';
-import { AuthContext } from '../../../store/context/auth';
-import { CourseContext } from '../../../store/context/course';
-import { EnrollmentStats } from '../../../components/Dashboard';
+import { AuthContext } from '../../../../store/context/auth';
+import { CourseContext } from '../../../../store/context/course';
+import { EnrollmentStats } from '../../../../components/Dashboard';
 
 const { TabPane } = Tabs;
 

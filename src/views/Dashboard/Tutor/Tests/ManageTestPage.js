@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { PageHeader, Button, Table, Tooltip, Divider, Popconfirm, Modal } from 'antd';
-import { CreateTestPage, EditTestPage } from '..';
-import { QuestionsContext } from '../../../store/context/questions';
+import { CreateTestPage, EditTestPage } from '../..';
+import { QuestionsContext } from '../../../../store/context/questions';
 import Title from 'antd/lib/typography/Title';
 
 const ManageTestPage = (props) => {

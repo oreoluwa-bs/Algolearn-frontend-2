@@ -6,6 +6,7 @@ import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { QuestionsContext } from '../../../store/context/questions';
 import { EnrollmentContext } from '../../../store/context/enroll';
+import { ReviewModal } from '../../../components/Classroom';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -17,6 +18,7 @@ const ExamSubmitted = (props) => {
     const { handleGetEnrolledInCourse } = useContext(EnrollmentContext);
     const [course, setCourse] = useState({});
     const [testQuestions, setTestQuestions] = useState([]);
+    const [reviewModal, setReviewModal] = useState(false);
 
     useEffect(() => {
         const getCourseData = async () => {
@@ -25,21 +27,26 @@ const ExamSubmitted = (props) => {
                 const resTest = await handleGetCourseTest(resCourse.data._id);
                 setTestQuestions(resTest.doc);
                 const res = await handleGetEnrolledInCourse(resCourse.data._id, `/?user=${auth?._id}`);
-                setCourse(res.data.doc[0]);
-                if (res?.status === 'error') {
+                if (!res.data.doc[0] && resCourse.data.author._id === auth._id) {
+                    props.history.push(`/dashboard/manage/${props.match.params.slug}/content/`);
+                }
+                if (res?.status === 'error' || (!res.data.doc[0] && resCourse.data.author._id !== auth._id)) {
                     props.history.push(`/dashboard/enrolled-courses`);
                 }
+                setCourse(res.data.doc[0]);
             }
         }
         if (props.location.state?.course) {
             setCourse(props.location.state.course);
             setTestQuestions(props.location.state.testQuestions);
+            setReviewModal(props.location.state.showReviewModal);
         } else {
             getCourseData();
         }
     }, [props.location.state, props.match.params.slug, handleGetCourse, props.history, handleGetEnrolledInCourse, auth, handleGetCourseTest]);
 
     if (!auth) return <Redirect to='/dashboard' />
+    
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
@@ -49,19 +56,19 @@ const ExamSubmitted = (props) => {
                             successPercent={50}
                             icon={
                                 <Tooltip title={`Got ${course?.test?.score} out of ${testQuestions?.length} questions`}>
-                                    <Progress width={50} type="circle" percent={(course?.test?.score / testQuestions?.length) * 100}
+                                    <Progress width={50} type='circle' percent={(course?.test?.score / testQuestions?.length) * 100}
                                         strokeColor={(course?.test?.score / testQuestions?.length) * 100 < 70 ? red[5] : null} />
                                 </Tooltip>
                             }
-                            subTitle="Final Score"
+                            subTitle='Final Score'
                         />
                     ]}>
                     </PageHeader>
                     <Divider />
                     <div>
                         {
-                            course.test && course.test.answers &&
-                            <Form name="validate_other" initialValues={{ ...course.test.answers }} onFinish={() => { }}>
+                            course?.test && course?.test.answers &&
+                            <Form name='testt_results' initialValues={{ ...course.test.answers }} onFinish={() => { }}>
                                 {
                                     testQuestions && testQuestions.length > 0 &&
                                     testQuestions.map((question, index) => {
@@ -101,6 +108,7 @@ const ExamSubmitted = (props) => {
                             </Form>
                         }
                     </div>
+                    <ReviewModal reviewModal={reviewModal} setReviewModal={setReviewModal} course={course.course} />
                 </Content>
             </Layout>
         </Layout >
