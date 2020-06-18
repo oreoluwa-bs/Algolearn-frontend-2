@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Layout, Input, Button, Form, PageHeader, Select, Row, Col, Divider, Modal } from 'antd';
-import { UserOutlined, LockOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Layout, Input, Button, Form, PageHeader, Select, Row, Col, Divider, Modal, Avatar, Upload, Space } from 'antd';
+import { UserOutlined, LockOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../store/context/auth';
 import { PasswordRules, EmailRules, NameRules, ConfirmPasswordRules } from '../../components/Auth/AuthRules';
-const { Option } = Select;
+import { utils } from '../../config';
 
+const { Option } = Select;
 const { confirm } = Modal;
 
 const EditProfilePage = (props) => {
     const { auth, handleUpdateMe, handleUpdatePassword, handleDeleteMe } = useContext(AuthContext);
+    const [photoFileList, setPhotoFileList] = useState([]);
+    const [previewPhoto, setPreviewPhoto] = useState(null);
 
     const onFinishChangePassword = async (values) => {
         await handleUpdatePassword(values);
     };
 
     const onFinishEditProfile = async (values) => {
+        // console.log(values);
         await handleUpdateMe(values);
     };
 
@@ -34,12 +38,53 @@ const EditProfilePage = (props) => {
         });
     }
 
+    const normFile = (e) => e.file.originFileObj;
+    const uploadPhoto = async ({ file, onSuccess, onError }) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            if (reader.result) {
+                setPreviewPhoto(reader.result);
+                onSuccess({ status: 'success' });
+            }
+        };
+
+        reader.onerror = function () {
+            onError();
+        };
+    }
+
     if (!auth) return <Redirect to='/dashboard' />
     return (
         <Layout>
             <PageHeader title={null} subTitle='Edit profile' />
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 <Form name='edit-profile' initialValues={{ ...auth }} hideRequiredMark size='large' layout='vertical' onFinish={onFinishEditProfile}>
+                    <div>
+                        <Space size='large'>
+                            {
+                                !auth.photo &&
+                                <Avatar size={70} shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                            }
+                            {
+                                auth.photo &&
+                                <Avatar size={70} shape='circle' src={previewPhoto ?? `${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
+                            }
+                            <Form.Item label='Profile Picture:' name='photo' valuePropName='filelist' getValueFromEvent={normFile}>
+                                <Upload name='user-photo' accept='image/*' fileList={photoFileList} customRequest={uploadPhoto}
+                                    onChange={(info) => {
+                                        if (info.fileList.length > 1) {
+                                            info.fileList.shift();
+                                        }
+                                        setPhotoFileList(info.fileList);
+                                    }}>
+                                    <Button size='middle' type='dashed'>
+                                        <UploadOutlined /> Click to upload
+                                </Button>
+                                </Upload>
+                            </Form.Item>
+                        </Space>
+                    </div>
                     <Row gutter={{ md: 24 }}>
                         <Col xs={24} md={12}>
                             <Form.Item label='First Name:' name='firstname'
@@ -52,15 +97,6 @@ const EditProfilePage = (props) => {
                                 rules={[...NameRules('Last name')]}>
                                 <Input placeholder='Doe' />
                             </Form.Item>
-                            {/* <Upload
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                listType="picture-card"
-                                fileList={fileList}
-                                onPreview={this.handlePreview}
-                                onChange={this.handleChange}
-                            >
-                                {fileList.length >= 8 ? null : uploadButton}
-                            </Upload> */}
                         </Col>
                     </Row>
                     <Row gutter={{ md: 24 }}>
@@ -83,7 +119,7 @@ const EditProfilePage = (props) => {
                     </Row>
                     <Form.Item>
                         <Button style={{ float: 'right' }} type='primary' htmlType='submit'>
-                            Update profile
+                            Save changes
                             </Button>
                     </Form.Item>
                 </Form>

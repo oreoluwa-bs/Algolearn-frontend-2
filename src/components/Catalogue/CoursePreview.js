@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Rate, Typography, Avatar, Badge, Tag } from 'antd';
+import { utils } from '../../config';
 
 const { Paragraph, Text } = Typography;
 
@@ -30,7 +31,14 @@ const CoursePreview = (props) => {
                     <Paragraph ellipsis={{ rows: 3 }}>{course.description}</Paragraph>
                     <div>
                         <div>
-                            <Avatar size='small' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458', marginRight: 10 }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                            {
+                                !course.author.photo &&
+                                <Avatar size='small' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458', marginRight: 10 }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                            }
+                            {
+                                course.author.photo &&
+                                <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
+                            }
                             <Text type='secondary'>{course.author.firstname} {course.author.lastname}</Text>
                         </div>
                     </div>

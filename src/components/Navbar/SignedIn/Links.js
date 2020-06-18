@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Button, Menu, Avatar } from 'antd';
 import { BookOutlined, DashboardOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../../store/context/auth';
+import { utils } from '../../../config';
 
 const { SubMenu } = Menu;
 
@@ -30,8 +31,14 @@ const Inlinks = (props) => {
                 <span className='ant-divider' style={{ margin: '0 1em' }} />
                 <SubMenu title={
                     <span>
-                        {/* <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: localStorage.getItem('avatarColor') }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar> */}
-                        <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                        {
+                            !auth.photo &&
+                            <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                        }
+                        {
+                            auth.photo &&
+                            <Avatar size='large' shape='circle' src={`${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
+                        }
                     </span>
                 }>
                     <Menu.Item key='manageaccount'>Manage my account<NavLink to='/account/' /></Menu.Item>

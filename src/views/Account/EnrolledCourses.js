@@ -76,7 +76,7 @@ const EnrolledCourses = () => {
                         {
                             !orgCourses?.length > 0 &&
                             <EmptyState description="You currently aren't enrolled in any course"
-                                extra={[<Link to='/catalogue' className='ant-btn ant-btn-primary ant-btn-lg'>Check out Courses Catalogue</Link>]}
+                                extra={[<Link to='/catalogue' key='clasF' className='ant-btn ant-btn-primary ant-btn-lg'>Check out Courses Catalogue</Link>]}
                             />
                         }
                         {

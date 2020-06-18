@@ -5,6 +5,7 @@ import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSqu
 import { AuthContext } from '../../store/context/auth';
 import { CourseContext } from '../../store/context/course';
 import { EnrollmentContext } from '../../store/context/enroll';
+import { utils } from '../../config';
 
 const { Paragraph, Text, Title } = Typography;
 const { Content } = Layout;
@@ -189,7 +190,7 @@ const CourseDetails = (props) => {
                                             <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
                                                 <div className='review-card' style={{ borderColor: review.rating > 2 ? review.rating > 3 ? reviewColors[1] : reviewColors[0] : reviewColors[2] }}>
                                                     <div>
-                                                        {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`http://localhost:5000/photos${review.user.photo}`} />}
+                                                        {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`${utils.apiHOST}images/users/${review.user.photo}`} />}
                                                         {!review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }}>{review.user.firstname[0]}{review.user.lastname[0]}</Avatar>}
                                                     </div>
                                                     <div><Text type='secondary'>{review.user && review.user.firstname} {review.user && review.user.lastname}</Text></div>

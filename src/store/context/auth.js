@@ -85,9 +85,15 @@ class AuthContextProvider extends Component {
     }
 
     handleUpdateMe = async (credentials) => {
-        const { firstname, lastname, role, email } = credentials;
+        const { firstname, lastname, role, email, photo } = credentials;
+        const form = new FormData();
+        form.append('firstname', firstname);
+        form.append('lastname', lastname);
+        form.append('role', role);
+        form.append('email', email);
+        form.append('photo', photo);
         try {
-            const res = await instance.patch(`/users/me`, { firstname, lastname, role, email }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.patch(`/users/me`, form, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             const { data } = res.data;
             this.handleGetMe();
             this.feedback({ status: 'success', message: `Profile has been updated!` });
