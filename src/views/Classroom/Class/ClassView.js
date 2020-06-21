@@ -4,6 +4,7 @@ import { Layout, Typography, Button } from 'antd';
 import ReactMarkdown from 'react-markdown';
 import { draftToMarkdown } from 'markdown-draft-js';
 import { AddedFeatures } from '../../../components/Classroom';
+import { utils } from '../../../config';
 
 // const { Content } = Layout;
 const { Title } = Typography;
@@ -33,6 +34,17 @@ const ClassView = (props) => {
                         <AddedFeatures course={course?.course} lesson={lesson} />
                     </div>
                     <div className='class-text'>
+                        {
+                            lesson.video &&
+                            <div>
+                                <br />
+                                <br />
+                                <div>
+                                    <video controls style={{ maxHeight: '600px', minHeight: '500px' }} controlsList='nodownload'
+                                        src={`${utils.apiHOST}videos/courses/${lesson.video}`} />
+                                </div>
+                            </div>
+                        }
                         <br />
                         <br />
                         {/* <div>{lesson.text} </div> */}

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Layout, Input, Button, Form, Tooltip, PageHeader } from 'antd';
+import { Layout, Input, Button, Form, Tooltip, PageHeader, Upload } from 'antd';
 import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import { BookOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { BookOutlined, QuestionCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../../store/context/lesson';
 import { RichTextEditor } from '../../../../components/Dashboard';
 import { decorator } from '../../../../components/Dashboard/RichTextEditor/utils';
+
+const { Dragger } = Upload;
 
 const EditLessonPage = (props) => {
     const { handleEditLesson } = useContext(LessonContext);
@@ -13,6 +15,7 @@ const EditLessonPage = (props) => {
     const [lesson, setLesson] = useState({});
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator));
+    const [videoFileList, setVideoFileList] = useState([]);
 
     const editorRef = useRef(Editor);
 
@@ -24,6 +27,24 @@ const EditLessonPage = (props) => {
             props.history.push(`/dashboard/manage/${course.slug}/content`);
         }
     };
+
+    const getUploadData = (e) => {
+        if (e?.fileList.length > 0) return e.fileList[0].originFileObj;
+        return undefined;
+    };
+    const uploadVideo = async ({ file, onSuccess, onError }) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            if (reader.result) {
+                onSuccess({ status: 'success' });
+            }
+        };
+
+        reader.onerror = function () {
+            onError();
+        };
+    }
 
     useEffect(() => {
         if (props?.location?.state) {
@@ -50,13 +71,31 @@ const EditLessonPage = (props) => {
                             <Input prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                                 placeholder='Algorithms 101' />
                         </Form.Item>
+                        <Form.Item label='Video:' name='video' valuePropName='filelist' getValueFromEvent={getUploadData}>
+                            <Dragger
+
+                                listType='picture'
+                                name='lesson-video' accept='video/mp4,video/x-m4v,video/*' fileList={videoFileList} customRequest={uploadVideo}
+                                onChange={(info) => {
+                                    if (info.fileList.length > 1) {
+                                        info.fileList.shift();
+                                    }
+                                    setVideoFileList(info.fileList);
+                                }}>
+                                <p className='ant-upload-drag-icon'>
+                                    <InboxOutlined />
+                                </p>
+                                <p className='ant-upload-text'>Click or drag file to this area to upload</p>
+                                <p className='ant-upload-hint'>Support for a single upload.</p>
+                            </Dragger>
+                        </Form.Item>
                         <Form.Item name='text' label={
-                            <span>Text:&nbsp;
-                            <Tooltip title={
+                            <span>Overview:&nbsp;
+                            {/* <Tooltip title={
                                     <span>For more customization write in markdown. Check <a href='https://guides.github.com/features/mastering-markdown/'>Markdown Guide</a> for more information. Note some features do not work.</span>
                                 }>
                                     <QuestionCircleOutlined />
-                                </Tooltip>
+                                </Tooltip> */}
                             </span>
                         }>
                             <RichTextEditor editorState={editorState} editorRef={editorRef}

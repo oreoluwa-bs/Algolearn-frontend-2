@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState, Suspense, lazy } from 'react';
-import { Layout, Col, Row } from 'antd';
+import { Layout, Col, Row, PageHeader } from 'antd';
 import { Redirect, Link, } from 'react-router-dom';
 import { EnrollmentContext } from '../../../store/context/enroll';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
 import { LessonContext } from '../../../store/context/lesson';
-import '../../../styles/classroom.css';
 import { EmptyState } from '../../../components/Dashboard';
+import '../../../styles/classroom.css';
 
 const Thumbnails = lazy(() => import('../../../components/Classroom/LessonPreview'));
 
@@ -54,13 +54,17 @@ const ClassroomWrapper = (props) => {
         }
     }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course, handleGetCourseLessons]);
     if (!auth) return <Redirect to='/dashboard' />
-    
+    console.log(course);
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
                 <Content style={{ padding: '24px 48px', margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
-                    <h1 style={{ textAlign: 'center' }}>Lessons</h1>
-                    <br />
+                    <PageHeader
+                        onBack={() => { props.history.push(`/dashboard/enrolled-courses/`) }}
+                        title='Lessons'
+                        extra={[
+                            <Link key='test-r' to={`/classroom/${course?.course?.slug}/test-results`} className='ant-btn ant-btn-dashed'>Final grades</Link>
+                        ]} />
                     <br />
                     {
                         lessons?.length > 0 &&

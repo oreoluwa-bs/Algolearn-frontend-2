@@ -45,8 +45,13 @@ class LessonContextProvider extends Component {
 
     handleCreateLesson = async (courseId, values) => {
         const { title, text, video } = values;
+        const form = new FormData();
+        form.append('title', title);
+        form.append('text', text);
+        form.append('video', video);
+
         try {
-            const res = await instance.post(`/courses/${courseId}/lessons/`, { title, text, video }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.post(`/courses/${courseId}/lessons/`, form, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             // const { data } = res.data;
             this.feedback({ status: 'success', message: 'Your lesson has been created' });
             return res.data;
@@ -57,8 +62,13 @@ class LessonContextProvider extends Component {
     }
     handleEditLesson = async ({ courseId, lessonId }, values) => {
         const { title, text, video } = values;
+        const form = new FormData();
+        form.append('title', title);
+        form.append('text', text);
+        form.append('video', video);
+        
         try {
-            const res = await instance.patch(`/courses/${courseId}/lessons/${lessonId}`, { title, text, video }, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
+            const res = await instance.patch(`/courses/${courseId}/lessons/${lessonId}`, form, { headers: { Authorization: `Bearer ${utils.getCookie('jwt')}` } });
             this.feedback({ status: 'success', message: 'Your lesson has been edited' });
             return res.data;
         } catch (error) {

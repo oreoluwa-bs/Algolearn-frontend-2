@@ -129,7 +129,9 @@ const Examhall = (props) => {
                                                     {
                                                         question.options.map((options) => {
                                                             return (
-                                                                <Radio key={options.key} value={options.key}>{options.text}</Radio>
+                                                                <Radio key={options.key} value={options.key}
+                                                                    style={{ display: 'block', height: '30px', lineHeight: '30px' }}
+                                                                >{options.text}</Radio>
                                                             )
                                                         })
                                                     }

@@ -46,7 +46,7 @@ const ExamSubmitted = (props) => {
     }, [props.location.state, props.match.params.slug, handleGetCourse, props.history, handleGetEnrolledInCourse, auth, handleGetCourseTest]);
 
     if (!auth) return <Redirect to='/dashboard' />
-    
+
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
@@ -87,7 +87,8 @@ const ExamSubmitted = (props) => {
                                                         {
                                                             question.options.map((options) => {
                                                                 return (
-                                                                    <Radio disabled={userAnswers[index] !== options.key} key={options.key} value={options.key}>
+                                                                    <Radio style={{ display: 'block', height: '30px', lineHeight: '30px' }}
+                                                                        disabled={userAnswers[index] !== options.key} key={options.key} value={options.key}>
                                                                         <Text style={{
                                                                             color: userAnswers[index] === options.key && !isCorrectAnswer ? red[5] :
                                                                                 userAnswers[index] === options.key && isCorrectAnswer ? green[5] : null

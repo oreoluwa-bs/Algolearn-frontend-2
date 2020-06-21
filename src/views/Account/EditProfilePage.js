@@ -38,7 +38,10 @@ const EditProfilePage = (props) => {
         });
     }
 
-    const normFile = (e) => e.file.originFileObj;
+    const getUploadData = (e) => {
+        if (e?.fileList.length > 0) return e.fileList[0].originFileObj;
+        return undefined;
+    };
     const uploadPhoto = async ({ file, onSuccess, onError }) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -70,7 +73,7 @@ const EditProfilePage = (props) => {
                                 auth.photo &&
                                 <Avatar size={70} shape='circle' src={previewPhoto ?? `${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
                             }
-                            <Form.Item label='Profile Picture:' name='photo' valuePropName='filelist' getValueFromEvent={normFile}>
+                            <Form.Item label='Profile Picture:' name='photo' valuePropName='filelist' getValueFromEvent={getUploadData}>
                                 <Upload name='user-photo' accept='image/*' fileList={photoFileList} customRequest={uploadPhoto}
                                     onChange={(info) => {
                                         if (info.fileList.length > 1) {
