@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState, Suspense, lazy } from 'react';
-import { Layout, Col, Row, PageHeader } from 'antd';
+import { Layout, Col, Row, PageHeader, Tooltip, Progress, Space, Typography } from 'antd';
+import { red } from '@ant-design/colors';
 import { Redirect, Link, } from 'react-router-dom';
 import { EnrollmentContext } from '../../../store/context/enroll';
 import { AuthContext } from '../../../store/context/auth';
@@ -11,6 +12,7 @@ import '../../../styles/classroom.css';
 const Thumbnails = lazy(() => import('../../../components/Classroom/LessonPreview'));
 
 const { Content } = Layout;
+const { Text } = Typography;
 
 const ClassroomWrapper = (props) => {
     const { auth } = useContext(AuthContext);
@@ -54,7 +56,7 @@ const ClassroomWrapper = (props) => {
         }
     }, [auth, handleGetCourse, handleGetEnrolledInCourse, props.match, props.history, props.location.state, course, handleGetCourseLessons]);
     if (!auth) return <Redirect to='/dashboard' />
-    console.log(course);
+
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
@@ -63,7 +65,16 @@ const ClassroomWrapper = (props) => {
                         onBack={() => { props.history.push(`/dashboard/enrolled-courses/`) }}
                         title='Lessons'
                         extra={[
-                            <Link key='test-r' to={`/classroom/${course?.course?.slug}/test-results`} className='ant-btn ant-btn-dashed'>Final grades</Link>
+                            course?.test?.attempts > 0 &&
+                            <Link key='test-r' to={`/classroom/${course?.course?.slug}/test-results`}>
+                                <Space size='middle'>
+                                    <Text type='secondary'>Final Grade</Text>
+                                    <Tooltip title={`Got ${course?.test?.score} out of ${course?.course?.testQuestionCount} questions`}>
+                                        <Progress width={50} type='circle' percent={(course?.test?.score / course?.course?.testQuestionCount) * 100}
+                                            strokeColor={(course?.test?.score / course?.course?.testQuestionCount) * 100 < 70 ? red[5] : null} />
+                                    </Tooltip>
+                                </Space>
+                            </Link>,
                         ]} />
                     <br />
                     {
@@ -112,20 +123,3 @@ const ClassroomWrapper = (props) => {
 }
 
 export default ClassroomWrapper;
-
-// const DAS = () => {
-//     return (
-//         <Layout className='dash'>
-//             <SideBar currentMatch={currentMatch} location={props.location} course={course} />
-//             <Layout style={{ padding: '48px 48px 0' }}>
-//                 <Content style={{ padding: 24, margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
-//                     <Switch>
-//                         <Route exact path={`${currentMatch.path}/`} component={() => <Redirect to={`/classroom/${props.match.params.slug}/lesson/`} />} />
-//                         <Route exact path={`${currentMatch.path}/lesson/`} component={() => <Main course={course} allProps={props} />} />
-//                         <Route exact path={`${currentMatch.path}/lesson/:lessonSlug`} component={ClassView} />
-//                     </Switch>
-//                 </Content>
-//             </Layout>
-//         </Layout>
-//     );
-// }

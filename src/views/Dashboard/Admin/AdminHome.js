@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Layout, Statistic, Col, Row, Divider, Select } from 'antd';
+import { Layout, Statistic, Col, Row, Divider, Select, Typography, Space } from 'antd';
 import { Line } from 'react-chartjs-2';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 import { utils } from '../../../config';
 
 const { Option } = Select;
+const { Text } = Typography;
 
-const AdminHome = () => {
+const AdminHome = (props) => {
     const { auth, handleUsersStats } = useContext(AuthContext);
     const [userStats, setUserStats] = useState([...Array(12).fill(0)]);
     const [usersCount, setUsersCount] = useState(0);
@@ -59,7 +60,11 @@ const AdminHome = () => {
                             <Statistic title='Total Users' value={usersCount} />
                         </Col>
                         <Col span={12}>
-                            <Statistic title='Account Balance' value={112893} precision={2} />
+                            {/* <Statistic title='Account Balance' value={112893} precision={2} /> */}
+                            <Space size='small' direction='vertical'>
+                                <Text type='secondary'>Action</Text>
+                                <Link to={`/admin-signup`} className='ant-btn ant-btn-dashed ant-btn-sm'>Create Administrator Account</Link>
+                            </Space>
                         </Col>
                     </Row>
                     <Divider />

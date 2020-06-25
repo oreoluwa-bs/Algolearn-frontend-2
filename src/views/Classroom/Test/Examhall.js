@@ -18,6 +18,7 @@ const Examhall = (props) => {
     const { handleGetEnrolledInCourse, handleEditUserCourseEnrollment } = useContext(EnrollmentContext);
     const [course, setCourse] = useState({});
     const [testQuestions, setTestQuestions] = useState([]);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
         const getCourseData = async () => {
@@ -45,6 +46,7 @@ const Examhall = (props) => {
         const getTestData = async () => {
             const res = await handleGetCourseTest(course.course._id);
             setTestQuestions(res.doc);
+            setDataLoaded(true);
         }
 
         if (course?._id) {
@@ -56,7 +58,7 @@ const Examhall = (props) => {
         confirm({
             title: 'Are you sure you want to submit?',
             icon: <ExclamationCircleOutlined />,
-            content: 'Tests can only be retaken twice',
+            content: 'Only ONE attempt is permitted',
             okText: 'I am sure',
             // okType: 'danger',
             cancelText: 'No',
@@ -109,11 +111,17 @@ const Examhall = (props) => {
             showReviewModal: false
         }
     }} />
+
+    if (course.course && dataLoaded && testQuestions.length < 1) return <Redirect to={`/classroom/${course.course.slug}/`} />
     return (
         <Layout className='dash'>
             <Layout style={{ padding: '48px 48px 0' }}>
                 <Content style={{ padding: '24px', margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
-                    <PageHeader title={course?.course?.title} style={{}} extra={[<Text type='secondary' key='attempts'>Attempts: {course?.test?.attempts}</Text>]}></PageHeader>
+                    <PageHeader title={course?.course?.title} style={{}} extra={[<Text type='secondary' key='attempts'>Attempts: {course?.test?.attempts}</Text>]}>
+                        <Content>
+                            <Text>Only <strong>ONE</strong> attempt is permitted. Each question is worth a point.</Text>
+                        </Content>
+                    </PageHeader>
                     <Divider />
                     <div>
                         <Form name="validate_other" onFinish={showSubmitConfirm}>
@@ -130,7 +138,7 @@ const Examhall = (props) => {
                                                         question.options.map((options) => {
                                                             return (
                                                                 <Radio key={options.key} value={options.key}
-                                                                    style={{ display: 'block', height: '30px', lineHeight: '30px' }}
+                                                                    style={{ display: 'block', height: '40px', lineHeight: '40px', paddingLeft: 20 }}
                                                                 >{options.text}</Radio>
                                                             )
                                                         })

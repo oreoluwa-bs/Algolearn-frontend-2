@@ -59,7 +59,7 @@ const SideBar = (props) => {
     }
 
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
+        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} breakpoint='lg'>
             {
                 defKey &&
                 <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[defKey]} selectedKeys={[defKey]}>

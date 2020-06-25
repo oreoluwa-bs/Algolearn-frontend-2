@@ -19,9 +19,8 @@ const CoursePreview = (props) => {
     }, [course.difficulty]);
 
     return (
-        <Badge count={<Tag color={tagColor}>{course.difficulty}</Tag>} status='success' className='course-badge'
-        // offset={[-40, 20]}
-        >
+        <Badge count={<Tag color={tagColor}>{course.difficulty}</Tag>} status='success' className='course-badge'>
+        {/* offset={[-40, 20]}> */}
 
             <div className='course-card'>
 

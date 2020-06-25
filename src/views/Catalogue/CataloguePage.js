@@ -32,9 +32,9 @@ const CataloguePage = () => {
 
     return (
         <div className='catalogue-container'>
-            <div style={{ paddingTop: '50px' }}>
+            <div style={{ padding: '50px' }}>
                 <h1 style={{ textAlign: 'center' }}>Course Catalogue</h1>
-                <div style={{ width: '75vw', margin: '0 auto' }}>
+                <div style={{ maxWidth: '75vw', margin: '0 auto' }}>
                     <Search
                         placeholder="Search"
                         onSearch={handleSearch}

@@ -10,7 +10,7 @@ const SideBar = ({ currentMatch, location }) => {
     const { auth } = useContext(AuthContext);
     const [collapsed, setCollapsed] = useState(false);
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
+        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} breakpoint='lg'>
             <Menu mode='inline' theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[
                 location.pathname.split(currentMatch.path)[1],
                 location.pathname.split(currentMatch.path)[1] === '' && auth.role === 'tutor' ? '/created-courses' : null,
