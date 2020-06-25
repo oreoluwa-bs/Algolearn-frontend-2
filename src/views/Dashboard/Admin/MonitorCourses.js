@@ -111,11 +111,11 @@ const MonitorCourses = () => {
                             },
                             {
                                 title: 'Reviews',
-                                dataIndex: 'reviews',
-                                key: 'reviews',
+                                dataIndex: 'ratingsQuantity',
+                                key: 'ratingsQuantity',
                                 render: (text) => (
                                     <span>
-                                        {text ? text.length : 0}
+                                        {text}
                                     </span>
                                 ),
                             },

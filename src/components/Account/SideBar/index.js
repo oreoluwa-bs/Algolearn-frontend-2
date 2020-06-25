@@ -10,7 +10,7 @@ const SideBar = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const { auth } = useContext(AuthContext);
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
+        <Sider collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} breakpoint='lg'>
             <Menu mode="inline" theme='dark' style={{ height: '100%', borderRight: 0 }} defaultSelectedKeys={[props.location.pathname.split(props.currentMatch.path)[1]]}>
                 <Menu.Item key='/'>
                     <UserOutlined />

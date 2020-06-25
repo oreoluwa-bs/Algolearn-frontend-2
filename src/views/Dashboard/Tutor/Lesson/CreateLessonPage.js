@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import { Layout, Input, Button, Form, Tooltip, PageHeader, Upload } from 'antd';
+// eslint-disable-next-line no-unused-vars
 import { BookOutlined, QuestionCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import { Editor, EditorState, convertToRaw } from 'draft-js';
 import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';

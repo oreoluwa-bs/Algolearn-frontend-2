@@ -38,9 +38,9 @@ const CreatedCourses = () => {
 
     return (
         <div className='catalogue-container'>
-            <div style={{ paddingTop: '50px' }}>
+            <div style={{ padding: '50px' }}>
                 <h1 style={{ textAlign: 'center' }}>My Courses</h1>
-                <div style={{ width: '75vw', margin: '0 auto' }}>
+                <div style={{ maxWidth: '75vw', margin: '0 auto' }}>
                     <Input.Group>
                         <Search
                             placeholder="Search"
@@ -65,10 +65,10 @@ const CreatedCourses = () => {
                                 {
                                     courses.map((course) => (
                                         <Suspense key={course.slug} fallback={
-                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 8 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
                                                 <div className='skeleton-card loading' style={{ height: 300 }}></div>
                                             </Col>}>
-                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }} xl={{ span: 6 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
+                                            <Col key={course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 8 }} xxl={{ span: 6 }} style={{ marginBottom: 40 }}>
                                                 <Link to={`/dashboard/manage/${course.slug}`}>
                                                     <Thumbnails course={course} />
                                                 </Link>

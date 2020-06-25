@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Layout, PageHeader, Divider, Typography, Radio, Form, Result, Progress, Tooltip } from 'antd';
+import { Layout, PageHeader, Divider, Typography, Radio, Form, Progress, Tooltip, Space } from 'antd';
 import { green, red } from '@ant-design/colors';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
@@ -52,16 +52,13 @@ const ExamSubmitted = (props) => {
             <Layout style={{ padding: '48px 48px 0' }}>
                 <Content style={{ padding: '24px', margin: 0, backgroundColor: 'white', minHeight: 'calc(100vh - 190px)' }}>
                     <PageHeader title={course?.course?.title} style={{}} extra={[
-                        <Result key='result' style={{ padding: 0 }}
-                            successPercent={50}
-                            icon={
-                                <Tooltip title={`Got ${course?.test?.score} out of ${testQuestions?.length} questions`}>
-                                    <Progress width={50} type='circle' percent={(course?.test?.score / testQuestions?.length) * 100}
-                                        strokeColor={(course?.test?.score / testQuestions?.length) * 100 < 70 ? red[5] : null} />
-                                </Tooltip>
-                            }
-                            subTitle='Final Score'
-                        />
+                        <Tooltip key='result' title={`Got ${course?.test?.score} out of ${course?.course?.testQuestionCount} questions`}>
+                            <Space size='middle'>
+                                <Text type='secondary'>Final Grade</Text>
+                                <Progress width={50} type='circle' percent={(course?.test?.score / course?.course?.testQuestionCount) * 100}
+                                    strokeColor={(course?.test?.score / course?.course?.testQuestionCount) * 100 < 70 ? red[5] : null} />
+                            </Space>
+                        </Tooltip>
                     ]}>
                     </PageHeader>
                     <Divider />
@@ -87,7 +84,7 @@ const ExamSubmitted = (props) => {
                                                         {
                                                             question.options.map((options) => {
                                                                 return (
-                                                                    <Radio style={{ display: 'block', height: '30px', lineHeight: '30px' }}
+                                                                    <Radio style={{ display: 'block', height: '40px', lineHeight: '40px', paddingLeft: 20 }}
                                                                         disabled={userAnswers[index] !== options.key} key={options.key} value={options.key}>
                                                                         <Text style={{
                                                                             color: userAnswers[index] === options.key && !isCorrectAnswer ? red[5] :
