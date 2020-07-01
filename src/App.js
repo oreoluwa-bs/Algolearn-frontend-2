@@ -10,6 +10,7 @@ import { Dashboard } from './views/Dashboard';
 import { AccountPage } from './views/Account';
 import { ClassContainer, ClassroomWrapper, Classroom, Examhall, ExamSubmitted } from './views/Classroom';
 import './App.css';
+import DiscussionWrapper from './views/DiscussionBoard/DiscussionWrapper';
 
 const { Footer } = Layout;
 
@@ -48,6 +49,9 @@ const App = () => {
               <Route exact path='/classroom/:slug/test' component={Examhall} />
               <Route exact path='/classroom/:slug/test-results' component={ExamSubmitted} />
               <Route exact path='/classroom/:slug/lesson/:lessonSlug' component={Classroom} />
+
+              {/* Discussion Board Pages */}
+              <Route exact path='/discuss/:slug' component={DiscussionWrapper} />
 
               {/* Page Not Found */}
               <Route component={PageNotFound} />

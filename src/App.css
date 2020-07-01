@@ -37,3 +37,24 @@
     transform: translateX(100%);
   }
 }
+
+/* width */
+.discussion-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.discussion-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.discussion-list::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+.discussion-list::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}

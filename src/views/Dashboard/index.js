@@ -1,6 +1,7 @@
 export { default as Dashboard } from './User/Dashboard';
 export { default as EnrolledCourses } from './User/EnrolledCourses';
 export { default as CreatedCourses } from './User/CreatedCourses';
+export { default as DiscussionBoard } from './User/DiscussionBoard';
 
 export { default as CreateCoursePage } from './Tutor/Course/CreateCoursePage';
 export { default as EditCoursePage } from './Tutor/Course/EditCoursePage';

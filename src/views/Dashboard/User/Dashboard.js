@@ -6,7 +6,7 @@ import { AuthContext } from '../../../store/context/auth';
 import {
     CreatedCourses, EnrolledCourses, CreateCoursePage, EditCoursePage,
     ManageCoursePage, CreateLessonPage, EditLessonPage,
-    CourseStatsPage, ManageCourseContent
+    CourseStatsPage, ManageCourseContent, DiscussionBoard
 } from '..';
 import '../../../styles/dashboard.css'
 import { MonitorCourses, MonitorUsers, MonitorReportedCourses, AdminHome } from '../Admin';
@@ -30,6 +30,7 @@ const DashboardV1 = (props) => {
                         }} />
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
+                        <Route path={`${currentMatch.path}/discussion-board`} component={DiscussionBoard} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
 
                         <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
@@ -80,6 +81,7 @@ const DashboardV2 = (props) => {
                         }} />
                         <Route path={`${currentMatch.path}/enrolled-courses`} component={EnrolledCourses} />
                         <Route path={`${currentMatch.path}/created-courses`} component={CreatedCourses} />
+                        <Route path={`${currentMatch.path}/discussion-board`} component={DiscussionBoard} />
                         <Route path={`${currentMatch.path}/course/create`} component={CreateCoursePage} />
 
                         <Route exact path={`${currentMatch.path}/manage/:slug`} component={ManageCoursePage} />
