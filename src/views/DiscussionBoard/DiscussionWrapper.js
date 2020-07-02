@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Layout, PageHeader, Typography } from 'antd';
-// import { red } from '@ant-design/colors';
+import { Layout } from 'antd';
 import { Redirect, } from 'react-router-dom';
 import { EnrollmentContext } from '../../store/context/enroll';
 import { AuthContext } from '../../store/context/auth';
@@ -8,21 +7,19 @@ import { CourseContext } from '../../store/context/course';
 import { SideBar } from '../../components/DiscussionBoard';
 import DiscussionView from './DiscussionView';
 
-
 const { Content } = Layout;
-const { Text } = Typography;
 
 const DiscussionWrapper = (props) => {
     const { auth } = useContext(AuthContext);
     const { handleGetCourse } = useContext(CourseContext);
     const { handleGetEnrolledInCourse } = useContext(EnrollmentContext);
+    const [users, setUsers] = useState([]);
 
     const [course, setCourse] = useState(null);
-
     useEffect(() => {
         const getEnrolledCoursess = async () => {
             const resCourse = await handleGetCourse(props.match.params.slug);
-            if (resCourse.data) {
+            if (resCourse.data && auth) {
                 if (auth?.role === 'tutor' && auth?._id === resCourse.data.author._id) {
                     setCourse({ course: resCourse.data, completed: true });
                 } else {
@@ -48,14 +45,14 @@ const DiscussionWrapper = (props) => {
     return (
         <Layout className='dash'>
             {
-                course?.course && <SideBar courseData={course}/>
+                course?.course && <SideBar courseData={course} users={users} />
             }
             <Layout style={{ padding: '48px 48px 0' }}>
                 {/* <PageHeader
                     onBack={() => { props.history.push(`/dashboard/enrolled-courses/`) }}
                     title='Lessons' /> */}
                 <Content>
-                    <DiscussionView />
+                    <DiscussionView courseData={course?.course} setUsers={setUsers} />
                 </Content>
             </Layout>
         </Layout>

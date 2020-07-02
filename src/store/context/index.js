@@ -7,6 +7,7 @@ import EnrollmentContextProvider from './enroll';
 import QuestionsContextProvider from './questions';
 import ReviewContextProvider from './review';
 import ReportContextProvider from './report';
+import DiscussionContextProvider from './discuss';
 
 function RootContext(props) {
     return (
@@ -17,9 +18,11 @@ function RootContext(props) {
                         <QuestionsContextProvider>
                             <ReviewContextProvider>
                                 <ReportContextProvider>
-                                    <ConfigProvider>
-                                        {props.children}
-                                    </ConfigProvider>
+                                    <DiscussionContextProvider>
+                                        <ConfigProvider>
+                                            {props.children}
+                                        </ConfigProvider>
+                                    </DiscussionContextProvider>
                                 </ReportContextProvider>
                             </ReviewContextProvider>
                         </QuestionsContextProvider>

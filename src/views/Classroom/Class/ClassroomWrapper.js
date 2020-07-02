@@ -31,7 +31,7 @@ const ClassroomWrapper = (props) => {
 
         const getEnrolledCoursess = async () => {
             const resCourse = await handleGetCourse(props.match.params.slug);
-            if (resCourse.data) {
+            if (resCourse.data && auth) {
                 if (auth?.role === 'tutor' && auth?._id === resCourse.data.author._id) {
                     setCourse({ course: resCourse.data, completed: true });
                     getLessons(resCourse.data._id);

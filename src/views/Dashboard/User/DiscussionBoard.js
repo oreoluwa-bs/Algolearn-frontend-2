@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 import { EnrollmentContext } from '../../../store/context/enroll';
 import { EmptyState } from '../../../components/Dashboard';
+import { CourseContext } from '../../../store/context/course';
 
 const Thumbnails = lazy(() => import('../../../components/DiscussionBoard/DiscussPreview'));
 
@@ -12,17 +13,34 @@ const { Search } = Input;
 const DiscussionBoard = () => {
     const { auth } = useContext(AuthContext);
     const { handleGetMyEnrolled } = useContext(EnrollmentContext);
+    const { getAllCourses } = useContext(CourseContext);
     const [orgCourses, setOrgCourses] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [userEnrolled, setUserEnrolled] = useState([]);
+    const [tutorCreated, setTutorCreated] = useState([]);
 
     useEffect(() => {
         const handleInit = async () => {
             const res = await handleGetMyEnrolled('/?sort=lastViewed');
-            setOrgCourses(res.doc);
-            setCourses(res.doc);
+            setUserEnrolled(res.doc);
+        }
+        const handleInitS = async () => {
+            if (auth?.role === 'tutor') {
+                const res = await getAllCourses(`?author=${auth._id}`);
+                const newRes = res.data.doc.map((course) => ({ course, completed: true }));
+                setTutorCreated(newRes);
+            }
         }
         handleInit();
-    }, [handleGetMyEnrolled]);
+        handleInitS();
+    }, [handleGetMyEnrolled, auth, getAllCourses]);
+
+    useEffect(() => {
+        if (userEnrolled && tutorCreated) {
+            setOrgCourses([...userEnrolled, ...tutorCreated]);
+            setCourses([...userEnrolled, ...tutorCreated]);
+        }
+    }, [tutorCreated, userEnrolled]);
 
     const handleSearch = (e) => {
         setCourses(orgCourses.filter((course) => {

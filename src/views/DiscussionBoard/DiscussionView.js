@@ -1,136 +1,26 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Avatar, List, Comment, Tooltip, Layout, Input, Form, Button, Affix } from 'antd';
+import { Avatar, List, Comment, Tooltip, Layout, Input, Form, Button, Affix, Row, Col } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import io from 'socket.io-client';
 import { AuthContext } from '../../store/context/auth';
 import { utils } from '../../config';
+import { DiscussionContext } from '../../store/context/discuss';
 
 const { Content } = Layout;
 const { TextArea } = Input;
 
-const DiscussionView = () => {
-    const { auth } = useContext(AuthContext);
-    const [message, setMessage] = useState(null);
-    const [submitting, setSubmitting] = useState(false);
-    const [messages, setMessages] = useState([
-        {
-            user: auth._id,
-            firstname: 'John',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'seagreen',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-05-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
+const ENDPOINT = 'localhost:5000';
+let socket;
 
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-        {
-            user: auth._id,
-            firstname: 'Jane',
-            lastname: 'Doe',
-            // photo: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            color: 'orange',
-            content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            createdAt: '2020-06-10T06:30:00.346+00:00'
-        },
-    ]);
+const DiscussionView = (props) => {
+    const { auth } = useContext(AuthContext);
+    const { handleGetCourseDiscussions } = useContext(DiscussionContext);
+
+    const [room, setRoom] = useState('');
+
+    const [message, setMessage] = useState(null);
+    const [messages, setMessages] = useState([]);
 
     const messagesEndRef = useRef(null);
     const scrollToBottom = () => {
@@ -141,30 +31,60 @@ const DiscussionView = () => {
     }
 
     useEffect(scrollToBottom, [messages]);
+    useEffect(() => {
+        const handleInit = async () => {
+            setRoom(props.courseData?._id);
+            const res = await handleGetCourseDiscussions(props.courseData?._id, '/?sort=createdAt');
+            setMessages(res.doc);
+        }
+        if (props.courseData) {
+            handleInit();
+        }
+    }, [handleGetCourseDiscussions, props.courseData]);
+
+    useEffect(() => {
+        if (auth && room) {
+
+            socket = io(ENDPOINT);
+
+            const userId = auth._id;
+            socket.emit('join', { userId, room }, (error) => {
+                if (error) {
+                    alert(error);
+                }
+            });
+        }
+    }, [auth, room]);
+
+
+    useEffect(() => {
+        if (auth && room) {
+            socket.on('message', (message) => {
+                setMessages([...messages, message]);
+            });
+
+            socket.on('roomData', ({ users }) => {
+                props.setUsers(users);
+            })
+
+            return () => {
+                socket.emit('disconnect');
+
+                socket.off();
+            }
+        }
+    }, [auth, messages, props, room]);
 
     const handleSubmit = () => {
-        if (!message) {
+        if (!message || message.trim() === '') {
             return;
         }
-
-        setSubmitting(true)
-
-        setTimeout(() => {
-            setSubmitting(false);
-            setMessage(null);
-            setMessages([
-                ...messages,
-                {
-                    user: auth._id,
-                    firstname: auth.firstname,
-                    lastname: auth.lastname,
-                    photo: auth.photo,
-                    color: auth.color,
-                    content: message,
-                    createdAt: Date.now()
-                },
-            ]);
-        }, 1000);
+        // setSubmitting(true);
+        socket.emit('sendMessage', message, () => setMessage(null));
+        // setTimeout(() => {
+        //     setSubmitting(false);
+        //     socket.emit('sendMessage', message, () => setMessage(null));
+        // }, 1000);
     };
 
     const handleChange = (e) => {
@@ -174,7 +94,7 @@ const DiscussionView = () => {
     return (
         <div style={{ padding: 24, margin: 0, backgroundColor: 'white' }}>
             <Content style={{ maxHeight: 'calc(100vh - 200px)' }}>
-                <div className='discussion-list' style={{ height: 'calc(100vh - 200px)', overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={messagesEndRef}>
+                <div className='discussion-list' style={{ height: 'calc(100vh - 250px)', overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={messagesEndRef}>
                     <List
                         itemLayout="vertical"
                         size="large"
@@ -182,11 +102,11 @@ const DiscussionView = () => {
                         renderItem={(item, index) => (
                             <List.Item key={`${item.title}-${index}`}>
                                 <Comment
-                                    author={`${item.firstname} ${item.lastname}`}
+                                    author={`${item.user.firstname} ${item.user.lastname}`}
                                     avatar={
-                                        !item.photo ?
-                                            <Avatar shape='circle' style={{ color: 'white', backgroundColor: item.color }}>{item.firstname[0]}{item.lastname[0]}</Avatar>
-                                            : <Avatar src={`${utils.apiHOST}images/users/${item.photo}`} alt={`${item.firstname}-${item.lastname}-${index}`} />
+                                        !item.user.photo ?
+                                            <Avatar shape='circle' style={{ color: 'white', backgroundColor: item.user.color }}>{item.user.firstname[0]}{item.user.lastname[0]}</Avatar>
+                                            : <Avatar src={`${utils.apiHOST}images/users/${item.user.photo}`} alt={`${item.user.firstname}-${item.user.lastname}-${index}`} />
                                     }
                                     content={
                                         <p>
@@ -195,7 +115,8 @@ const DiscussionView = () => {
                                     }
                                     datetime={
                                         <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                                            <span>{moment(item.createdAt).fromNow()}</span>
+                                            {/* <span>{moment(item.createdAt).fromNow()}</span> */}
+                                            <span>{moment(item.createdAt).format('lll')}</span>
                                         </Tooltip>
                                     }
                                 />
@@ -205,7 +126,7 @@ const DiscussionView = () => {
                 </div>
             </Content>
             <Affix offsetBottom={0}>
-                <div style={{backgroundColor:'white'}}>
+                <div style={{ backgroundColor: 'white', maxWidth: '100%' }}>
                     <Comment
                         avatar={
                             !auth.photo ?
@@ -213,16 +134,20 @@ const DiscussionView = () => {
                                 : <Avatar src={`${utils.apiHOST}images/users/${auth.photo}`} alt={`${auth.firstname}-${auth.lastname}`} />
                         }
                         content={
-                            <>
-                                <Form.Item>
-                                    <TextArea rows={4} onChange={handleChange} value={message} />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
-                                        Add Comment
-                            </Button>
-                                </Form.Item>
-                            </>
+                            <div>
+                                <Row gutter={10} align='bottom'>
+                                    <Col flex={1}>
+                                        <Form.Item>
+                                            <TextArea autoSize onChange={handleChange} value={message} onPressEnter={handleSubmit} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col>
+                                        <Form.Item>
+                                            <Button htmlType='submit' icon={<SendOutlined />} onClick={handleSubmit} type="primary">Comment</Button>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                            </div>
                         } />
                 </div>
             </Affix>
