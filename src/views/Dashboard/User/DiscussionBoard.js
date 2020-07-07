@@ -21,7 +21,7 @@ const DiscussionBoard = () => {
 
     useEffect(() => {
         const handleInit = async () => {
-            const res = await handleGetMyEnrolled('/?sort=lastViewed');
+            const res = await handleGetMyEnrolled('/?sort=-lastViewed');
             setUserEnrolled(res.doc);
         }
         const handleInitS = async () => {

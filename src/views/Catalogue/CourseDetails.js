@@ -24,9 +24,9 @@ const CourseDetails = (props) => {
     const handleCourseEnrollment = async () => {
         const res = await handleEnrollInCourse(course._id);
         // console.log(res);
-        await handleGetMe();
         if (res?.status === 'success') {
             props.history.push(`/dashboard`);
+            await handleGetMe();
         }
     };
 
@@ -48,7 +48,7 @@ const CourseDetails = (props) => {
             const res = await handleGetEnrolledInCourse(course._id, `/?user=${auth?._id}`);
             res.results > 0 ? setIsEnrolled(true) : setIsEnrolled(false);
         }
-        if (auth && course?._id) {
+        if (auth?._id && course?._id) {
             checkIfEnrolled();
         }
 
@@ -118,7 +118,17 @@ const CourseDetails = (props) => {
                                                 <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
                                                     <Space direction='vertical' className='course-card-meta'>
                                                         <Text type='secondary'>Course Creator</Text>
-                                                        <Text strong>{course.author && course.author.firstname + ' ' + course.author.lastname}</Text>
+                                                        <Space>
+                                                            {
+                                                                !course.author.photo &&
+                                                                <Avatar size='large' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458' }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                                                            }
+                                                            {
+                                                                course.author.photo &&
+                                                                <Avatar size='large' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
+                                                            }
+                                                            <Text strong>{course.author.firstname} {course.author.lastname}</Text>
+                                                        </Space>
                                                     </Space>
                                                 </Col>
                                                 <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>

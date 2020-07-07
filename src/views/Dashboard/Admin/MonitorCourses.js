@@ -1,8 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { PageHeader, Layout, Descriptions, Table, Rate, Avatar, Tag } from 'antd';
+import { PageHeader, Layout, Descriptions, Table, Rate, Avatar, Tag, Space, Typography } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 import { CourseContext } from '../../../store/context/course';
+import { utils } from '../../../config';
+
+const { Text } = Typography;
 
 const MonitorCourses = () => {
     const { auth } = useContext(AuthContext);
@@ -58,15 +61,17 @@ const MonitorCourses = () => {
                                 key: 'author',
                                 render: (text) => (
                                     <span>
-                                        {
-                                            text.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
-                                        }
-                                        {
-                                            !text.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
-                                        }
-                                        {text.firstname} {text.lastname}
+                                        <Space>
+                                            {
+                                                text.photo &&
+                                                <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${text.photo}`} style={{ color: 'white', border: `1px solid ${text.color}` }} />
+                                            }
+                                            {
+                                                !text.photo &&
+                                                <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458' }}>{text.firstname[0]} {text.lastname[0]}</Avatar>
+                                            }
+                                            <Text>{text.firstname} {text.lastname}</Text>
+                                        </Space>
                                     </span>
                                 ),
                             },

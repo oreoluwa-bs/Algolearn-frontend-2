@@ -50,7 +50,7 @@ const MonitorReportedCourses = () => {
                                 key: 'title',
                                 render: (text, record) => (
                                     <span>
-                                        <Link to={`/classroom/${record.course.slug}/lesson/${record.lesson.slug}`}>{record.course.title} - {record.lesson.title}</Link>
+                                        <Link to={`/classroom/${record.course.slug}/lesson/${record.lesson?.slug}`}>{record.course.title} - {record.lesson.title}</Link>
                                     </span>
                                 ),
                             },

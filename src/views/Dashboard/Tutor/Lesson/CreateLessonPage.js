@@ -51,7 +51,7 @@ const CreateLessonPage = (props) => {
             forml.resetFields();
             props.history.push(`/dashboard/manage/${course.slug}/content/`);
         }
-        console.log(values);
+        
     };
 
     const getUploadData = (e) => {
@@ -81,7 +81,7 @@ const CreateLessonPage = (props) => {
             <div style={{ margin: '', backgroundColor: 'white', padding: '10px 20px' }}>
                 <Form form={forml} name='create-lesson' initialValues={{}} hideRequiredMark size='large' layout='vertical' onFinish={onFinish}>
                     <Form.Item label='Title:' name='title' rules={[...TextInputRules('Course title')]} hasFeedback>
-                        <Input prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        <Input autoFocus prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder='Algorithms 101' />
                     </Form.Item>
                     <Form.Item label='Video:' name='video' valuePropName='filelist' getValueFromEvent={getUploadData}>

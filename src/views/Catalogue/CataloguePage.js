@@ -15,7 +15,7 @@ const CataloguePage = () => {
 
     useEffect(() => {
         const handleInit = async () => {
-            const res = await getAllCourses('/?sort=ratingsAverage');
+            const res = await getAllCourses('/?sort=-ratingsAverage');
             setOrgCourses(res.data.doc);
             setCourses(res.data.doc);
         }

@@ -1,7 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { PageHeader, Layout, Descriptions, Table, Avatar } from 'antd';
+import { PageHeader, Layout, Descriptions, Table, Avatar, Space, Typography } from 'antd';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
+import { utils } from '../../../config';
+
+const { Text } = Typography;
 
 const MonitorUsers = () => {
     const { auth, handleGetAllUsers } = useContext(AuthContext);
@@ -44,15 +47,17 @@ const MonitorUsers = () => {
                                 key: 'fullname',
                                 render: (text, record) => (
                                     <span>
-                                        {
-                                            record.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: record.color ?? '#E0A458', marginRight: 10 }}> {record.firstname[0]} {record.lastname[0]}</Avatar>
-                                        }
-                                        {
-                                            !record.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: record.color ?? '#E0A458', marginRight: 10 }}> {record.firstname[0]} {record.lastname[0]}</Avatar>
-                                        }
-                                        {record.firstname} {record.lastname}
+                                        <Space>
+                                            {
+                                                record.photo &&
+                                                <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${record.photo}`} style={{ color: 'white', border: `1px solid ${record.color}` }} />
+                                            }
+                                            {
+                                                !record.photo &&
+                                                <Avatar size='small' style={{ color: 'white', backgroundColor: record.color ?? '#E0A458' }}>{record.firstname[0]} {record.lastname[0]}</Avatar>
+                                            }
+                                            <Text>{record.firstname} {record.lastname}</Text>
+                                        </Space>
                                     </span>
                                 ),
                             },

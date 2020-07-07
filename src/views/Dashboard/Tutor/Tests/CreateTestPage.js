@@ -23,7 +23,7 @@ const CreateTestPage = (props) => {
             // console.log(values.question);
             await handleCreateTestQuestion(props.course._id, values);
             forml.resetFields();
-            setCorrectOption();
+            setCorrectOption(null);
             setQuestionOptions([]);
             await props.getTests(props.course._id);
             props.close();
