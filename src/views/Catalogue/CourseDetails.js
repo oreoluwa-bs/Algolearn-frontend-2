@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avatar } from 'antd';
 import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
@@ -6,6 +6,8 @@ import { AuthContext } from '../../store/context/auth';
 import { CourseContext } from '../../store/context/course';
 import { EnrollmentContext } from '../../store/context/enroll';
 import { utils } from '../../config';
+
+const Thumbnails = lazy(() => import('../../components/Catalogue/ReviewPreview'));
 
 const { Paragraph, Text, Title } = Typography;
 const { Content } = Layout;
@@ -19,7 +21,6 @@ const CourseDetails = (props) => {
     const [isEnrolled, setIsEnrolled] = useState(false);
 
     const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
-    const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
 
     const handleCourseEnrollment = async () => {
         const res = await handleEnrollInCourse(course._id);
@@ -192,26 +193,23 @@ const CourseDetails = (props) => {
                         </div>
                     </Content>
                     {
-                        course.reviews && course.reviews.length > 0 &&
+                        course.reviews && course.reviews.length > -1 &&
                         <div style={{ backgroundColor: '#FAFBFC' }}>
                             <Content className='course-details-container' style={{ backgroundColor: 'inherit' }}>
                                 <div style={{ paddingTop: 64, paddingBottom: 40 }}>
                                     <Row gutter={16}>
                                         {
                                             course.reviews.map((review) => (
-                                                <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
-                                                    <div className='review-card' style={{ borderColor: review.rating > 2 ? review.rating > 3 ? reviewColors[1] : reviewColors[0] : reviewColors[2] }}>
-                                                        <div>
-                                                            {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`${utils.apiHOST}images/users/${review.user.photo}`} />}
-                                                            {!review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }}>{review.user.firstname[0]}{review.user.lastname[0]}</Avatar>}
-                                                        </div>
-                                                        <div><Text type='secondary'>{review.user && review.user.firstname} {review.user && review.user.lastname}</Text></div>
-                                                        <div style={{ marginTop: 5 }}>
-                                                            <Paragraph strong>{review.review}</Paragraph>
-                                                        </div>
-                                                        <Rate value={review.rating} defaultValue={review.rating} disabled />
-                                                    </div>
-                                                </Col>
+                                                <Suspense key={course.course.slug} fallback={
+                                                    <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
+                                                        <div className='skeleton-card loading' style={{ height: 200 }}></div>
+                                                    </Col>}>
+                                                    <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
+                                                        <Thumbnails review={review} />
+                                                    </Col>
+                                                    <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
+                                                    </Col>
+                                                </Suspense>
                                             ))
                                         }
                                     </Row>

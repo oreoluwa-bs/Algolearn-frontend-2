@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-// eslint-disable-next-line no-unused-vars
-import { Layout, Input, Button, Form, Tooltip, PageHeader, Upload } from 'antd';
-import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-// eslint-disable-next-line no-unused-vars
-import { BookOutlined, QuestionCircleOutlined, InboxOutlined } from '@ant-design/icons';
+import React, { useContext, useEffect, useState } from 'react';
+import { Layout, Input, Button, Form, PageHeader, Upload } from 'antd';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { BookOutlined, InboxOutlined } from '@ant-design/icons';
 import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../../store/context/lesson';
 import { RichTextEditor } from '../../../../components/Dashboard';
@@ -18,8 +16,6 @@ const EditLessonPage = (props) => {
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator));
     const [videoFileList, setVideoFileList] = useState([]);
-
-    const editorRef = useRef(Editor);
 
     const onFinish = async (values) => {
         values.video = !values.video ? lesson.video : values.video;
@@ -91,19 +87,13 @@ const EditLessonPage = (props) => {
                                 <p className='ant-upload-hint'>Support for a single upload.</p>
                             </Dragger>
                         </Form.Item>
-                        <Form.Item name='text' label={
-                            <span>Overview:&nbsp;
-                            {/* <Tooltip title={
-                                    <span>For more customization write in markdown. Check <a href='https://guides.github.com/features/mastering-markdown/'>Markdown Guide</a> for more information. Note some features do not work.</span>
-                                }>
-                                    <QuestionCircleOutlined />
-                                </Tooltip> */}
-                            </span>
-                        }>
-                            <RichTextEditor editorState={editorState} editorRef={editorRef}
-                                customStyle={{ minHeight: 'calc(100vh - 500px)' }}
-                                EditorState={EditorState}
-                                setEditorState={setEditorState} placeholder='Write Something...' />
+                        <Form.Item name='text' label='Overview:'>
+                            <>
+                                <RichTextEditor editorState={editorState}
+                                    customStyle={{ minHeight: 'calc(100vh - 500px)' }}
+                                    EditorState={EditorState}
+                                    setEditorState={setEditorState} placeholder='Write Something...' />
+                            </>
                         </Form.Item>
                         <Form.Item>
                             <Button style={{ float: 'right' }} size='large' type='primary' htmlType='submit'>

@@ -1,10 +1,8 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
-import { Layout, Input, Button, Form, Tooltip, PageHeader, Upload } from 'antd';
-// eslint-disable-next-line no-unused-vars
-import { BookOutlined, QuestionCircleOutlined, InboxOutlined } from '@ant-design/icons';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import { Layout, Input, Button, Form, PageHeader, Upload } from 'antd';
+import { BookOutlined, InboxOutlined } from '@ant-design/icons';
+import { EditorState, convertToRaw } from 'draft-js';
 import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFormRules';
 import { LessonContext } from '../../../../store/context/lesson';
 import { AuthContext } from '../../../../store/context/auth';
@@ -21,8 +19,6 @@ const CreateLessonPage = (props) => {
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(decorator));
     const [videoFileList, setVideoFileList] = useState([]);
-
-    const editorRef = useRef(Editor);
 
     const [forml] = Form.useForm();
     const [course, setCourse] = useState({});
@@ -51,7 +47,6 @@ const CreateLessonPage = (props) => {
             forml.resetFields();
             props.history.push(`/dashboard/manage/${course.slug}/content/`);
         }
-        
     };
 
     const getUploadData = (e) => {
@@ -102,21 +97,13 @@ const CreateLessonPage = (props) => {
                             <p className='ant-upload-hint'>Support for a single upload.</p>
                         </Dragger>
                     </Form.Item>
-                    <Form.Item name='text' label={
-                        <span>Overview:&nbsp;
-                        {/* <Tooltip title={
-                                <span>For more customization write in markdown.
-                                Check <a href='https://guides.github.com/features/mastering-markdown/'>Markdown Guide</a> for more information
-                                </span>
-                            }>
-                                <QuestionCircleOutlined />
-                            </Tooltip> */}
-                        </span>
-                    }>
-                        <RichTextEditor editorState={editorState} editorRef={editorRef}
-                            customStyle={{ minHeight: 'calc(100vh - 700px)' }}
-                            EditorState={EditorState}
-                            setEditorState={setEditorState} placeholder='Write Something...' />
+                    <Form.Item name='text' label='Overview:'>
+                        <>
+                            <RichTextEditor editorState={editorState}
+                                customStyle={{ minHeight: 'calc(100vh - 700px)' }}
+                                EditorState={EditorState}
+                                setEditorState={setEditorState} placeholder='Write Something...' />
+                        </>
                     </Form.Item>
                     <Form.Item>
                         <Button style={{ float: 'right' }} size='large' type='primary' htmlType='submit'>

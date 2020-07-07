@@ -7,7 +7,9 @@ import '../../../styles/richtexteditor.css';
 import 'draft-js/dist/Draft.css';
 
 const RichTextEditor = (props) => {
-    const { editorState, setEditorState, editorRef, placeholder, readOnly, EditorState } = props;
+    const { editorState, setEditorState, placeholder, readOnly, EditorState } = props;
+
+    const editorRef = React.useRef(Editor);
 
     const [pictureModal, setPictureModal] = useState(false);
     const [formPicture] = Form.useForm();
