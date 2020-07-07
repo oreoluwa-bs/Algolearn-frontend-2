@@ -102,6 +102,16 @@ class CourseContextProvider extends Component {
         }
     }
 
+    // RECOMMENDATIONS
+    handleGetCourseRecommendations = async (id) => {
+        try {
+            const res = await instance.get(`/courses/recommend/${id}`);
+            return res.data.data;
+        } catch (error) {
+            return error.response.data
+        }
+    }
+
 
     feedback = (response) => {
         if (response.status === 'success') {
@@ -126,7 +136,11 @@ class CourseContextProvider extends Component {
                 handleEditCourse: this.handleEditCourse,
                 handleDeleteCourse: this.handleDeleteCourse,
 
+                // ENROLLMENTS
                 handleGetCourseEnrolledStats: this.handleGetCourseEnrolledStats,
+                
+                // RECOMMENDATIONS
+                handleGetCourseRecommendations: this.handleGetCourseRecommendations,
             }}>
                 {this.props.children}
             </CourseContext.Provider>

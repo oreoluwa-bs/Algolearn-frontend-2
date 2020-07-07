@@ -1,6 +1,6 @@
 import React from 'react'
-import { utils } from '../../config'
 import { Avatar, Rate, Typography } from 'antd'
+import { utils } from '../../config'
 
 const { Paragraph, Text, } = Typography;
 
