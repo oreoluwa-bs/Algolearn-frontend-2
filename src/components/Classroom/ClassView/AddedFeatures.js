@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react'
 import { Button, Modal, List } from 'antd'
-import { FlagOutlined } from '@ant-design/icons'
+import { FlagOutlined, MessageOutlined } from '@ant-design/icons'
 import { ReportContext } from '../../../store/context/report';
 import { AuthContext } from '../../../store/context/auth';
+import { Link } from 'react-router-dom';
 
 const AddedFeatures = (props) => {
     const { auth } = useContext(AuthContext);
@@ -22,12 +23,12 @@ const AddedFeatures = (props) => {
     return (
         <div>
             <div style={{ float: 'right' }}>
-                {/* <Link to={`/discuss/?userId=${auth._id}&room=${course._id}`}>
-                    <Button type='primary' icon='message' style={{ float: 'right', marginLeft: 10 }} onClick={() => null} disabled={auth.role === 'admin'} />
-                </Link> */}
                 {
                     auth.role !== 'admin' && <Button type='dashed' onClick={() => setFlagModal(true)}><FlagOutlined /></Button>
                 }
+                <Link to={`/discuss/${props.course?.slug}`}>
+                    <Button icon={<MessageOutlined />} style={{ float: 'right', marginLeft: 10 }} onClick={() => null} disabled={auth.role === 'admin'} />
+                </Link>
             </div>
             {
                 auth.role !== 'admin' &&

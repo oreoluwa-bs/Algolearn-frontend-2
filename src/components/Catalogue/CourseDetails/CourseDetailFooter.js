@@ -17,17 +17,18 @@ const CourseDetailFooter = (props) => {
     useEffect(() => {
         const handleGetRecommendations = async () => {
             const res = await handleGetCourseRecommendations(course?._id);
-            if (res.data.length < 1) {
-                const newres = await getAllCourses(`/?sort=-ratingsAverage&_id[ne]=${course?._id}`);
-                setRecommendations(newres.data.doc.slice(0, 4));
-            } else {
-                setRecommendations(res.data);
-            }
+            console.log(res);
+            setRecommendations(res.data);
+            // if (res.data.length < 1) {
+            //     const newres = await getAllCourses(`/?sort=-ratingsAverage&_id[ne]=${course?._id}`);
+            //     setRecommendations(newres.data.doc.slice(0, 4));
+            // } else {
+               
+            // }
 
         }
         handleGetRecommendations();
     }, [handleGetCourseRecommendations, course, getAllCourses]);
-
     return (
         <div>
             {

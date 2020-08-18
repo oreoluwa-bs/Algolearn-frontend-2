@@ -65,6 +65,15 @@ const MonitorUsers = () => {
                                 title: 'Number of enrolled courses',
                                 dataIndex: 'enrollmentCount',
                                 key: 'enrollmentCount',
+                                sorter: (a, b) => a.enrollmentCount - b.enrollmentCount,
+                                sortDirections: ['descend', 'ascend'],
+                            },
+                            {
+                                title: 'Number of created courses',
+                                dataIndex: 'createdCoursesCount',
+                                key: 'createdCoursesCount',
+                                sorter: (a, b) => a.createdCoursesCount - b.createdCoursesCount,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Role',

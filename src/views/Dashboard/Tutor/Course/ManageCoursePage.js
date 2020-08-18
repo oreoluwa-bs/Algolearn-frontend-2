@@ -46,7 +46,11 @@ const ManageCoursePage = (props) => {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                handleDeleteCourse(course._id);
+                const hind = async () => {
+                    await handleDeleteCourse(course._id);
+                    props.history.push('/dashboard/created-courses');
+                }
+                hind();
             },
             onCancel() { },
         });
