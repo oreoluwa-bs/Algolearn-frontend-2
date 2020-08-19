@@ -6,6 +6,7 @@ import { TextInputRules } from '../../../../components/Dashboard/Course/CourseFo
 import { LessonContext } from '../../../../store/context/lesson';
 import { RichTextEditor } from '../../../../components/Dashboard';
 import { decorator } from '../../../../components/Dashboard/RichTextEditor/utils';
+import { utils } from '../../../../config';
 
 const { Dragger } = Upload;
 
@@ -69,7 +70,11 @@ const EditLessonPage = (props) => {
                             <Input prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                                 placeholder='Algorithms 101' />
                         </Form.Item>
-                        <Form.Item label='Video:' name='video' valuePropName='filelist' getValueFromEvent={getUploadData}>
+                        <Form.Item label={
+                        <span>
+                            Video: {lesson.video && <span><a href={`${utils.apiHOST}videos/courses/${lesson.video}`} rel='noopener noreferrer' target='_blank'>Current lesson video</a></span>}
+                        </span>}
+                            name='video' valuePropName='filelist' getValueFromEvent={getUploadData}>
                             <Dragger
 
                                 listType='picture'

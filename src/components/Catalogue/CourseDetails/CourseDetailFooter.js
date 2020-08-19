@@ -39,7 +39,7 @@ const CourseDetailFooter = (props) => {
                             <Row gutter={16}>
                                 {
                                     course.reviews.map((review) => (
-                                        <Suspense key={course.course.slug} fallback={
+                                        <Suspense key={review.course.slug} fallback={
                                             <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
                                                 <div className='skeleton-card loading' style={{ height: 200 }}></div>
                                             </Col>}>
