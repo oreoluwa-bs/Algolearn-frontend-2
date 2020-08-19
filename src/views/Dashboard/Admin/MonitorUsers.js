@@ -60,6 +60,8 @@ const MonitorUsers = () => {
                                         </Space>
                                     </span>
                                 ),
+                                sorter: (a, b) => a.firstname < b.firstname,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Number of enrolled courses',

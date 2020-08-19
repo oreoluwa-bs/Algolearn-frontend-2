@@ -24,6 +24,7 @@ const MonitorReportedCourses = () => {
 
     if (!auth) return <Redirect to='/dashboard' />
     if (auth && auth.role !== 'admin') return <Redirect to='/dashboard' />
+
     return (
         <Layout>
             <div>
@@ -53,16 +54,15 @@ const MonitorReportedCourses = () => {
                                         <Link to={`/classroom/${record.course.slug}/lesson/${record.lesson?.slug}`}>{record.course.title} - {record.lesson.title}</Link>
                                     </span>
                                 ),
+                                sorter: (a, b) => a.course.title < b.course.title,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Report',
                                 dataIndex: 'report',
                                 key: 'report',
-                                // render: (text) => (
-                                //     <span>
-                                //         {text}
-                                //     </span>
-                                // ),
+                                sorter: (a, b) => a.report < b.report,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Author',
@@ -81,6 +81,8 @@ const MonitorReportedCourses = () => {
                                         {text.firstname} {text.lastname}
                                     </span>
                                 ),
+                                sorter: (a, b) => a.user < b.user,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Action',

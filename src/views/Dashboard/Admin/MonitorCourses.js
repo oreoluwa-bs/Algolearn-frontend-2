@@ -54,6 +54,8 @@ const MonitorCourses = () => {
                                         <Link to={`/catalogue/${record.slug}`}>{text}</Link>
                                     </span>
                                 ),
+                                sorter: (a, b) => {console.log(a);return a.title < b.title},
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Author',
@@ -74,6 +76,8 @@ const MonitorCourses = () => {
                                         </Space>
                                     </span>
                                 ),
+                                sorter: (a, b) => a.author.firstname < b.author.firstname,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Difficulty',
@@ -123,11 +127,15 @@ const MonitorCourses = () => {
                                         {text}
                                     </span>
                                 ),
+                                sorter: (a, b) => a.ratingsQuantity - b.ratingsQuantity,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             {
                                 title: 'Number of enrolled Users',
                                 dataIndex: 'enrollmentCount',
                                 key: 'enrollmentCount',
+                                sorter: (a, b) => a.enrollmentCount - b.enrollmentCount,
+                                sortDirections: ['descend', 'ascend'],
                             },
                             // {
                             //     title: 'Action',
