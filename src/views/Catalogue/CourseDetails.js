@@ -54,7 +54,6 @@ const CourseDetails = (props) => {
     return (
         <div>
             {
-                course?.slug &&
                 <div>
                     <div style={{ backgroundColor: course.color ?? 'rgb(194, 140, 174)' }} className='course-header'>
                         <div className='course-header-bg'></div>
@@ -98,7 +97,7 @@ const CourseDetails = (props) => {
                             <div>
                                 <Row gutter={16}>
                                     <Col xs={{ span: 24 }} md={{ span: 16 }}>
-                                        <CourseMetaData course={course} />
+                                        {course?.slug && <CourseMetaData course={course} />}
                                         <div className='course-details-body'>
                                             <Paragraph style={{ fontSize: 16 }}>
                                                 {course.description}
