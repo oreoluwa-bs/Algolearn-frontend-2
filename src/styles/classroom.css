@@ -43,7 +43,6 @@
   width: 200px;
 }
 
-
 .flag-modal .ant-modal-body {
   padding: 0;
 }
@@ -51,21 +50,29 @@
   border: 0;
 }
 
-.flag-modal .flag-modal-list-item{
-    text-align: center;
-    cursor: pointer;
+.flag-modal .flag-modal-list-item {
+  text-align: center;
+  cursor: pointer;
 }
 .flag-modal .ant-list-bordered {
   border-radius: 0;
 }
 
-.flag-modal .flag-modal-list-item:hover{
+.flag-modal .flag-modal-list-item:hover {
   /* background-color: #1890FF; */
   /* color: white; */
   background-color: #fff;
-  color: #1890FF;
+  color: #1890ff;
 }
 
 .classroom .class-content h1 {
   font-size: 1.6em;
+}
+
+.class-vid-con {
+  max-width: 60vw;
+  /* min-width: 50%; */
+}
+.class-vid-con video {
+  width: 100%;
 }

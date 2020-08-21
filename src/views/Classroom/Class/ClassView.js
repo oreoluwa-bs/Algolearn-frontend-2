@@ -40,8 +40,10 @@ const ClassView = (props) => {
                                 <br />
                                 <br />
                                 <div>
-                                    <video controls style={{ maxHeight: '600px', minHeight: '500px' }} controlsList='nodownload'
-                                        src={`${utils.apiHOST}videos/courses/${lesson.video}`} />
+                                    <div className='class-vid-con'>
+                                        <video controls controlsList='nodownload'
+                                            src={`${utils.apiHOST}videos/courses/${lesson.video}`} />
+                                    </div>
                                 </div>
                             </div>
                         }
