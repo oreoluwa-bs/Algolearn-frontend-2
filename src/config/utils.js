@@ -6,7 +6,7 @@ utils.getCookie = (name) => {
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-utils.apiHOST = 'http://localhost:5000/';
+utils.apiHOST = 'https://algolearn-api.herokuapp.com/';
 
 utils.getYearRange = () => {
     const currentYear = (new Date()).getFullYear();
