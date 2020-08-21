@@ -111,7 +111,7 @@ const CourseDetails = (props) => {
                             </div>
                         </div>
                     </Content>
-                    <CourseDetailFooter course={course} />
+                    {course?.slug && <CourseDetailFooter course={course} />}
                 </div>
             }
         </div >
