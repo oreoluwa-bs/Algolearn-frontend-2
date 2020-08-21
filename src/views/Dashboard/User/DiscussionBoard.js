@@ -4,26 +4,43 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 import { EnrollmentContext } from '../../../store/context/enroll';
 import { EmptyState } from '../../../components/Dashboard';
+import { CourseContext } from '../../../store/context/course';
 
-// const Thumbnails = lazy(() => import('../../components/Catalogue/CoursePreview'));
-const Thumbnails = lazy(() => import('../../../components/Account/EnrolledPreview'));
+const Thumbnails = lazy(() => import('../../../components/DiscussionBoard/DiscussPreview'));
 
 const { Search } = Input;
 
-const EnrolledCourses = () => {
+const DiscussionBoard = () => {
     const { auth } = useContext(AuthContext);
     const { handleGetMyEnrolled } = useContext(EnrollmentContext);
+    const { getAllCourses } = useContext(CourseContext);
     const [orgCourses, setOrgCourses] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [userEnrolled, setUserEnrolled] = useState([]);
+    const [tutorCreated, setTutorCreated] = useState([]);
 
     useEffect(() => {
         const handleInit = async () => {
             const res = await handleGetMyEnrolled('/?sort=-lastViewed');
-            setOrgCourses(res.doc);
-            setCourses(res.doc);
+            setUserEnrolled(res.doc);
+        }
+        const handleInitS = async () => {
+            if (auth?.role === 'tutor') {
+                const res = await getAllCourses(`?author=${auth._id}`);
+                const newRes = res.data.doc.map((course) => ({ course, completed: true }));
+                setTutorCreated(newRes);
+            }
         }
         handleInit();
-    }, [handleGetMyEnrolled]);
+        handleInitS();
+    }, [handleGetMyEnrolled, auth, getAllCourses]);
+
+    useEffect(() => {
+        if (userEnrolled && tutorCreated) {
+            setOrgCourses([...userEnrolled, ...tutorCreated]);
+            setCourses([...userEnrolled, ...tutorCreated]);
+        }
+    }, [tutorCreated, userEnrolled]);
 
     const handleSearch = (e) => {
         setCourses(orgCourses.filter((course) => {
@@ -70,13 +87,12 @@ const EnrolledCourses = () => {
                                             <Col key={course.course.slug} xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 8 }} xxl={{ span: 8 }} style={{ marginBottom: 40 }}>
                                                 <Link
                                                     to={{
-                                                        pathname: `/classroom/${course.course.slug}`,
+                                                        pathname: `/discuss/${course.course.slug}`,
                                                         state: {
                                                             course: course,
                                                         }
                                                     }}>
-                                                    {/* <Thumbnails course={course.course} /> */}
-                                                    <Thumbnails courseData={course} hideDeleteButton />
+                                                    <Thumbnails courseData={course} />
                                                 </Link>
                                             </Col>
                                         </Suspense>
@@ -101,4 +117,4 @@ const EnrolledCourses = () => {
     );
 }
 
-export default EnrolledCourses;
+export default DiscussionBoard;

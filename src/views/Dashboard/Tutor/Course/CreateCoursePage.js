@@ -18,7 +18,7 @@ const CreateCoursePage = (props) => {
     const onFinish = async (values) => {
         const res = await handleCreateCourse(values);
         await handleGetMe();
-        props.history.push(`/catalogue/${res.data.slug}`);
+        props.history.push(`/dashboard/manage/${res.data.slug}`);
     };
 
     if (!auth) return <Redirect to='/dashboard' />
@@ -32,7 +32,7 @@ const CreateCoursePage = (props) => {
                     <Row gutter={{ md: 24 }}>
                         <Col xs={24} md={16}>
                             <Form.Item label='Title:' name='title' rules={[...TextInputRules('Course title')]} hasFeedback>
-                                <Input prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                <Input autoFocus prefix={<BookOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                                     placeholder='Algorithms 101' />
                             </Form.Item>
                         </Col>

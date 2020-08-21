@@ -44,7 +44,7 @@ const ClassFooter = (props) => {
                 }
             </div>
             <div>
-                <ReviewModal reviewModal={reviewModal} setReviewModal={setReviewModal} />
+                <ReviewModal reviewModal={reviewModal} setReviewModal={setReviewModal} course={course?.course} />
             </div>
         </div>
     )

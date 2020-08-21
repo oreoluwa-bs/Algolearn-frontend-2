@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Layout, Menu } from 'antd';
-import { BookOutlined, FolderAddOutlined, UserOutlined, ExclamationCircleOutlined, HomeOutlined } from '@ant-design/icons';
+import { BookOutlined, FolderAddOutlined, UserOutlined, ExclamationCircleOutlined, HomeOutlined, CommentOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../store/context/auth';
 
@@ -36,6 +36,14 @@ const SideBar = ({ currentMatch, location }) => {
                         <BookOutlined />
                         <span>Enrolled Courses</span>
                         <NavLink to={`${currentMatch.path}/enrolled-courses`} />
+                    </Menu.Item>
+                }
+                {
+                    auth.role !== 'admin' &&
+                    <Menu.Item key='/discussion-board'>
+                        <CommentOutlined />
+                        <span>Discussion Board</span>
+                        <NavLink to={`${currentMatch.path}/discussion-board`} />
                     </Menu.Item>
                 }
                 {

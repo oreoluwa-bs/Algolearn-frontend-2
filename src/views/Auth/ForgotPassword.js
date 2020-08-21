@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import { Form, Input, Button, } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
@@ -10,10 +9,6 @@ const ForgotPassword = (props) => {
         console.log('Success:', values);
     };
 
-    const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
         <AuthFormWrapper bgColor='#16E0BD'>
             <div className='auth-form-container'>
@@ -21,8 +16,7 @@ const ForgotPassword = (props) => {
                 <Form name='auth-login' initialValues={{ remember: true, }}
                     size='large'
                     layout='vertical'
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}>
+                    onFinish={onFinish}>
 
                     <Form.Item label='Email Address:' name='email'
                         rules={[...EmailRules]}>
@@ -30,9 +24,7 @@ const ForgotPassword = (props) => {
                             prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder='john.d@gmail.com' />
                     </Form.Item>
-                    {/* <Form.Item>
-                        <Link to='/login'>Already a member?</Link>
-                    </Form.Item> */}
+                    
                     <Form.Item>
                         <Button size='large' block type='primary' htmlType='submit' className='login-form-button'>
                             Submit

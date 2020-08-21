@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Rate, Typography, Button, Layout, Row, Col, Card, Divider, Space, Avatar } from 'antd';
-import { BookOutlined, FileOutlined, ClockCircleOutlined, ReadOutlined, CheckSquareOutlined, TeamOutlined } from '@ant-design/icons';
+import { Typography, Button, Layout, Row, Col, Divider, Space } from 'antd';
+import { BookOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../store/context/auth';
 import { CourseContext } from '../../store/context/course';
 import { EnrollmentContext } from '../../store/context/enroll';
-import { utils } from '../../config';
+import { CourseAdditionalData, CourseDetailFooter, CourseMetaData } from '../../components/Catalogue/CourseDetails';
 
-const { Paragraph, Text, Title } = Typography;
+const { Paragraph, Title } = Typography;
 const { Content } = Layout;
 
 
@@ -18,15 +18,12 @@ const CourseDetails = (props) => {
     const [course, setCourse] = useState({});
     const [isEnrolled, setIsEnrolled] = useState(false);
 
-    const contentValue = ['Poor', 'Decent', 'Good', 'Very Good', 'Rich'];
-    const reviewColors = ['#02b3e4', '#02ccba', '#ff5483']
-
     const handleCourseEnrollment = async () => {
         const res = await handleEnrollInCourse(course._id);
         // console.log(res);
-        await handleGetMe();
         if (res?.status === 'success') {
             props.history.push(`/dashboard`);
+            await handleGetMe();
         }
     };
 
@@ -48,7 +45,7 @@ const CourseDetails = (props) => {
             const res = await handleGetEnrolledInCourse(course._id, `/?user=${auth?._id}`);
             res.results > 0 ? setIsEnrolled(true) : setIsEnrolled(false);
         }
-        if (auth && course?._id) {
+        if (auth?._id && course?._id) {
             checkIfEnrolled();
         }
 
@@ -101,33 +98,7 @@ const CourseDetails = (props) => {
                             <div>
                                 <Row gutter={16}>
                                     <Col xs={{ span: 24 }} md={{ span: 16 }}>
-                                        <Card>
-                                            <Row>
-                                                <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
-                                                    <Space direction='vertical' className='course-card-meta'>
-                                                        <Text type='secondary'>Course Details</Text>
-                                                        <Text strong>{course.price > 0 ? course.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : 'Free'}</Text>
-                                                    </Space>
-                                                </Col>
-                                                <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
-                                                    <Space direction='vertical' className='course-card-meta'>
-                                                        <Text type='secondary'>Skill level</Text>
-                                                        <Text strong>{course.difficulty}</Text>
-                                                    </Space>
-                                                </Col>
-                                                <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
-                                                    <Space direction='vertical' className='course-card-meta'>
-                                                        <Text type='secondary'>Course Creator</Text>
-                                                        <Text strong>{course.author && course.author.firstname + ' ' + course.author.lastname}</Text>
-                                                    </Space>
-                                                </Col>
-                                                <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 12 }} xl={{ span: 6 }}>
-                                                    <Space direction='vertical' className='course-card-meta'>
-                                                        <Rate value={course.ratingsAverage} defaultValue={course.ratingsAverage} disabled />
-                                                    </Space>
-                                                </Col>
-                                            </Row>
-                                        </Card>
+                                        <CourseMetaData course={course} />
                                         <div className='course-details-body'>
                                             <Paragraph style={{ fontSize: 16 }}>
                                                 {course.description}
@@ -135,80 +106,13 @@ const CourseDetails = (props) => {
                                         </div>
                                     </Col>
                                     <Col xs={{ span: 24 }} md={{ span: 8 }}>
-                                        <div className='course-additional-data'>
-                                            <div className='course-additional-item'>
-                                                <Text style={{ fontSize: 16 }}>Included in course</Text>
-                                            </div>
-                                            <div className='course-additional-item'>
-                                                <Space>
-                                                    <FileOutlined />
-                                                    <Text level={4}>{course.lessonsQuantity} lessons</Text>
-                                                </Space>
-                                            </div>
-                                            <div className='course-additional-item'>
-                                                <Space>
-                                                    <ReadOutlined />
-                                                    <Text level={4}>{
-                                                        course.ratingsAverage - 1 >= 0 ?
-                                                            contentValue[course.ratingsAverage - 1] : contentValue[0]
-                                                    } Learning Content</Text>
-                                                </Space>
-                                            </div>
-                                            <div className='course-additional-item'>
-                                                <Space>
-                                                    <TeamOutlined />
-                                                    <Text level={4}>Student Support Community</Text>
-                                                </Space>
-                                            </div>
-                                            {
-                                                course.testQuestionCount > 0 &&
-                                                <div className='course-additional-item'>
-                                                    <Space>
-                                                        <CheckSquareOutlined />
-                                                        <Text level={4}>Interactive Quizzes</Text>
-                                                    </Space>
-                                                </div>
-                                            }
-                                            <div className='course-additional-item'>
-                                                <Space>
-                                                    <ClockCircleOutlined />
-                                                    <Text level={4}>Self-Paced Learning</Text>
-                                                </Space>
-                                            </div>
-                                        </div>
+                                        <CourseAdditionalData course={course} />
                                     </Col>
                                 </Row>
                             </div>
                         </div>
                     </Content>
-                    {
-                        course.reviews && course.reviews.length > 0 &&
-                        <div style={{ backgroundColor: '#FAFBFC' }}>
-                            <Content className='course-details-container' style={{ backgroundColor: 'inherit' }}>
-                                <div style={{ paddingTop: 64, paddingBottom: 40 }}>
-                                    <Row gutter={16}>
-                                        {
-                                            course.reviews.map((review) => (
-                                                <Col key={review._id} xs={{ span: 24 }} sm={{ span: 12 }} lg={{ span: 6 }}>
-                                                    <div className='review-card' style={{ borderColor: review.rating > 2 ? review.rating > 3 ? reviewColors[1] : reviewColors[0] : reviewColors[2] }}>
-                                                        <div>
-                                                            {review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }} src={`${utils.apiHOST}images/users/${review.user.photo}`} />}
-                                                            {!review.user.photo && <Avatar size={80} style={{ backgroundColor: '#87d068' }}>{review.user.firstname[0]}{review.user.lastname[0]}</Avatar>}
-                                                        </div>
-                                                        <div><Text type='secondary'>{review.user && review.user.firstname} {review.user && review.user.lastname}</Text></div>
-                                                        <div style={{ marginTop: 5 }}>
-                                                            <Paragraph strong>{review.review}</Paragraph>
-                                                        </div>
-                                                        <Rate value={review.rating} defaultValue={review.rating} disabled />
-                                                    </div>
-                                                </Col>
-                                            ))
-                                        }
-                                    </Row>
-                                </div>
-                            </Content>
-                        </div>
-                    }
+                    <CourseDetailFooter course={course} />
                 </div>
             }
         </div >
