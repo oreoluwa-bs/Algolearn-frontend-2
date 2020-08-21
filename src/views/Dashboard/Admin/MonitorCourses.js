@@ -54,7 +54,7 @@ const MonitorCourses = () => {
                                         <Link to={`/catalogue/${record.slug}`}>{text}</Link>
                                     </span>
                                 ),
-                                sorter: (a, b) => {console.log(a);return a.title < b.title},
+                                sorter: (a, b) => a.title < b.title,
                                 sortDirections: ['descend', 'ascend'],
                             },
                             {
