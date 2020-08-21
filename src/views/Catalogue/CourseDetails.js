@@ -105,7 +105,7 @@ const CourseDetails = (props) => {
                                         </div>
                                     </Col>
                                     <Col xs={{ span: 24 }} md={{ span: 8 }}>
-                                        <CourseAdditionalData course={course} />
+                                        {course?.slug && <CourseAdditionalData course={course} />}
                                     </Col>
                                 </Row>
                             </div>
