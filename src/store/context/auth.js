@@ -132,6 +132,30 @@ class AuthContextProvider extends Component {
     }
 
 
+    handleForgotPassword = async (credentials) => {
+        const { email } = credentials;
+        try {
+            const res = await instance.post(`/users/forgotPassword`, { email });
+            this.feedback({ status: 'success', message: `Password reset link has been sent to your email address!` });
+
+            return res.data;
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
+
+    handleResetPassword = async (credentials) => {
+        const { password, token } = credentials;
+        try {
+            const res = await instance.patch(`/users/resetPassword/${token}`, { password });
+            this.feedback({ status: 'success', message: `Proceed to login` });
+            return { status: res.data.status, token: res.data.token };
+        } catch (error) {
+            const { status, message } = error.response.data;
+            this.feedback({ status, message });
+        }
+    }
 
     // ADMIN
 
@@ -176,6 +200,10 @@ class AuthContextProvider extends Component {
                 handleLogout: this.handleLogout,
                 handleLogin: this.handleLogin,
                 handleSignUp: this.handleSignUp,
+
+                // Reset Password
+                handleForgotPassword: this.handleForgotPassword,
+                handleResetPassword: this.handleResetPassword,
 
                 handleGetMe: this.handleGetMe,
                 handleUpdateMe: this.handleUpdateMe,

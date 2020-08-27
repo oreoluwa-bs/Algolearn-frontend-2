@@ -10,8 +10,9 @@ const { Text } = Typography;
 
 const LoginPage = () => {
     const { auth, handleLogin } = useContext(AuthContext);
-    const onFinish = values => {
-        handleLogin(values);
+    
+    const onFinish = async (values) => {
+        await handleLogin(values);
     };
 
     if (auth) {

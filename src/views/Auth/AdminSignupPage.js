@@ -10,9 +10,9 @@ import { AuthContext } from '../../store/context/auth';
 const SignupPage = (props) => {
     const { auth, handleSignUp } = useContext(AuthContext);
 
-    const onFinish = values => {
+    const onFinish = async (values) => {
         values.role = 'admin';
-        handleSignUp(values);
+        await handleSignUp(values);
     };
 
     if (!auth) return <Redirect to='/page-not-found' />
