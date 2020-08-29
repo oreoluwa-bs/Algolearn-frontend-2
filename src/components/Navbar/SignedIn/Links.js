@@ -33,11 +33,11 @@ const Inlinks = (props) => {
                     <span>
                         {
                             !auth.photo &&
-                            <Avatar size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                            <Avatar alt='user-profile-photo' size='large' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                         }
                         {
                             auth.photo &&
-                            <Avatar size='large' shape='circle' src={`${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
+                            <Avatar alt='user-profile-photo' size='large' shape='circle' src={`${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
                         }
                     </span>
                 }>

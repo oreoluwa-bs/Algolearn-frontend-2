@@ -67,11 +67,11 @@ const EditProfilePage = (props) => {
                         <Space size='large'>
                             {
                                 !auth.photo &&
-                                <Avatar size={70} shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                                <Avatar alt='user-profile-photo' size={70} shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                             }
                             {
                                 auth.photo &&
-                                <Avatar size={70} shape='circle' src={previewPhoto ?? `${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
+                                <Avatar alt='user-profile-photo' size={70} shape='circle' src={previewPhoto ?? `${utils.apiHOST}images/users/${auth.photo}`} style={{ color: 'white', border: `1px solid ${auth.color}` }} />
                             }
                             <Form.Item label='Profile Picture:' name='photo' valuePropName='filelist' getValueFromEvent={getUploadData}>
                                 <Upload name='user-photo' accept='image/*' fileList={photoFileList} customRequest={uploadPhoto}

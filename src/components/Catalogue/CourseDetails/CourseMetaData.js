@@ -26,11 +26,11 @@ const CourseMetaData = ({ course }) => {
                         <Space>
                             {
                                 !course.author.photo &&
-                                <Avatar size='large' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458' }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                                <Avatar alt='user-profile-photo' size='large' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458' }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
                             }
                             {
                                 course.author.photo &&
-                                <Avatar size='large' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
+                                <Avatar alt='user-profile-photo' size='large' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
                             }
                             <Text strong>{course.author.firstname} {course.author.lastname}</Text>
                         </Space>

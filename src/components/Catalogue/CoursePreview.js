@@ -33,11 +33,11 @@ const CoursePreview = (props) => {
                             <Space>
                                 {
                                     !course.author.photo &&
-                                    <Avatar size='small' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458' }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
+                                    <Avatar alt='user-profile-photo' size='small' style={{ color: 'white', backgroundColor: course.author.color ?? '#E0A458' }}>{course.author.firstname[0]}{course.author.lastname[0]}</Avatar>
                                 }
                                 {
                                     course.author.photo &&
-                                    <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
+                                    <Avatar alt='user-profile-photo' size='small' shape='circle' src={`${utils.apiHOST}images/users/${course.author.photo}`} style={{ color: 'white', border: `1px solid ${course.author.color}` }} />
                                 }
                                 <Text type='secondary'>{course.author.firstname} {course.author.lastname}</Text>
                             </Space>

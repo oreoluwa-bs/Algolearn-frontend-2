@@ -50,11 +50,11 @@ const MonitorUsers = () => {
                                         <Space>
                                             {
                                                 record.photo &&
-                                                <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${record.photo}`} style={{ color: 'white', border: `1px solid ${record.color}` }} />
+                                                <Avatar alt='user-profile-photo' size='small' shape='circle' src={`${utils.apiHOST}images/users/${record.photo}`} style={{ color: 'white', border: `1px solid ${record.color}` }} />
                                             }
                                             {
                                                 !record.photo &&
-                                                <Avatar size='small' style={{ color: 'white', backgroundColor: record.color ?? '#E0A458' }}>{record.firstname[0]} {record.lastname[0]}</Avatar>
+                                                <Avatar alt='user-profile-photo' size='small' style={{ color: 'white', backgroundColor: record.color ?? '#E0A458' }}>{record.firstname[0]} {record.lastname[0]}</Avatar>
                                             }
                                             <Text>{record.firstname} {record.lastname}</Text>
                                         </Space>

@@ -72,11 +72,11 @@ const MonitorReportedCourses = () => {
                                     <span>
                                         {
                                             text.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
+                                            <Avatar alt='user-profile-photo' size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
                                         }
                                         {
                                             !text.photo &&
-                                            <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
+                                            <Avatar alt='user-profile-photo' size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458', marginRight: 10 }}> {text.firstname[0]} {text.lastname[0]}</Avatar>
                                         }
                                         {text.firstname} {text.lastname}
                                     </span>

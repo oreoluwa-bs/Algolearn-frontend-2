@@ -105,7 +105,7 @@ const DiscussionView = (props) => {
                                     author={`${item.user.firstname} ${item.user.lastname}`}
                                     avatar={
                                         !item.user.photo ?
-                                            <Avatar shape='circle' style={{ color: 'white', backgroundColor: item.user.color }}>{item.user.firstname[0]}{item.user.lastname[0]}</Avatar>
+                                            <Avatar alt='user-profile-photo' shape='circle' style={{ color: 'white', backgroundColor: item.user.color }}>{item.user.firstname[0]}{item.user.lastname[0]}</Avatar>
                                             : <Avatar src={`${utils.apiHOST}images/users/${item.user.photo}`} alt={`${item.user.firstname}-${item.user.lastname}-${index}`} />
                                     }
                                     content={
@@ -130,7 +130,7 @@ const DiscussionView = (props) => {
                     <Comment
                         avatar={
                             !auth.photo ?
-                                <Avatar shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
+                                <Avatar alt='user-profile-photo' shape='circle' style={{ color: 'white', backgroundColor: auth.color }}>{auth.firstname[0]}{auth.lastname[0]}</Avatar>
                                 : <Avatar src={`${utils.apiHOST}images/users/${auth.photo}`} alt={`${auth.firstname}-${auth.lastname}`} />
                         }
                         content={

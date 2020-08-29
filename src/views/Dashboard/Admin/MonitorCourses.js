@@ -66,11 +66,11 @@ const MonitorCourses = () => {
                                         <Space>
                                             {
                                                 text.photo &&
-                                                <Avatar size='small' shape='circle' src={`${utils.apiHOST}images/users/${text.photo}`} style={{ color: 'white', border: `1px solid ${text.color}` }} />
+                                                <Avatar alt='user-profile-photo' size='small' shape='circle' src={`${utils.apiHOST}images/users/${text.photo}`} style={{ color: 'white', border: `1px solid ${text.color}` }} />
                                             }
                                             {
                                                 !text.photo &&
-                                                <Avatar size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458' }}>{text.firstname[0]} {text.lastname[0]}</Avatar>
+                                                <Avatar alt='user-profile-photo' size='small' style={{ color: 'white', backgroundColor: text.color ?? '#E0A458' }}>{text.firstname[0]} {text.lastname[0]}</Avatar>
                                             }
                                             <Text>{text.firstname} {text.lastname}</Text>
                                         </Space>
