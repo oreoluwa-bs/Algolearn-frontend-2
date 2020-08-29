@@ -11,9 +11,9 @@ const SignupPage = (props) => {
     const { auth, handleSignUp } = useContext(AuthContext);
     const [signUpRole, setSignUpRole] = useState('student');
 
-    const onFinish = values => {
+    const onFinish = async (values) => {
         values.role = signUpRole;
-        handleSignUp(values);
+        await handleSignUp(values);
     };
 
     useEffect(() => {

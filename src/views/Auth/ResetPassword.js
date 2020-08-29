@@ -1,19 +1,21 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import AuthFormWrapper from '../../components/Auth/AuthFormWrapper';
 import { PasswordRules } from '../../components/Auth/AuthRules';
+import { AuthContext } from '../../store/context/auth';
 
 const ResetPassword = (props) => {
-    const onFinish = values => {
-        console.log('Success:', values);
+    const { auth, handleResetPassword } = useContext(AuthContext);
+
+    const onFinish = async (values) => {
+        values.token = props.match.params.token;
+        await handleResetPassword(values);
+        props.history.push('/login');
     };
 
-    const onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
-    };
-
+    if (auth) return <Redirect to='/login' />
     return (
         <AuthFormWrapper bgColor='#89A6FB'>
             <div className='auth-form-container'>
@@ -21,8 +23,7 @@ const ResetPassword = (props) => {
                 <Form name='auth-login' initialValues={{ remember: true, }}
                     size='large'
                     layout='vertical'
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}>
+                    onFinish={onFinish}>
 
                     <Form.Item
                         label='Password:'
