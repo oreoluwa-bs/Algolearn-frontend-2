@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { Layout, Row, Col, Typography, Divider } from 'antd';
 import { Typography, Divider, Result } from 'antd';
 import { TeamOutlined, BookOutlined } from '@ant-design/icons';
 import { orange } from '@ant-design/colors';
+import { AuthContext } from '../../store/context/auth';
 import '../../styles/homepage.css';
 
 const { Title } = Typography;
 
 const HomePage = () => {
+
+    const { handleStartAPI } = useContext(AuthContext);
+
+    useEffect(() => {
+        const handleInit = async () => { await handleStartAPI(); }
+        handleInit();
+    }, [handleStartAPI]);
+
+
     return (
         <div>
             <div className='hero'>

@@ -17,7 +17,7 @@ const Navbar = () => {
     const onCloseDrawer = () => setDrawerState(false);
     return (
         <Header className='navbar--header'>
-            <Link to='/'><div className='logo' /></Link>
+            <Link to='/'><div className='logo'><span>AlgoLearn</span></div></Link>
             <div style={{ float: 'right' }}>
                 <Button className="barsMenu" type="link" onClick={showDrawer}>
                     <MenuOutlined />

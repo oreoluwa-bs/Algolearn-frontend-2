@@ -17,6 +17,15 @@ class AuthContextProvider extends Component {
     // componentDidMount() {
     //     if (!this.initAuth) this.setAuthToken();
     // }
+    handleStartAPI = async () => {
+        try {
+            const res = await instance.get(`/`);
+            return res.data;
+        } catch (error) {
+            return error.response.data
+        }
+    }
+
     setAuthToken = (token) => {
         if (token) {
             document.cookie = `jwt=${token}; expires=${new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)}; path=/;`;
@@ -205,11 +214,14 @@ class AuthContextProvider extends Component {
                 handleForgotPassword: this.handleForgotPassword,
                 handleResetPassword: this.handleResetPassword,
 
+                //  Auth user
                 handleGetMe: this.handleGetMe,
                 handleUpdateMe: this.handleUpdateMe,
                 handleUpdatePassword: this.handleUpdatePassword,
                 handleDeleteMe: this.handleDeleteMe,
 
+                // init 
+                handleStartAPI: this.handleStartAPI,
 
                 // Admin
                 handleGetAllUsers: this.handleGetAllUsers,
